@@ -7,8 +7,9 @@
 
 /**
  * TODO:
- * - main menu
- *    > 1. new game  
+ * - 🟡 main menu
+ *    > 1. new game 
+ *       • display "Starting a new game" 
  *    > 2. load game
  *       • display "Enter the filename from which load a game"
  *       • user enters relative path and then presses enter
@@ -21,43 +22,52 @@
  *    > user will enter number to select
  *       • check number is in bounds
  * 
- * - player
+ * - 🟠 player
  *    > score
  *    > hand
  *    > name
+ *    > update players score
  * 
- * - tile bag
+ * - 🟠 player hand
+ *    > linked list
  * 
- * - linked list
+ * - 🟢 tile bag
+ *    linked list
+ *    > jumbles tile bag and pulls from front (put in "random" order)
+ *    > replace players tiles with new tiles from tile bag
+ *       • tile must be removed from tile bag
+ * 
+ * - 🟢 linked list
  *    > add back
  *    > add front
  * 
- * - node
+ * - 🟡 node
+ *    constructor
+ *    copy constuctor
+ *    data (tile)
+ *    Node* pointer
  * 
- * - tile
+ * - 🔴 tile
  * 
- * - board
+ * - 🔴 board
  *    > A vector of vectors of tiles
  *    > rows
  *    > columns
+ *    > create empty board
+ *    > check placement of tile is legal
  * 
- * - the game  
- *    > jumbles tile bad and pulls from front (put in "random" order)
- *    > display "Starting a new game"
+ * - the game 
  *    > ask for player names (must only contain letters)
  *       • "Enter a name for player 1 (uppercase characters only)"
- *    > display "Let's Play!"
- *    > create empty board
+ *         display "Let's Play!"
  *    > user prompt showing the commands they can use
- *    > game always begins with player 1
- *    > player can place up to 7 letters
+ *    game always begins with player 1
+ *    player can place up to 7 letters
  *    > must type "place <capital letter> at <coordinate>" (check format)
- *    > must type "place Done" to finish turn (check format)
- *    > check placement of tile is legal
+ *       > if player places 7 tiles must display "BINGO!!!" before   
+ *      displaying game results
+ *      must type "place Done" to finish turn (check format)
  *    > show results on board 
- *    > update players score
- *    > replace players tiles with new tiles from tile bag
- *       • tile must be removed from tile bag
  *    > move to next players turn
  *    > player can replace ONE tile per turn 
  *       • by typing "replace <letter>" (letter must be caps)
@@ -76,8 +86,6 @@
  *    > quit game (idk if game has to save before quitting?)
  *       • no crashing :)
  *       • also quits if ^D is enterd
- *    > if player places 7 tiles must display "BINGO!!!" before   
- *      displaying game results
  *    > game ends when tile bag is empty, player has no more tiles in hand
  *      or turn passes twice
  *       • display "Game over"
@@ -85,14 +93,14 @@
  *       • display "Player <player> won!"
  *       • display "Goodbye" and then quit game
  * 
- * - load game
+ * - 🟢 load game
  *    > resume game with current player when loaded
  * 
  * - user input
  *    > display "Invalid Input" when input is invalid
  * 
  * put ✅ at start of every task completed
- * and possibly a coloured circle for who implemented? (🔴🟠🟡🟢)
+ * and possibly a coloured circle for who implemented? (🔴 - Alex, 🟠 - Chloe, 🟡 - Hien, 🟢 - Lachlan)
  * Just so we know who has to write about that feature
  * in the report.
  */
