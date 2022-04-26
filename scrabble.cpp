@@ -8,19 +8,19 @@
 /**
  * TODO:
  * - 🟡 main menu
- *    > 1. new game 
- *       • display "Starting a new game" 
+ *    > 1. new game ✅
+ *       • display "Starting a new game" ✅ 
  *    > 2. load game
  *       • display "Enter the filename from which load a game"
  *       • user enters relative path and then presses enter
  *       • check file exists
  *       • check file format is correct (maybs try catch exception)
  *       • display "Scrabble game successfully loaded"
- *    > 3. show credits
- *       • all student information
- *    > 4. quit program
- *    > user will enter number to select
- *       • check number is in bounds
+ *    > 3. show credits ✅
+ *       • all student information ✅
+ *    > 4. quit program ✅
+ *    > user will enter number to select ✅
+ *       • check number is in bounds ✅
  * 
  * - 🟠 player
  *    > score
@@ -91,13 +91,13 @@
  *       • display "Game over"
  *       • display score for both players "Score for <player>: 000"
  *       • display "Player <player> won!"
- *       • display "Goodbye" and then quit game
+ *       • display "Goodbye" and then quit game 
  * 
  * - 🟢 load game
  *    > resume game with current player when loaded
  * 
- * - user input
- *    > display "Invalid Input" when input is invalid
+ * - user input ✅
+ *    > display "Invalid Input" when input is invalid ✅
  * 
  * put ✅ at start of every task completed
  * and possibly a coloured circle for who implemented? (🔴 - Alex, 🟠 - Chloe, 🟡 - Hien, 🟢 - Lachlan)
@@ -105,11 +105,94 @@
  * in the report.
  */
 
-int main(void) {
-   LinkedList* list = new LinkedList();
-   delete list;
+void newGame();
+void viewCredits();
 
-   std::cout << "TODO: Implement Scrabble!" << std::endl;
+int main(void) {
+   //LinkedList* list = new LinkedList();
+   //delete list;
+
+   //std::cout << "TODO: Implement Scrabble!" << std::endl;
+
+   std::cout << "Welcome to Scrabble!" << std::endl;
+   std::cout << "-------------------" << std::endl;
+
+   int userInput;
+   while (!std::cin.eof() && userInput != 4) {
+      std::cout << "Menu" << std::endl;
+      std::cout << "----" << std::endl;
+      std::cout << "1. New Game" << std::endl;
+      std::cout << "2. Load Game" << std::endl;
+      std::cout << "3. Credits (Show student information)" << std::endl;
+      std::cout << "4. Quit" << std::endl;
+
+      std::cout << std::endl;
+      std::cout << "> ";
+         
+      while ((!(std::cin >> userInput) || !(userInput >= 1 && userInput <= 4)) && !std::cin.eof()) {
+         std::cout << "Invalid Input" << std::endl;
+         std::cout << "> ";
+         std::cin.clear();
+         std::cin.ignore(100, '\n');
+      }
+
+      if (userInput == 1) {
+         newGame();
+      }
+      /* if (userInput == 2) {
+         TODO
+      } */
+      if (userInput == 3) {
+         viewCredits();
+      }
+   }
+
+   std::cout << std::endl;
+   std::cout << "Goodbye" << std::endl;
 
    return EXIT_SUCCESS;
+}
+
+void newGame() {
+   std::string player1;
+   std::string player2;
+
+   std::cout << std::endl;
+   std::cout << "Starting a New Game" << std::endl;
+   std::cout << std::endl;
+
+   std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
+   std::cout << "> ";
+   std::cin >> player1;
+   std::cout << std::endl;
+
+   std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
+   std::cout << "> ";
+   std::cin >> player2;
+   std::cout << std::endl;
+
+   std::cout << "Let's Play!" << std::endl;
+   std::cout << std::endl;
+}
+
+void viewCredits() {
+   std::cout << std::endl;
+   std::cout << "----------------------------------" << std::endl;
+   std::cout << "Name: Hien Tran" << std::endl;
+   std::cout << "Student ID: s3783447" << std::endl;
+   std::cout << "Email: s3783447@student.rmit.edu.au" << std::endl;
+   std::cout << "" << std::endl;
+   std::cout << "Name: Chloe Harvey" << std::endl;
+   std::cout << "Student ID: s3832570" << std::endl;
+   std::cout << "Email: s3832570@student.rmit.edu.au" << std::endl;
+   std::cout << std::endl;
+   std::cout << "Name: Lachlan Ward" << std::endl;
+   std::cout << "Student ID: s3888736" << std::endl;
+   std::cout << "Email: s3888736@student.rmit.edu.au" << std::endl;
+   std::cout << "" << std::endl;
+   std::cout << "Name: Alexander Perera" << std::endl;
+   std::cout << "Student ID: s3721805" << std::endl;
+   std::cout << "Email: s3721805@student.rmit.edu.au" << std::endl;
+   std::cout << "----------------------------------" << std::endl;
+   std::cout << std::endl;
 }
