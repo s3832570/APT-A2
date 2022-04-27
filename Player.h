@@ -6,24 +6,25 @@
 #include "Tile.h"
 #include "PlayerHand.h"
 
-class Player {
+class Player
+{
 public:
+    Player();
+    Player(std::string name);
+    Player(Player &other);
 
-   Player(std::string name);
-   Player(Player& other);
+    std::string getName();
 
-   std::string getName();
+    int getScore();
 
-   int getScore();
+    void setScore(int score);
 
-   void setScore(int score);
-
-   PlayerHand getPlayerHand(Player player);
+    PlayerHand getPlayerHand();
 
 private:
-    std::string     name;
-    int             score;
-    PlayerHand      playerHand;
+    std::string name;
+    int score;
+    PlayerHand playerHand;
 };
 
 #endif // ASSIGN2_PLAYER_H
