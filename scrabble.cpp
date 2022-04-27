@@ -23,10 +23,10 @@
  *       • check number is in bounds ✅
  * 
  * - 🟠 player
- *    > score
+ *    > score ✅
  *    > hand
- *    > name
- *    > update players score
+ *    > name ✅
+ *    > update players score ✅
  * 
  * - 🟠 player hand
  *    > linked list
@@ -139,9 +139,13 @@ int main(void) {
       if (userInput == 1) {
          newGame();
       }
-      /* if (userInput == 2) {
-         TODO
-      } */
+      /**
+       * TODO:
+       * if (userInput == 2) {
+       * 
+       * }
+       * 
+       */
       if (userInput == 3) {
          viewCredits();
       }

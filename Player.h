@@ -21,6 +21,8 @@ public:
 
     PlayerHand getPlayerHand();
 
+    void setPlayerHand(PlayerHand playerHand);
+
 private:
     std::string name;
     int score;
