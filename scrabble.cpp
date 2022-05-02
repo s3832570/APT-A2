@@ -32,14 +32,14 @@
  *    > linked list
  * 
  * - 🟢 tile bag
- *    linked list
- *    > jumbles tile bag and pulls from front (put in "random" order)
- *    > replace players tiles with new tiles from tile bag
- *       • tile must be removed from tile bag
+ *    linked list ✅
+ *    > jumbles tile bag and pulls from front (put in "random" order) ✅ 
+ *    > replace players tiles with new tiles from tile bag  ✅
+ *       • tile must be removed from tile bag ✅
  * 
  * - 🟢 linked list
- *    > add back
- *    > add front
+ *    > add back ✅
+ *    > add front ✅
  * 
  * - 🟡 node
  *    constructor

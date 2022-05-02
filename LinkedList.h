@@ -17,6 +17,7 @@ public:
    Tile* get(int index);
    Tile* getTileFront();
    void remove(int index);
+   void shuffle();
 
 private:
    Node* head;

@@ -1,5 +1,6 @@
 
 #include "LinkedList.h"
+#include <iostream>
 
 LinkedList::LinkedList() {
    this->head = nullptr;
@@ -34,7 +35,7 @@ void LinkedList::addTileBack(Tile* tile) {
 }
 
 void LinkedList::removeTileFront() {
-   if (head == tail) { //one element in list
+   if (head == tail) {
       head = nullptr;
       tail = nullptr;
    }
@@ -72,5 +73,15 @@ void LinkedList::remove(int index) {
       }
       prevNode->next = nodeToBeRemoved->next;
       --listSize;
+   }
+}
+
+void LinkedList::shuffle() {
+   srand(100);
+   for (int i = 0; i < listSize; i++)
+   {
+      int randNum = std::rand() % listSize;
+      this->addTileBack(new Tile(*this->get(randNum)));
+      this->remove(randNum);
    }
 }
