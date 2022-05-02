@@ -10,10 +10,14 @@ typedef int Value;
 
 class Tile {
 public:
+   Tile(Letter Letter, Value Value);
+
+   char getLetter();
+   int getValue();
+
+private:
    Letter letter;
    Value  value;
-
-   Tile(Letter Letter, Value Value);
 };
 
 #endif // ASSIGN2_TILE_H

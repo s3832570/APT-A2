@@ -9,32 +9,33 @@ LinkedList::LinkedList() {
 }
 
 LinkedList::~LinkedList() {
+   
 }
 
 int LinkedList::getListSize() {
    return listSize;
 }
 
-void LinkedList::addTileFront(Tile* tile) {
+void LinkedList::addFront(Tile* tile) {
    Node* node = new Node(tile, head);
    head = node;
    ++listSize;
 }
 
-Tile* LinkedList::getTileFront(){
+Tile* LinkedList::getFront(){
    Node* head = head;
    Tile* tile = head->tile;
    return tile;
 }
 
-void LinkedList::addTileBack(Tile* tile) {
+void LinkedList::addBack(Tile* tile) {
    Node* node = new Node(tile, tail);
    tail->next = node;
    tail = node;
     ++listSize;
 }
 
-void LinkedList::removeTileFront() {
+void LinkedList::removeFront() {
    if (head == tail) {
       head = nullptr;
       tail = nullptr;
@@ -81,7 +82,7 @@ void LinkedList::shuffle() {
    for (int i = 0; i < listSize; i++)
    {
       int randNum = std::rand() % listSize;
-      this->addTileBack(new Tile(*this->get(randNum)));
+      this->addBack(new Tile(*this->get(randNum)));
       this->remove(randNum);
    }
 }
