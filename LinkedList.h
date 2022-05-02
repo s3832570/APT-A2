@@ -16,6 +16,7 @@ public:
    void removeTileBack();
    Tile* get(int index);
    Tile* getTileFront();
+   void remove(int index);
 
 private:
    Node* head;

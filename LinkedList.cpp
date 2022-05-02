@@ -57,3 +57,20 @@ Tile* LinkedList::get(int index){
    }
    return tile;
 }
+
+void LinkedList::remove(int index) {
+   if (index >= 0 && index < listSize) {
+      int count = 0;
+      Node* nodeToBeRemoved = head;
+      Node* prevNode = nullptr;
+      while (count != index) {
+         if(count == index - 1) {
+            prevNode = nodeToBeRemoved;
+         }
+         ++count;
+         nodeToBeRemoved = nodeToBeRemoved->next;
+      }
+      prevNode->next = nodeToBeRemoved->next;
+      --listSize;
+   }
+}
