@@ -1,4 +1,7 @@
 
 #include "Tile.h"
 
-// Empty... for now?
+Tile::Tile(Letter Letter, Value Value) {
+    this->letter = letter;
+    this->value = value;
+};

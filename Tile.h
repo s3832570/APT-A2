@@ -12,6 +12,8 @@ class Tile {
 public:
    Letter letter;
    Value  value;
+
+   Tile(Letter Letter, Value Value);
 };
 
 #endif // ASSIGN2_TILE_H
