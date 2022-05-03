@@ -20,9 +20,9 @@ public:
 
    void removeBack();
 
-   Tile* get(int index);
+   Node* get(int index);
 
-   Tile* getFront();
+   Node* getFront();
 
    void remove(int index);
 

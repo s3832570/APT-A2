@@ -4,6 +4,8 @@
 #include "Tile.h"
 #include "LinkedList.h"
 
+#define TILEBAG_MAX_TILES 98
+
 class TileBag {
 public:
    TileBag();
