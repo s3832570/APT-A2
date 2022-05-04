@@ -17,18 +17,22 @@ int LinkedList::getListSize() {
 
 void LinkedList::addTileFront(Tile* tile) {
    Node* node = new Node(tile, head);
-   head = node;
+   if(listSize == 0) {
+       head = node;
+       tail = node;
+   }
+   else {
+       head = node;
+   }
    ++listSize;
 }
 
-Tile* LinkedList::getTileFront(){
-   Node* head = head;
-   Tile* tile = head->tile;
-   return tile;
+Node* LinkedList::getTileFront(){
+   return head;
 }
 
 void LinkedList::addTileBack(Tile* tile) {
-   Node* node = new Node(tile, tail);
+   Node* node = new Node(tile, nullptr);
    tail->next = node;
    tail = node;
     ++listSize;
@@ -60,20 +64,23 @@ Tile* LinkedList::get(int index){
 }
 
 void LinkedList::remove(int index) {
-   if (index >= 0 && index < listSize) {
-      int count = 0;
-      Node* nodeToBeRemoved = head;
-      Node* prevNode = nullptr;
-      while (count != index) {
-         if(count == index - 1) {
-            prevNode = nodeToBeRemoved;
-         }
-         ++count;
-         nodeToBeRemoved = nodeToBeRemoved->next;
-      }
-      prevNode->next = nodeToBeRemoved->next;
-      --listSize;
+   if(head == nullptr) {
+      return;
    }
+   Node *node = head;
+   if(index == 0) {
+      head = head->next;
+       --listSize;
+      return;
+   }
+   for (int i = 0; node != NULL && i < index - 1; i++)
+        node = node->next;
+
+   Node* next = node->next->next;
+
+   node->next = next;
+   --listSize;
+
 }
 
 void LinkedList::shuffle() {
@@ -84,4 +91,15 @@ void LinkedList::shuffle() {
       this->addTileBack(new Tile(*this->get(randNum)));
       this->remove(randNum);
    }
+}
+
+void LinkedList::printList() {
+   //FOR TESTING PURPOSES
+   Node* current = head;
+   std::cout << "List: " << std::endl;
+   while(current != nullptr) {
+      std::cout << "Letter: " << current->tile->letter <<"     Value: " << current->tile->value << std::endl;
+      current = current->next;
+   }
+   std::cout << "List Size: " << getListSize() << std::endl;
 }

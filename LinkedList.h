@@ -15,9 +15,10 @@ public:
    void removeTileFront();
    void removeTileBack();
    Tile* get(int index);
-   Tile* getTileFront();
+   Node* getTileFront();
    void remove(int index);
    void shuffle();
+   void printList();
 
 private:
    Node* head;
