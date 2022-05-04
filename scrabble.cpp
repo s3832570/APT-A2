@@ -1,7 +1,9 @@
 
 #include "LinkedList.h"
+#include "Player.h"
 
 #include <iostream>
+#include <regex>
 
 #define EXIT_SUCCESS    0
 
@@ -56,10 +58,13 @@
  *    > create empty board ✅
  *    > check placement of tile is legal
  * 
- * - the game 
- *    > ask for player names (must only contain letters)
- *       • "Enter a name for player 1 (uppercase characters only)"
- *         display "Let's Play!"
+ * - 🟡 {the game 
+ *    > ask for player names (must only contain letters) ✅
+ *       • "Enter a name for player 1 (uppercase characters only)" ✅
+ *         display "Let's Play!" ✅
+ *    > display players' scores ✅}
+ *    > display board
+ *    > display player 1's hand
  *    > user prompt showing the commands they can use
  *    game always begins with player 1
  *    player can place up to 7 letters
@@ -108,6 +113,8 @@
 void newGame();
 void viewCredits();
 void testFunction();
+bool containsOnlyLetters(std::string name);
+void inputName(std::string* name);
 
 int main(void) {
    //LinkedList* list = new LinkedList();
@@ -118,8 +125,8 @@ int main(void) {
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
 
-   int userInput;
-   while (!std::cin.eof() && userInput != 4) {
+   int userMenuInput;
+   while (!std::cin.eof() && userMenuInput != 1 && userMenuInput != 4) {
       std::cout << "Menu" << std::endl;
       std::cout << "----" << std::endl;
       std::cout << "1. New Game" << std::endl;
@@ -130,33 +137,32 @@ int main(void) {
       std::cout << std::endl;
       std::cout << "> ";
          
-      while ((!(std::cin >> userInput) || !(userInput >= 1 && userInput <= 4)) && !std::cin.eof()) {
+      while ((!(std::cin >> userMenuInput) || !(userMenuInput >= 1 && userMenuInput <= 4)) && !std::cin.eof()) {
          std::cout << "Invalid Input" << std::endl;
          std::cout << "> ";
          std::cin.clear();
          std::cin.ignore(100, '\n');
       }
 
-      if (userInput == 1) {
+      if (userMenuInput == 1) {
          newGame();
       }
       /**
        * TODO:
-       * if (userInput == 2) {
+       * if (userMenuInput == 2) {
        * 
        * }
        * 
        */
-      if (userInput == 3) {
+      if (userMenuInput == 3) {
          viewCredits();
       }
 
       // TESTING FUNCTION ONLY
-      if (userInput == 4) {
+      if (userMenuInput == 4) {
          testFunction();
       }
    }
-
    std::cout << std::endl;
    std::cout << "Goodbye" << std::endl;
 
@@ -164,8 +170,8 @@ int main(void) {
 }
 
 void newGame() {
-   std::string player1;
-   std::string player2;
+   std::string player1Name;
+   std::string player2Name;
 
    std::cout << std::endl;
    std::cout << "Starting a New Game" << std::endl;
@@ -173,36 +179,60 @@ void newGame() {
 
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
    std::cout << "> ";
-   std::cin >> player1;
+   inputName(&player1Name);
+   Player* player1 = new Player(player1Name);
    std::cout << std::endl;
 
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
    std::cout << "> ";
-   std::cin >> player2;
+   inputName(&player2Name);
+   Player* player2 = new Player(player2Name);
    std::cout << std::endl;
 
    std::cout << "Let's Play!" << std::endl;
    std::cout << std::endl;
+
+   //Get player name test
+   std::cout << player1->getName() << ", it's your turn" << std::endl;
+   std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
+   std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
+}
+
+void inputName(std::string* name) {
+   std::string inputName;
+   while ((!(std::cin >> inputName) || (!containsOnlyLetters(inputName))) && !std::cin.eof()) {
+      std::cout << std::endl;
+      std::cout << "Invalid name. Must use uppercase letters only." << std::endl;
+      std::cout << std::endl;
+      std::cout << "> ";
+      std::cin.clear();
+      std::cin.ignore(100, '\n');
+   }
+   *name = inputName;
+}
+
+bool containsOnlyLetters(std::string name) {
+   return std::regex_match(name, std::regex("^[A-Z]+$"));
 }
 
 void viewCredits() {
    std::cout << std::endl;
    std::cout << "----------------------------------" << std::endl;
-   std::cout << "Name: Hien Tran" << std::endl;
-   std::cout << "Student ID: s3783447" << std::endl;
-   std::cout << "Email: s3783447@student.rmit.edu.au" << std::endl;
-   std::cout << "" << std::endl;
    std::cout << "Name: Chloe Harvey" << std::endl;
    std::cout << "Student ID: s3832570" << std::endl;
    std::cout << "Email: s3832570@student.rmit.edu.au" << std::endl;
    std::cout << std::endl;
-   std::cout << "Name: Lachlan Ward" << std::endl;
-   std::cout << "Student ID: s3888736" << std::endl;
-   std::cout << "Email: s3888736@student.rmit.edu.au" << std::endl;
-   std::cout << "" << std::endl;
+   std::cout << "Name: Hien Tran" << std::endl;
+   std::cout << "Student ID: s3783447" << std::endl;
+   std::cout << "Email: s3783447@student.rmit.edu.au" << std::endl;
+   std::cout << std::endl;
    std::cout << "Name: Alexander Perera" << std::endl;
    std::cout << "Student ID: s3721805" << std::endl;
    std::cout << "Email: s3721805@student.rmit.edu.au" << std::endl;
+   std::cout << std::endl;
+   std::cout << "Name: Lachlan Ward" << std::endl;
+   std::cout << "Student ID: s3888736" << std::endl;
+   std::cout << "Email: s3888736@student.rmit.edu.au" << std::endl;
    std::cout << "----------------------------------" << std::endl;
    std::cout << std::endl;
 }
