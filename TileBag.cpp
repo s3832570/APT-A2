@@ -19,12 +19,12 @@ TileBag::~TileBag()
 
 Tile TileBag::getNewTile()
 {
-    return *tileBag->getFront()->tile;
+    return *tileBag->getTileFront()->tile;
 }
 
 void TileBag::removeTile()
 {
-    tileBag->removeFront();
+    tileBag->removeTileFront();
 }
 
 void TileBag::shuffleBag()
@@ -42,7 +42,7 @@ void TileBag::shuffleBag()
         {
             // TODO - move from deck to player
             Tile *tile = new Tile(*tileBag->get(randIndex)->tile);
-            shuffledTileBag->addBack(tile);
+            shuffledTileBag->addTileBack(tile);
             tileBag->remove(randIndex);
 
             ++i;

@@ -41,11 +41,11 @@
  *    > add back ✅
  *    > add front ✅
  * 
- * - 🟡 node
- *    constructor
- *    copy constuctor
- *    data (tile)
- *    Node* pointer
+ * - 🟢 node
+ *    constructor ✅
+ *    copy constuctor ✅
+ *    data (tile) ✅
+ *    Node* pointer ✅
  * 
  * - 🔴 tile
  * 
@@ -107,6 +107,7 @@
 
 void newGame();
 void viewCredits();
+void testFunction();
 
 int main(void) {
    //LinkedList* list = new LinkedList();
@@ -148,6 +149,11 @@ int main(void) {
        */
       if (userInput == 3) {
          viewCredits();
+      }
+
+      // TESTING FUNCTION ONLY
+      if (userInput == 4) {
+         testFunction();
       }
    }
 
@@ -199,4 +205,29 @@ void viewCredits() {
    std::cout << "Email: s3721805@student.rmit.edu.au" << std::endl;
    std::cout << "----------------------------------" << std::endl;
    std::cout << std::endl;
+}
+
+void testFunction() {
+   LinkedList *list = new LinkedList();
+   
+   Tile *tile = new Tile('a', 3);
+   list->addTileFront(tile);
+
+   Tile *tiles = new Tile('b', 4);
+   list->addTileFront(tiles);
+
+   Tile *tiless = new Tile('c', 5);
+   list->addTileFront(tiless);
+
+    Tile *tilesss = new Tile('d', 6);
+   list->addTileFront(tilesss);
+
+    Tile *tilessss = new Tile('e', 7);
+   list->addTileFront(tilessss);
+
+   list->printList();
+
+   list->shuffle();
+
+   list->printList();
 }
