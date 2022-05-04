@@ -11,10 +11,9 @@ Player::Player(std::string name) : score(0)
 
 Player::Player(Player &other)
 {
-    Player* player = new Player(other.name);
-
-    player->setScore(other.score);
-    player->setPlayerHand(other.playerHand);
+    this->score = other.score;
+    this->name = other.name;
+    this->playerHand = other.playerHand;
 }
 
 std::string Player::getName()

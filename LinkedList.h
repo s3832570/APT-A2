@@ -9,12 +9,13 @@ public:
 
    LinkedList();
    ~LinkedList();
+
    int getListSize();
    void addTileFront(Tile* tile);
    void addTileBack(Tile* tile);
    void removeTileFront();
    void removeTileBack();
-   Tile* get(int index);
+   Node* get(int index);
    Node* getTileFront();
    void remove(int index);
    void shuffle();

@@ -1,7 +1,7 @@
 
 #include "Node.h"
 
-Node::Node(Tile* tile, Node* next)
+Node::Node()
 {
    this->tile = tile;
    this->next = next;
