@@ -5,7 +5,7 @@ all: scrabble
 clean:
 	rm -rf scrabble *.o *.dSYM
 
-scrabble: Tile.o Node.o LinkedList.o scrabble.o
+scrabble: Tile.o Node.o LinkedList.o scrabble.o Player.o PlayerHand.o ScrabbleBoard.o TileBag.o
 	g++ -Wall -Werror -std=c++14 -g -O -o $@ $^
 
 %.o: %.cpp

@@ -5,13 +5,15 @@ PlayerHand::PlayerHand()
 
 }
 
-PlayerHand::PlayerHand(Player player)
+PlayerHand::PlayerHand(Player* player)
 {
+    this->player = player;
 }
 
 PlayerHand::PlayerHand(PlayerHand &other)
 {
     PlayerHand *playerHand = new PlayerHand(other.player);
+    playerHand->tiles = other.tiles;
 }
 
 PlayerHand::~PlayerHand() {
@@ -50,7 +52,7 @@ void PlayerHand::addTile()
 
 }
 
-Player PlayerHand::getPlayer()
+Player* PlayerHand::getPlayer()
 {
     return this->player;
 }

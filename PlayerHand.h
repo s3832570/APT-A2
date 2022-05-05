@@ -2,16 +2,18 @@
 #define ASSIGN2_PLAYER_HAND_H
 
 #include "Tile.h"
-#include "Player.h"
 #include "LinkedList.h"
+// #include "Player.h"
 
 #define MAX_TILES   7
+
+class Player;
 
 class PlayerHand
 {
 public:
     PlayerHand();
-    PlayerHand(Player player);
+    PlayerHand(Player* player);
     PlayerHand(PlayerHand &other);
     ~PlayerHand();
 
@@ -19,13 +21,13 @@ public:
 
     void addTile();
 
-    Player getPlayer();
+    Player* getPlayer();
 
     void removeTile(Tile* tile);
 
 private:
-    Player   player;
-    LinkedList tiles;
+    Player*         player;
+    LinkedList*     tiles;
 };
 
 #endif // ASSIGN2_PLAYER_HAND_H

@@ -24,9 +24,9 @@ public:
     void setPlayerHand(PlayerHand playerHand);
 
 private:
-    std::string name;
-    int score;
-    PlayerHand playerHand;
+    std::string     name;
+    int             score;
+    PlayerHand      playerHand;
 };
 
 #endif // ASSIGN2_PLAYER_H
