@@ -36,6 +36,7 @@ void LinkedList::addTileBack(Tile* tile) {
    Node* node = new Node(tile, nullptr);
    tail->next = node;
    tail = node;
+   // node->next = nullptr;
    ++listSize;
 }
 
