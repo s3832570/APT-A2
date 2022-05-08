@@ -244,52 +244,44 @@ void viewCredits() {
    std::cout << std::endl;
 }
 
-void testFunction() {
-   LinkedList *list = new LinkedList();
-   
-   Tile *tile = new Tile('a', 3);
-   list->addTileFront(tile);
+ void playGame(TileBag *tileBag, Player player1, Player player2) {
 
-   Tile *tiles = new Tile('b', 4);
-   list->addTileFront(tiles);
+    // Initalise Board
+    ScrabbleBoard *scrabbleBoard = new ScrabbleBoard();
 
-   Tile *tiless = new Tile('c', 5);
-   list->addTileFront(tiless);
+    // Initalise Current Player to Player 1
+    Player currentPlayer = player1;
 
-    Tile *tilesss = new Tile('d', 6);
-   list->addTileFront(tilesss);
-
-    Tile *tilessss = new Tile('e', 7);
-   list->addTileFront(tilessss);
-
-   list->printList();
-
-   list->shuffle();
-
-   list->printList();
-
-   ScrabbleBoard *scrabbleBoard = new ScrabbleBoard();
-
-   scrabbleBoard->displayBoard();
-}
-
- void playGame(TileBag tileBag, Player player1, Player player2) {
-    bool isDone = false;
+   // While Tiles are still left in bag
     while (tileBag->getSize() != 0) {
-       while (isDone != true) {
-         /**
+
+       scrabbleBoard->displayBoard();
+
+       /**
           * output board
-          * 
+          * output both player score
+          * output players tiles
+          */
+
+      bool turnIsDone = false;
+
+       while (turnIsDone != true) {
+         /**
           * user turn:
           * place, replace, save, pass, quit
-          * 
-          * updating board in between
-          * 
           * user selects done (isDone = true)
-          * 
-          * replace players tiles from tileBag
+          * use currentPlayer attribute for player functions
           */
        }
+
+       //Swap Current Player After Turn has Ended
+       if((currentPlayer.getName() == player1.getName()) & (turnIsDone == true)) {
+          currentPlayer = player2;
+       }
+       if((currentPlayer.getName() == player2.getName()) & (turnIsDone == true)) {
+          currentPlayer = player1;
+       }
+
     }
  }
 
