@@ -2,6 +2,7 @@
 #include "LinkedList.h"
 #include "Player.h"
 #include "ScrabbleBoard.h"
+#include "TileBag.h"
 
 #include <iostream>
 #include <regex>
@@ -99,6 +100,10 @@
  *       • display score for both players "Score for <player>: 000"
  *       • display "Player <player> won!"
  *       • display "Goodbye" and then quit game 
+ * 
+ * - PlayGame function
+ *    > While tilebag != zero
+ *    > 
  * 
  * - 🟢 load game
  *    > resume game with current player when loaded
@@ -267,6 +272,26 @@ void testFunction() {
 
    scrabbleBoard->displayBoard();
 }
+
+ void playGame(TileBag tileBag, Player player1, Player player2) {
+    bool isDone = false;
+    while (tileBag->getSize() != 0) {
+       while (isDone != true) {
+         /**
+          * output board
+          * 
+          * user turn:
+          * place, replace, save, pass, quit
+          * 
+          * updating board in between
+          * 
+          * user selects done (isDone = true)
+          * 
+          * replace players tiles from tileBag
+          */
+       }
+    }
+ }
 
 //vector of vectors for scrabble board.
 //needs implementation of passing in tiles.

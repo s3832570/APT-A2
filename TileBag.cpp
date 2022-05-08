@@ -52,3 +52,7 @@ void TileBag::shuffleBag()
 
     tileBag->shuffle();
 }
+
+void TileBag::getSize() {
+    return size;
+}

@@ -58,8 +58,9 @@ Tile *ScrabbleBoard::get(int row, char col)
    return nullptr;
 }
 
-void ScrabbleBoard::add(Tile *tile, int row, char col)
+void ScrabbleBoard::add(Tile *tile, int row, int col)
 {
+
 }
 
 // display empty scrabble board.

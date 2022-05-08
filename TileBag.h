@@ -18,9 +18,12 @@ public:
 
    void shuffleBag();
 
+   int getSize();
+
 private:
 
     LinkedList* tileBag;
+    int         size;
 
 };
 

@@ -19,7 +19,7 @@ public:
 
    Tile* get(int row, char col);
 
-   void add(Tile* tile, int row, char col);
+   void add(Tile* tile, int row, int col);
 
    void displayBoard();
 
