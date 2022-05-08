@@ -255,10 +255,10 @@ void viewCredits() {
    // While Tiles are still left in bag
     while (tileBag->getSize() != 0) {
 
+       // Output Board
        scrabbleBoard->displayBoard();
 
        /**
-          * output board
           * output both player score
           * output players tiles
           */
