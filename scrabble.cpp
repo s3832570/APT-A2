@@ -369,7 +369,6 @@ void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, S
    /**
     * TODO:
     * Make sure tile is placed next to an existing tile and word goes in right direction
-    * delete tile from players hand after they have placed it correctly
     *
     */
    Tile *tileToPlace = nullptr;
@@ -396,6 +395,7 @@ void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, S
 
       int col = coord.at(1) - '0';
 
+      
       if (board->placeTile(tileToPlace, row, col) == false)
       {
          std::cout << "There is already a tile at " << coord << std::endl;
@@ -403,6 +403,7 @@ void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, S
       else
       {
          player->setScore(player->getScore() + tileToPlace->getValue());
+         playerHand->removeTile(tileToPlace);
       }
    }
    else

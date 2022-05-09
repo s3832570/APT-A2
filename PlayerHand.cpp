@@ -28,19 +28,6 @@ PlayerHand::~PlayerHand() {
      */
 }
 
-void PlayerHand::createNewHand()
-{
-    for (int i = 0; i < MAX_TILES; i++) {
-        /**
-         * TODO:
-         * 
-         * get random tile from tile bag
-         * 
-         */
-    }
-
-} // get random 7, method in TileBag?
-
 void PlayerHand::addTile(Tile* tile)
 {
     tiles->addTileBack(tile);
@@ -53,16 +40,9 @@ Player* PlayerHand::getPlayer()
 
 void PlayerHand::removeTile(Tile* tile) {
     for (int i = 0; i < MAX_TILES; i++) {
-        /**
-         * TODO:
-         * 
-         * while node->tile != tile
-         *      next node
-         * 
-         * when find matching tile remove 
-         * (remove should be function in LinkedList)
-         * 
-         */
+        if (tiles->get(i)->tile->compareTiles(tile) == true) {
+            tiles->remove(i);
+        }
     }
 }
 

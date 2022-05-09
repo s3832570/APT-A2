@@ -17,8 +17,6 @@ public:
     PlayerHand(PlayerHand &other);
     ~PlayerHand();
 
-    void createNewHand(); // get random 7, method in TileBag?
-
     void addTile(Tile* tile);
 
     Player* getPlayer();

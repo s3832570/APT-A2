@@ -13,3 +13,14 @@ char Tile::getLetter() {
 int Tile::getValue() {
     return this->value;
 }
+
+bool Tile::compareTiles(Tile* tile) {
+    bool returnVal = false;
+    if (tile->getLetter() == this->letter && tile->getValue() == this->value) {
+        returnVal = true;
+    } else {
+        returnVal = false;
+    }
+
+    return returnVal;
+}

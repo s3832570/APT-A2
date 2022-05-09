@@ -14,6 +14,7 @@ public:
 
    char getLetter();
    int getValue();
+   bool compareTiles(Tile* tile);
 
 private:
    Letter letter;
