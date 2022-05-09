@@ -370,39 +370,43 @@ void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, S
     * TODO:
     * Make sure tile is placed next to an existing tile and word goes in right direction
     * delete tile from players hand after they have placed it correctly
-    * 
+    *
     */
    Tile *tileToPlace = nullptr;
 
-   // getting correct tile
-   for (int i = 0; i < playerHand->getSize(); i++)
+   if (containsOnlyLetters(letter) == true && containsOnlyLetters(coord.substr(0)) == true && std::isdigit(coord.at(1)))
    {
-      if (playerHand->get(i)->getLetter() == letter.at(0))
+      // getting correct tile
+      for (int i = 0; i < playerHand->getSize(); i++)
       {
-         tileToPlace = playerHand->get(i);
+         if (playerHand->get(i)->getLetter() == letter.at(0))
+         {
+            tileToPlace = playerHand->get(i);
+         }
       }
-   }
 
-   // getting row
-   char c = 'A';
-   int row = 0;
-   for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
-   {
-      if (!(coord.at(0) == c))
+      // getting row
+      char c = 'A';
+      int row = 0;
+      while (c != coord.at(0))
       {
          row++;
          c++;
       }
-   }
 
-   int col = coord.at(1) - '0';
+      int col = coord.at(1) - '0';
 
-   if (board->placeTile(tileToPlace, row, col) == false)
-   {
-      std::cout << "There is already a tile at " << coord << std::endl;
+      if (board->placeTile(tileToPlace, row, col) == false)
+      {
+         std::cout << "There is already a tile at " << coord << std::endl;
+      }
+      else
+      {
+         player->setScore(player->getScore() + tileToPlace->getValue());
+      }
    }
    else
    {
-      player->setScore(player->getScore() + tileToPlace->getValue());
+      std::cout << "The command you entered is incorrect. Try again." << std::endl;
    }
 }
