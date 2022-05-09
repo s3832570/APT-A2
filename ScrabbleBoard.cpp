@@ -62,8 +62,8 @@ bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
 {
    bool placedTile = false;
 
-   if (scrabbleBoard[row][col]->getLetter() == ' ') {
-      scrabbleBoard[row][col] = tile;
+   if (scrabbleBoard[row][col+1]->getLetter() == ' ') {
+      scrabbleBoard[row][col+1] = tile;
       placedTile = true;
    } else {
       placedTile = false;

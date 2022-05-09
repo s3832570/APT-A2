@@ -123,7 +123,7 @@ void viewCredits();
 bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
-void placeTiles(PlayerHand *playerHand, std::string input, ScrabbleBoard *board);
+void placeTiles(PlayerHand *playerHand, char letter, std::string coord, ScrabbleBoard *board);
 void dealPlayer(TileBag *tileBag, Player *player);
 
 int main(void)
@@ -187,13 +187,14 @@ int main(void)
 
 void newGame()
 {
-   TileBag* tileBag = new TileBag();
+   TileBag *tileBag = new TileBag();
 
    // Reading in new tile bag
    std::fstream infile("ScrabbleTiles.txt");
    char letter;
    int value;
-   while (infile >> letter >> value) {
+   while (infile >> letter >> value)
+   {
       tileBag->addNewTile(new Tile(letter, value));
    }
    tileBag->shuffleBag();
@@ -274,6 +275,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    // Initalise Current Player to Player 1
    Player *currentPlayer = player1;
 
+   // Deal players initial 7 tiles
    dealPlayer(tileBag, player1);
    dealPlayer(tileBag, player2);
 
@@ -284,7 +286,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
        * output both player score
        * output players tiles
        */
-      
+
       std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
       std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
       std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
@@ -294,17 +296,34 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
 
       // Displaying players hand
       std::cout << "Your hand is" << std::endl;
-      for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++) {
-         Tile* currTile = currentPlayer->getPlayerHand()->get(i);
+      for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
+      {
+         Tile *currTile = currentPlayer->getPlayerHand()->get(i);
          std::cout << currTile->getLetter() << "-" << currTile->getValue() << " ";
       }
-      std::cout << "\n" << std::endl;
+      std::cout << "\n"
+                << std::endl;
 
       bool turnIsDone = false;
 
       while (turnIsDone != true)
       {
          std::cout << "> ";
+         std::string command;
+         char letter;
+         std::string coord;
+
+         std::cin >> command;
+
+         if (command == "place")
+         {
+            std::string at;
+            std::cin >> letter 
+                     >> at 
+                     >> coord;
+            placeTiles(currentPlayer->getPlayerHand(), letter, coord, scrabbleBoard);
+         }
+
          /**
           * user turn:
           * place, replace, save, pass, quit
@@ -325,47 +344,53 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    }
 }
 
-void dealPlayer(TileBag* tileBag, Player* player) {
-   PlayerHand* playerHand = new PlayerHand();
-   for (int i = 0; i < MAX_TILES; i++) {
-      Tile* newTile = tileBag->getNewTile();
+void dealPlayer(TileBag *tileBag, Player *player)
+{
+   PlayerHand *playerHand = new PlayerHand();
+   for (int i = 0; i < MAX_TILES; i++)
+   {
+      Tile *newTile = tileBag->getNewTile();
       playerHand->addTile(newTile);
       tileBag->removeTile();
    }
+
+   player->setPlayerHand(playerHand);
 }
 
-void placeTiles(PlayerHand *playerHand, std::string input, ScrabbleBoard *board)
+void placeTiles(PlayerHand *playerHand, char letter, std::string coord, ScrabbleBoard *board)
 {
    Tile *tileToPlace = nullptr;
 
    // converting user input into tile
-   char tileLetter = input.at(6);
-   int col = 0;
    for (int i = 0; i < playerHand->getSize(); i++)
    {
-      if (playerHand->get(i)->getLetter() == tileLetter)
+      if (playerHand->get(i)->getLetter() == (char) letter)
       {
          tileToPlace = playerHand->get(i);
-      } else {
-         col++;
       }
-      
    }
 
    // getting coordinates
-   char letter = 'A';
+   char c = 'A';
    int row = 0;
-   std::string coord = input.substr(11, 12);
-   for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++) {
-      if (!(coord.at(0) == letter)) {
-         letter++;
+   for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
+   {
+      if (!(coord.at(0) == c))
+      {
          row++;
+         c++;
       }
    }
 
-   if (board->placeTile(tileToPlace, row, col) == false) {
+   int col = coord.at(1) - '0';
+
+   if (board->placeTile(tileToPlace, row, col) == false)
+   {
       std::cout << "There is already a tile at " << coord << std::endl;
    }
+
+   board->displayBoard();
+
 }
 
 // vector of vectors for scrabble board.

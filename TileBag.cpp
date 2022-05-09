@@ -34,28 +34,28 @@ void TileBag::removeTile()
 
 void TileBag::shuffleBag()
 {
-    // LinkedList *shuffledTileBag = new LinkedList();
+    LinkedList *shuffledTileBag = new LinkedList();
 
-    // std::random_device randomSeed;
-    // std::uniform_int_distribution<int> uniform_dist(0, TILEBAG_MAX_TILES - 1);
-    // int i = 0;
-    // while (i < TILEBAG_MAX_TILES)
-    // { 
-    //     int randIndex = uniform_dist(randomSeed);
+    std::random_device randomSeed;
+    std::uniform_int_distribution<int> uniform_dist(0, TILEBAG_MAX_TILES - 1);
+    int i = 0;
+    while (i < TILEBAG_MAX_TILES)
+    { 
+        int randIndex = uniform_dist(randomSeed);
 
-    //     if (tileBag->get(randIndex) != nullptr)
-    //     {
-    //         Tile *tile = new Tile(*tileBag->get(randIndex)->tile);
-    //         shuffledTileBag->addTileBack(tile);
-    //         tileBag->remove(randIndex);
+        if (tileBag->get(randIndex) != nullptr)
+        {
+            Tile *tile = new Tile(*tileBag->get(randIndex)->tile);
+            shuffledTileBag->addTileBack(tile);
+            tileBag->remove(randIndex);
 
-    //         ++i;
-    //     }
-    // }
+            ++i;
+        }
+    }
 
-    // tileBag = shuffledTileBag;
+    tileBag = shuffledTileBag;
 
-    tileBag->shuffle();
+    // tileBag->shuffle();
 }
 
 int TileBag::getSize() {
