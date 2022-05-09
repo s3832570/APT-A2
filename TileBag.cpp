@@ -53,6 +53,6 @@ void TileBag::shuffleBag()
     tileBag->shuffle();
 }
 
-void TileBag::getSize() {
+int TileBag::getSize() {
     return size;
 }

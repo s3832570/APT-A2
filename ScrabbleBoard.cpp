@@ -58,9 +58,18 @@ Tile *ScrabbleBoard::get(int row, char col)
    return nullptr;
 }
 
-void ScrabbleBoard::add(Tile *tile, int row, int col)
+bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
 {
+   bool placedTile = false;
 
+   if (scrabbleBoard[row][col]->getLetter() == ' ') {
+      scrabbleBoard[row][col] = tile;
+      placedTile = true;
+   } else {
+      placedTile = false;
+   }
+
+   return placedTile;
 }
 
 // display empty scrabble board.

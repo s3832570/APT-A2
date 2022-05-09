@@ -2,7 +2,7 @@
 
 PlayerHand::PlayerHand()
 {
-
+    tiles = new LinkedList();
 }
 
 PlayerHand::PlayerHand(Player* player)
@@ -70,4 +70,12 @@ void PlayerHand::removeTile(Tile* tile) {
          * 
          */
     }
+}
+
+int PlayerHand::getSize() {
+    return tiles->getListSize();
+}
+
+Tile* PlayerHand::get(int index) {
+    return tiles->get(index)->tile;
 }

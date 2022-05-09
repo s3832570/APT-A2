@@ -8,13 +8,13 @@
 #include <regex>
 #include <vector>
 
-#define EXIT_SUCCESS    0
+#define EXIT_SUCCESS 0
 
 /**
  * TODO:
  * - 🟡 main menu
  *    > 1. new game ✅
- *       • display "Starting a new game" ✅ 
+ *       • display "Starting a new game" ✅
  *    > 2. load game
  *       • display "Enter the filename from which load a game"
  *       • user enters relative path and then presses enter
@@ -26,42 +26,42 @@
  *    > 4. quit program ✅
  *    > user will enter number to select ✅
  *       • check number is in bounds ✅
- * 
+ *
  * - 🟠 player
  *    > score ✅
  *    > hand
  *    > name ✅
  *    > update players score ✅
- * 
+ *
  * - 🟠 player hand
  *    > linked list ✅
- * 
+ *
  * - 🟢 tile bag
  *    linked list ✅
- *    > jumbles tile bag and pulls from front (put in "random" order) ✅ 
+ *    > jumbles tile bag and pulls from front (put in "random" order) ✅
  *    > replace players tiles with new tiles from tile bag  ✅
  *       • tile must be removed from tile bag ✅
- * 
+ *
  * - 🟢 linked list
  *    > add back ✅
  *    > add front ✅
- * 
+ *
  * - 🟢 node
  *    constructor ✅
  *    copy constuctor ✅
  *    data (tile) ✅
  *    Node* pointer ✅
- * 
+ *
  * - 🔴 tile
- * 
+ *
  * - 🔴 board
  *    > A vector of vectors of tiles ✅
  *    > rows ✅
  *    > columns ✅
  *    > create empty board ✅
  *    > check placement of tile is legal
- * 
- * - 🟡 {the game 
+ *
+ * - 🟡 {the game
  *    > ask for player names (must only contain letters) ✅
  *       • "Enter a name for player 1 (uppercase characters only)" ✅
  *         display "Let's Play!" ✅
@@ -72,16 +72,16 @@
  *    game always begins with player 1
  *    player can place up to 7 letters
  *    > must type "place <capital letter> at <coordinate>" (check format)
- *       > if player places 7 tiles must display "BINGO!!!" before   
+ *       > if player places 7 tiles must display "BINGO!!!" before
  *      displaying game results
  *      must type "place Done" to finish turn (check format)
- *    > show results on board 
+ *    > show results on board
  *    > move to next players turn
- *    > player can replace ONE tile per turn 
+ *    > player can replace ONE tile per turn
  *       • by typing "replace <letter>" (letter must be caps)
  *       • check format
- *       • check player has that tile  
- *       • if tile exists in hand, place tile back in tile bag and   
+ *       • check player has that tile
+ *       • if tile exists in hand, place tile back in tile bag and
  *         draw new tile from tile bag (if player has two of same
  *         letter, take first instance)
  *       • replacing tile counts as their turn, move to next player
@@ -99,18 +99,18 @@
  *       • display "Game over"
  *       • display score for both players "Score for <player>: 000"
  *       • display "Player <player> won!"
- *       • display "Goodbye" and then quit game 
- * 
+ *       • display "Goodbye" and then quit game
+ *
  * - PlayGame function
  *    > While tilebag != zero
- *    > 
- * 
+ *    >
+ *
  * - 🟢 load game
  *    > resume game with current player when loaded
- * 
+ *
  * - user input ✅
  *    > display "Invalid Input" when input is invalid ✅
- * 
+ *
  * put ✅ at start of every task completed
  * and possibly a coloured circle for who implemented? (🔴 - Alex, 🟠 - Chloe, 🟡 - Hien, 🟢 - Lachlan)
  * Just so we know who has to write about that feature
@@ -119,21 +119,22 @@
 
 void newGame();
 void viewCredits();
-void testFunction();
 bool containsOnlyLetters(std::string name);
-void inputName(std::string* name);
+void inputName(std::string *name);
 
-int main(void) {
-   //LinkedList* list = new LinkedList();
-   //delete list;
+int main(void)
+{
+   // LinkedList* list = new LinkedList();
+   // delete list;
 
-   //std::cout << "TODO: Implement Scrabble!" << std::endl;
+   // std::cout << "TODO: Implement Scrabble!" << std::endl;
 
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
 
    int userMenuInput;
-   while (!std::cin.eof() && userMenuInput != 1 && userMenuInput != 4) {
+   while (!std::cin.eof() && userMenuInput != 1 && userMenuInput != 4)
+   {
       std::cout << "Menu" << std::endl;
       std::cout << "----" << std::endl;
       std::cout << "1. New Game" << std::endl;
@@ -143,31 +144,35 @@ int main(void) {
 
       std::cout << std::endl;
       std::cout << "> ";
-         
-      while ((!(std::cin >> userMenuInput) || !(userMenuInput >= 1 && userMenuInput <= 4)) && !std::cin.eof()) {
+
+      while ((!(std::cin >> userMenuInput) || !(userMenuInput >= 1 && userMenuInput <= 4)) && !std::cin.eof())
+      {
          std::cout << "Invalid Input" << std::endl;
          std::cout << "> ";
          std::cin.clear();
          std::cin.ignore(100, '\n');
       }
 
-      if (userMenuInput == 1) {
+      if (userMenuInput == 1)
+      {
          newGame();
       }
       /**
        * TODO:
        * if (userMenuInput == 2) {
-       * 
+       *
        * }
-       * 
+       *
        */
-      if (userMenuInput == 3) {
+      if (userMenuInput == 3)
+      {
          viewCredits();
       }
 
       // TESTING FUNCTION ONLY
-      if (userMenuInput == 4) {
-         testFunction();
+      if (userMenuInput == 4)
+      {
+         // quit
       }
    }
    std::cout << std::endl;
@@ -176,7 +181,10 @@ int main(void) {
    return EXIT_SUCCESS;
 }
 
-void newGame() {
+void newGame()
+{
+   TileBag* tileBag = new TileBag();
+
    std::string player1Name;
    std::string player2Name;
 
@@ -187,27 +195,26 @@ void newGame() {
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
    std::cout << "> ";
    inputName(&player1Name);
-   Player* player1 = new Player(player1Name);
+   Player *player1 = new Player(player1Name);
    std::cout << std::endl;
 
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
    std::cout << "> ";
    inputName(&player2Name);
-   Player* player2 = new Player(player2Name);
+   Player *player2 = new Player(player2Name);
    std::cout << std::endl;
 
    std::cout << "Let's Play!" << std::endl;
    std::cout << std::endl;
 
-   //Get player name test
-   std::cout << player1->getName() << ", it's your turn" << std::endl;
-   std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
-   std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
+   playGame(tileBag, player1, player2);
 }
 
-void inputName(std::string* name) {
+void inputName(std::string *name)
+{
    std::string inputName;
-   while ((!(std::cin >> inputName) || (!containsOnlyLetters(inputName))) && !std::cin.eof()) {
+   while ((!(std::cin >> inputName) || (!containsOnlyLetters(inputName))) && !std::cin.eof())
+   {
       std::cout << std::endl;
       std::cout << "Invalid name. Must use uppercase letters only." << std::endl;
       std::cout << std::endl;
@@ -218,11 +225,13 @@ void inputName(std::string* name) {
    *name = inputName;
 }
 
-bool containsOnlyLetters(std::string name) {
+bool containsOnlyLetters(std::string name)
+{
    return std::regex_match(name, std::regex("^[A-Z]+$"));
 }
 
-void viewCredits() {
+void viewCredits()
+{
    std::cout << std::endl;
    std::cout << "----------------------------------" << std::endl;
    std::cout << "Name: Chloe Harvey" << std::endl;
@@ -244,54 +253,105 @@ void viewCredits() {
    std::cout << std::endl;
 }
 
- void playGame(TileBag *tileBag, Player player1, Player player2) {
+void playGame(TileBag *tileBag, Player *player1, Player *player2)
+{
 
-    // Initalise Board
-    ScrabbleBoard *scrabbleBoard = new ScrabbleBoard();
+   // Initalise Board
+   ScrabbleBoard *scrabbleBoard = new ScrabbleBoard();
 
-    // Initalise Current Player to Player 1
-    Player currentPlayer = player1;
+   // Initalise Current Player to Player 1
+   Player *currentPlayer = player1;
+
+   /**
+    * TODO:
+    * 
+    * Give each player 7 tiles
+    * 
+    */
 
    // While Tiles are still left in bag
-    while (tileBag->getSize() != 0) {
+   while (tileBag->getSize() != 0)
+   {
+      /**
+       * output both player score
+       * output players tiles
+       */
+      
+      std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
+      std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
+      std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
 
-       // Output Board
-       scrabbleBoard->displayBoard();
+      // Output Board
+      scrabbleBoard->displayBoard();
 
-       /**
-          * output both player score
-          * output players tiles
-          */
+      
 
       bool turnIsDone = false;
 
-       while (turnIsDone != true) {
+      while (turnIsDone != true)
+      {
+
          /**
           * user turn:
           * place, replace, save, pass, quit
           * user selects done (isDone = true)
           * use currentPlayer attribute for player functions
           */
-       }
+      }
 
-       //Swap Current Player After Turn has Ended
-       if((currentPlayer.getName() == player1.getName()) & (turnIsDone == true)) {
-          currentPlayer = player2;
-       }
-       if((currentPlayer.getName() == player2.getName()) & (turnIsDone == true)) {
-          currentPlayer = player1;
-       }
+      // Swap Current Player After Turn has Ended
+      if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+      {
+         currentPlayer = player2;
+      }
+      if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+      {
+         currentPlayer = player1;
+      }
+   }
+}
 
-    }
- }
+void placeTiles(PlayerHand *playerHand, std::string input, ScrabbleBoard *board)
+{
+   Tile *tileToPlace = nullptr;
 
-//vector of vectors for scrabble board.
-//needs implementation of passing in tiles.
-// vector<vector<char> >scrabbleBoard(){
+   // converting user input into tile
+   char tileLetter = input.at(6);
+   int col = 0;
+   for (int i = 0; i < playerHand->getSize(); i++)
+   {
+      if (playerHand->get(i)->getLetter() == tileLetter)
+      {
+         tileToPlace = playerHand->get(i);
+      } else {
+         col++;
+      }
+      
+   }
+
+   // getting coordinates
+   char letter = 'A';
+   int row = 0;
+   std::string coord = input.substr(11, 12);
+   for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++) {
+      if (!(coord.at(0) == letter)) {
+         letter++;
+         row++;
+      }
+   }
+
+   if (board->placeTile(tileToPlace, row, col) == false) {
+      std::cout << "There is already a tile at " << coord << std::endl;
+   }
+}
+
+// vector of vectors for scrabble board.
+// needs implementation of passing in tiles.
+//  vector<vector<char> >scrabbleBoard(){
 
 //     vector<vector<char> >scrabbleBoard;
 
-//     //Fill the inner vector with char for first element, then insert it into the outer vector 
+//     //Fill the inner vector with char for first element, then insert it into the outer vector
 //     for(char i = 'A'; i <'P'; i++){
 //         vector <char> temp;
 //         char a = ' ';
@@ -310,7 +370,7 @@ void viewCredits() {
 // //display empty scrabble board.
 // //can only display empty board and requires changes to pass in tiles.
 // void displayBoard(std::vector<vector<char> > scrabbleBoard){
-//     //Displays the empty board 
+//     //Displays the empty board
 //     cout <<"-------------------------------------------------------------------" << endl;
 //     cout <<"    0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15" << endl;
 //     cout <<"-------------------------------------------------------------------" << endl;

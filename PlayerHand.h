@@ -25,6 +25,10 @@ public:
 
     void removeTile(Tile* tile);
 
+    int getSize();
+
+    Tile* get(int index);
+
 private:
     Player*         player;
     LinkedList*     tiles;
