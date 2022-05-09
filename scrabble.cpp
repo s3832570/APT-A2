@@ -123,7 +123,7 @@ void viewCredits();
 bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
-void placeTiles(PlayerHand *playerHand, char letter, std::string coord, ScrabbleBoard *board);
+void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, ScrabbleBoard *board, Player *player);
 void dealPlayer(TileBag *tileBag, Player *player);
 
 int main(void)
@@ -310,18 +310,24 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       {
          std::cout << "> ";
          std::string command;
-         char letter;
+         std::string next;
          std::string coord;
 
          std::cin >> command;
 
          if (command == "place")
          {
-            std::string at;
-            std::cin >> letter 
-                     >> at 
-                     >> coord;
-            placeTiles(currentPlayer->getPlayerHand(), letter, coord, scrabbleBoard);
+            std::cin >> next;
+            if (next == "Done")
+            {
+               turnIsDone = true;
+            }
+            else
+            {
+               std::string at;
+               std::cin >> at >> coord;
+               placeTiles(currentPlayer->getPlayerHand(), next, coord, scrabbleBoard, currentPlayer);
+            }
          }
 
          /**
@@ -337,7 +343,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       {
          currentPlayer = player2;
       }
-      if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+      else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
       {
          currentPlayer = player1;
       }
@@ -357,20 +363,27 @@ void dealPlayer(TileBag *tileBag, Player *player)
    player->setPlayerHand(playerHand);
 }
 
-void placeTiles(PlayerHand *playerHand, char letter, std::string coord, ScrabbleBoard *board)
+void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, ScrabbleBoard *board,
+                Player *player)
 {
+   /**
+    * TODO:
+    * Make sure tile is placed next to an existing tile and word goes in right direction
+    * delete tile from players hand after they have placed it correctly
+    * 
+    */
    Tile *tileToPlace = nullptr;
 
-   // converting user input into tile
+   // getting correct tile
    for (int i = 0; i < playerHand->getSize(); i++)
    {
-      if (playerHand->get(i)->getLetter() == (char) letter)
+      if (playerHand->get(i)->getLetter() == letter.at(0))
       {
          tileToPlace = playerHand->get(i);
       }
    }
 
-   // getting coordinates
+   // getting row
    char c = 'A';
    int row = 0;
    for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
@@ -388,45 +401,8 @@ void placeTiles(PlayerHand *playerHand, char letter, std::string coord, Scrabble
    {
       std::cout << "There is already a tile at " << coord << std::endl;
    }
-
-   board->displayBoard();
-
+   else
+   {
+      player->setScore(player->getScore() + tileToPlace->getValue());
+   }
 }
-
-// vector of vectors for scrabble board.
-// needs implementation of passing in tiles.
-//  vector<vector<char> >scrabbleBoard(){
-
-//     vector<vector<char> >scrabbleBoard;
-
-//     //Fill the inner vector with char for first element, then insert it into the outer vector
-//     for(char i = 'A'; i <'P'; i++){
-//         vector <char> temp;
-//         char a = ' ';
-//         for (int j = 0; j < 16; j++){
-
-//             if (j == 0){
-//                 temp.push_back(i);
-//             }
-
-//             temp.push_back(a);
-//         }
-//         scrabbleBoard.push_back(temp);
-//     }
-//     return scrabbleBoard;
-// }
-// //display empty scrabble board.
-// //can only display empty board and requires changes to pass in tiles.
-// void displayBoard(std::vector<vector<char> > scrabbleBoard){
-//     //Displays the empty board
-//     cout <<"-------------------------------------------------------------------" << endl;
-//     cout <<"    0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15" << endl;
-//     cout <<"-------------------------------------------------------------------" << endl;
-//     for (int i = 0; i<scrabbleBoard.size(); i++){
-//         for (int j = 0; j<scrabbleBoard[i].size(); j++){
-//             cout << scrabbleBoard[i][j]<< " | ";
-//         }
-//         cout <<endl;
-//     }
-
-// }
