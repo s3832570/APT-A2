@@ -1,4 +1,5 @@
 #include <random>
+#include <iostream>
 
 #include "TileBag.h"
 
@@ -17,9 +18,13 @@ TileBag::~TileBag()
     delete tileBag;
 }
 
-Tile TileBag::getNewTile()
+void TileBag::addNewTile(Tile* tile) {
+    tileBag->addTileBack(tile);
+}
+
+Tile* TileBag::getNewTile()
 {
-    return *tileBag->getTileFront()->tile;
+    return tileBag->getTileFront()->tile;
 }
 
 void TileBag::removeTile()
@@ -54,5 +59,5 @@ void TileBag::shuffleBag()
 }
 
 int TileBag::getSize() {
-    return size;
+    return tileBag->getListSize();
 }

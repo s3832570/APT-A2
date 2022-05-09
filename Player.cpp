@@ -33,11 +33,11 @@ void Player::setScore(int score)
     this->score = score;
 }
 
-void Player::setPlayerHand(PlayerHand playerHand) {
+void Player::setPlayerHand(PlayerHand* playerHand) {
     this->playerHand = playerHand;
 }
 
-PlayerHand Player::getPlayerHand()
+PlayerHand* Player::getPlayerHand()
 {
     return this->playerHand;
 }

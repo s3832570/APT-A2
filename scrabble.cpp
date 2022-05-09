@@ -7,6 +7,7 @@
 #include <iostream>
 #include <regex>
 #include <vector>
+#include <fstream>
 
 #define EXIT_SUCCESS 0
 
@@ -121,6 +122,8 @@ void newGame();
 void viewCredits();
 bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
+void playGame(TileBag *tileBag, Player *player1, Player *player2);
+void placeTiles(PlayerHand *playerHand, std::string input, ScrabbleBoard *board);
 
 int main(void)
 {
@@ -184,6 +187,15 @@ int main(void)
 void newGame()
 {
    TileBag* tileBag = new TileBag();
+
+   // Reading in new tile bag
+   std::fstream infile("ScrabbleTiles.txt");
+   char letter;
+   int value;
+   while (infile >> letter >> value) {
+      tileBag->addNewTile(new Tile(letter, value));
+   }
+   tileBag->shuffleBag();
 
    std::string player1Name;
    std::string player2Name;
@@ -255,19 +267,13 @@ void viewCredits()
 
 void playGame(TileBag *tileBag, Player *player1, Player *player2)
 {
-
    // Initalise Board
    ScrabbleBoard *scrabbleBoard = new ScrabbleBoard();
 
    // Initalise Current Player to Player 1
    Player *currentPlayer = player1;
 
-   /**
-    * TODO:
-    * 
-    * Give each player 7 tiles
-    * 
-    */
+   
 
    // While Tiles are still left in bag
    while (tileBag->getSize() != 0)
@@ -284,13 +290,19 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       // Output Board
       scrabbleBoard->displayBoard();
 
-      
+      // Displaying players hand
+      std::cout << "Your hand is" << std::endl;
+      for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++) {
+         Tile* currTile = currentPlayer->getPlayerHand()->get(i);
+         std::cout << currTile->getLetter() << "-" << currTile->getValue() << " ";
+      }
+      std::cout << "\n" << std::endl;
 
       bool turnIsDone = false;
 
       while (turnIsDone != true)
       {
-
+         std::cout << "> ";
          /**
           * user turn:
           * place, replace, save, pass, quit
@@ -310,6 +322,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       }
    }
 }
+
 
 void placeTiles(PlayerHand *playerHand, std::string input, ScrabbleBoard *board)
 {

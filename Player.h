@@ -19,14 +19,14 @@ public:
 
     void setScore(int score);
 
-    PlayerHand getPlayerHand();
+    PlayerHand* getPlayerHand();
 
-    void setPlayerHand(PlayerHand playerHand);
+    void setPlayerHand(PlayerHand* playerHand);
 
 private:
     std::string     name;
     int             score;
-    PlayerHand      playerHand;
+    PlayerHand*     playerHand;
 };
 
 #endif // ASSIGN2_PLAYER_H

@@ -12,7 +12,9 @@ public:
    TileBag(TileBag& other);
    ~TileBag();
 
-   Tile getNewTile();
+   void addNewTile(Tile* tile);
+
+   Tile* getNewTile();
 
    void removeTile();
 
@@ -23,8 +25,6 @@ public:
 private:
 
     LinkedList* tileBag;
-    int         size;
-
 };
 
 #endif // ASSIGN2_TILE_H

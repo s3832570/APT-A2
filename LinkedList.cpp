@@ -34,8 +34,19 @@ Node* LinkedList::getTileFront(){
 
 void LinkedList::addTileBack(Tile* tile) {
    Node* node = new Node(tile, nullptr);
-   tail->next = node;
-   tail = node;
+
+   if (tail != nullptr) {
+      tail->next = node;
+      tail = node;
+   } else {
+      tail = node;
+      tail->next = nullptr;
+   }
+
+   if (head == nullptr) {
+      head = node;
+   }
+   
    // node->next = nullptr;
    ++listSize;
 }
