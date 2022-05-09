@@ -19,7 +19,7 @@ public:
 
     void createNewHand(); // get random 7, method in TileBag?
 
-    void addTile();
+    void addTile(Tile* tile);
 
     Player* getPlayer();
 

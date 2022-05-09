@@ -41,15 +41,9 @@ void PlayerHand::createNewHand()
 
 } // get random 7, method in TileBag?
 
-void PlayerHand::addTile()
+void PlayerHand::addTile(Tile* tile)
 {
-    /**
-     * TODO:
-     * 
-     * addBack new randolm tile from tileBag
-     * 
-     */
-
+    tiles->addTileBack(tile);
 }
 
 Player* PlayerHand::getPlayer()

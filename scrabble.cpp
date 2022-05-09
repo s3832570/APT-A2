@@ -124,6 +124,7 @@ bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
 void placeTiles(PlayerHand *playerHand, std::string input, ScrabbleBoard *board);
+void dealPlayer(TileBag *tileBag, Player *player);
 
 int main(void)
 {
@@ -273,7 +274,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    // Initalise Current Player to Player 1
    Player *currentPlayer = player1;
 
-   
+   dealPlayer(tileBag, player1);
+   dealPlayer(tileBag, player2);
 
    // While Tiles are still left in bag
    while (tileBag->getSize() != 0)
@@ -323,6 +325,14 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    }
 }
 
+void dealPlayer(TileBag* tileBag, Player* player) {
+   PlayerHand* playerHand = new PlayerHand();
+   for (int i = 0; i < MAX_TILES; i++) {
+      Tile* newTile = tileBag->getNewTile();
+      playerHand->addTile(newTile);
+      tileBag->removeTile();
+   }
+}
 
 void placeTiles(PlayerHand *playerHand, std::string input, ScrabbleBoard *board)
 {
