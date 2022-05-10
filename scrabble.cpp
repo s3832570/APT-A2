@@ -287,6 +287,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    // While Tiles are still left in bag
    while (tileBag->getSize() != 0)
    {
+      placements.clear();
       // Output current player name and both players scores
       std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
       std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
@@ -319,6 +320,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
          if (command == "place")
          {
             std::cin >> next;
+
             if (next == "Done")
             {
                turnIsDone = true;
@@ -326,8 +328,17 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             else
             {
                std::cin >> at >> coord;
-               command = command + " " + next + " " + at + " " + coord;
-               placements.push_back(command);
+               std::string row;
+               row.push_back(coord.at(0));
+               if (containsOnlyLetters(next) && containsOnlyLetters(row) && std::isdigit(coord.at(1)))
+               {
+                  command = command + " " + next + " " + at + " " + coord;
+                  placements.push_back(command);
+               }
+               else
+               {
+                  std::cout << "The command you entered is incorrect. Try again." << std::endl;
+               }
             }
          }
 
@@ -371,25 +382,26 @@ void dealPlayer(TileBag *tileBag, Player *player)
    player->setPlayerHand(playerHand);
 }
 
-bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board,
-                Player *player)
+bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
+                ScrabbleBoard *board, Player *player)
 {
    bool retVal = false;
-   
-   for (int i = 0; i < commands.size(); i++)
+
+   if (board->checkPlacement(commands))
    {
-      /**
-       * TODO:
-       * Make sure tile is placed next to an existing tile and word goes in right direction
-       * place A at A2
-       */
-      Tile *tileToPlace = nullptr;
-
-      std::string letter = commands[i].substr(6);
-      std::string coord = commands[i].substr(11, 12);
-
-      if (containsOnlyLetters(letter) == true && containsOnlyLetters(coord.substr(0)) == true && std::isdigit(coord.at(1)))
+      for (std::string &command : commands)
       {
+         /**
+          * TODO:
+          * Make sure tile is placed next to an existing tile and word goes in right direction
+          * place A at A2
+          */
+         Tile *tileToPlace = nullptr;
+
+         std::string letter;
+         letter.push_back(command.at(6));
+         std::string coord = command.substr(11, 12);
+
          // getting correct tile
          for (int i = 0; i < playerHand->getSize(); i++)
          {
@@ -400,13 +412,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, Scrab
          }
 
          // getting row
-         char c = 'A';
-         int row = 0;
-         while (c != coord.at(0))
-         {
-            row++;
-            c++;
-         }
+         int row = board->findRow(coord.at(0));
 
          // getting column
          int col = coord.at(1) - '0';
@@ -422,10 +428,13 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, Scrab
             retVal = true;
          }
       }
-      else
-      {
-         std::cout << "The command you entered is incorrect. Try again." << std::endl;
-      }
+   }
+   else
+   {
+      std::cout << "\n";
+      std::cout << "The placement of your tiles is not legal. Try again." << std::endl;
+      std::cout << "\n";
+      retVal = false;
    }
 
    return retVal;

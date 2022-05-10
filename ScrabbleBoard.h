@@ -28,7 +28,9 @@ public:
 
    void displayBoard();
 
-   bool checkPlacement(Tile* prevTile, Tile* currTile, Direction direction);
+   bool checkPlacement(std::vector<std::string> coords);
+
+   int findRow(char c);
 
 private:
 
@@ -37,6 +39,8 @@ private:
    // int length;
 
    std::vector<std::vector<Tile*> > scrabbleBoard;
+
+   bool                             boardEmpty;
 };
 
 #endif // ASSIGN2_SCRABBLE_BOARD_H

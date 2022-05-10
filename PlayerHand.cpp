@@ -39,10 +39,17 @@ Player* PlayerHand::getPlayer()
 }
 
 void PlayerHand::removeTile(Tile* tile) {
-    for (int i = 0; i < MAX_TILES; i++) {
-        if (tiles->get(i)->tile->compareTiles(tile) == true) {
-            tiles->remove(i);
+    bool foundTile = false;
+    int count = 0;
+
+    while (foundTile == false) {
+
+        if (tiles->get(count)->tile->compareTiles(tile) == true) {
+            tiles->remove(count);
+            foundTile = true;
         }
+
+        count++;
     }
 }
 

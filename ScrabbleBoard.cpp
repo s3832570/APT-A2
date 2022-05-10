@@ -16,6 +16,7 @@ ScrabbleBoard::ScrabbleBoard()
       scrabbleBoard.push_back(newRow);
    }
 
+   boardEmpty = true;
 }
 
 ScrabbleBoard::ScrabbleBoard(ScrabbleBoard &other)
@@ -35,12 +36,19 @@ bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
 {
    bool placedTile = false;
 
-   if (scrabbleBoard[row][col+1]->getLetter() == ' ') {
-      scrabbleBoard[row][col+1] = tile;
+   if (scrabbleBoard[row][col + 1]->getLetter() == ' ')
+   {
+      scrabbleBoard[row][col + 1] = tile;
       placedTile = true;
-   } else {
+   }
+   else
+   {
       placedTile = false;
    }
+
+   boardEmpty = false;
+
+   std::cout << "Placed tile" << std::endl;
 
    return placedTile;
 }
@@ -66,6 +74,95 @@ void ScrabbleBoard::displayBoard()
    }
 }
 
-bool checkPlacement(Tile* prevTile, Tile* currTile, Direction direction) {
-   return false;
+bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords)
+{
+   bool retVal = false;
+
+   int sameRow = 0;
+   int sameCol = 0;
+
+   std::string firstCoord = " ";
+   int row = 0;
+   int col = 0;
+
+   // Adds up how many of the coordinates are in a line
+   for (std::string &coord : coords)
+   {
+      if (firstCoord != " ")
+      {
+         if (firstCoord.at(0) == coord.at(0))
+         {
+            sameRow++;
+         }
+
+         if (firstCoord.at(1) == coord.at(1))
+         {
+            sameCol++;
+         }
+      }
+      else
+      {
+         firstCoord = coord;
+         row = findRow(coord.at(0));
+         col = coord.at(1);
+         sameRow++;
+         sameCol++;
+      }
+   }
+
+   // if all of the coordinates are in a line either horizontally or verticlly
+   // return true, otherwise placement is illegal
+   if (sameRow == coords.size() || sameCol == coords.size())
+   {
+      retVal = true;
+   }
+
+   // if the board isn't empty, make sure new word connects with existing word
+   if (!boardEmpty && retVal)
+   {
+      retVal = false;
+      if (sameRow == coords.size())
+      {
+         for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
+         {
+            // also checking rows either side as word can be next to another word
+            if (scrabbleBoard[row][i]->getLetter() != ' ') {
+               retVal = true;
+            } else if (scrabbleBoard[row + 1][i]->getLetter() != ' ') {
+               retVal = true;
+            } else if (scrabbleBoard[row + 1][i]->getLetter() != ' ') {
+               retVal = true;
+            }
+         }
+      }
+      else if (sameCol == coords.size())
+      {
+         for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
+         {
+            // also checking rows either side as word can be next to another word
+            if (scrabbleBoard[i][col]->getLetter() != ' ') {
+               retVal = true;
+            } else if (scrabbleBoard[i][col - 1]->getLetter() != ' ') {
+               retVal = true;
+            } else if (scrabbleBoard[i][col + 1]->getLetter() != ' ') {
+               retVal = true;
+            }
+         }
+      }
+   }
+
+   return retVal;
+}
+
+int ScrabbleBoard::findRow(char c)
+{
+   char c2 = 'A';
+   int row = 0;
+   while (c2 != c)
+   {
+      row++;
+      c2++;
+   }
+
+   return row;
 }
