@@ -9,19 +9,26 @@
 
 #define SCRABBLE_BOARD_LENGTH 15 
 
+enum Direction {
+   RIGHT,
+   LEFT,
+   UP,
+   DOWN
+};
+
 class ScrabbleBoard {
 public:
    ScrabbleBoard();
    ScrabbleBoard(ScrabbleBoard& other);
    ~ScrabbleBoard();
 
-   void newScrabbleBoard();
-
    Tile* get(int row, char col);
 
    bool placeTile(Tile* tile, int row, int col);
 
    void displayBoard();
+
+   bool checkPlacement(Tile* prevTile, Tile* currTile, Direction direction);
 
 private:
 

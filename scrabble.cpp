@@ -123,7 +123,7 @@ void viewCredits();
 bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
-void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, ScrabbleBoard *board, Player *player);
+bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
 void dealPlayer(TileBag *tileBag, Player *player);
 
 int main(void)
@@ -275,6 +275,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    // Initalise Current Player to Player 1
    Player *currentPlayer = player1;
 
+   // Collection of all placements for players turn
+   std::vector<std::string> placements;
+
+   std::cout << "vector size: " << placements.size() << std::endl;
+
    // Deal players initial 7 tiles
    dealPlayer(tileBag, player1);
    dealPlayer(tileBag, player2);
@@ -282,11 +287,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    // While Tiles are still left in bag
    while (tileBag->getSize() != 0)
    {
-      /**
-       * output both player score
-       * output players tiles
-       */
-
+      // Output current player name and both players scores
       std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
       std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
       std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
@@ -305,14 +306,14 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
                 << std::endl;
 
       bool turnIsDone = false;
+      std::string command;
+      std::string next;
+      std::string at;
+      std::string coord;
 
       while (turnIsDone != true)
       {
          std::cout << "> ";
-         std::string command;
-         std::string next;
-         std::string coord;
-
          std::cin >> command;
 
          if (command == "place")
@@ -324,9 +325,9 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             }
             else
             {
-               std::string at;
                std::cin >> at >> coord;
-               placeTiles(currentPlayer->getPlayerHand(), next, coord, scrabbleBoard, currentPlayer);
+               command = command + " " + next + " " + at + " " + coord;
+               placements.push_back(command);
             }
          }
 
@@ -338,16 +339,23 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
           */
       }
 
-      // Swap Current Player After Turn has Ended
-      if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+      if (placements.size() != 0)
       {
-         currentPlayer = player2;
-      }
-      else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
-      {
-         currentPlayer = player1;
+         if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
+         {
+            // Swap Current Player After Turn has Ended
+            if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+            {
+               currentPlayer = player2;
+            }
+            else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+            {
+               currentPlayer = player1;
+            }
+         }
       }
    }
+   delete scrabbleBoard;
 }
 
 void dealPlayer(TileBag *tileBag, Player *player)
@@ -363,51 +371,62 @@ void dealPlayer(TileBag *tileBag, Player *player)
    player->setPlayerHand(playerHand);
 }
 
-void placeTiles(PlayerHand *playerHand, std::string letter, std::string coord, ScrabbleBoard *board,
+bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board,
                 Player *player)
 {
-   /**
-    * TODO:
-    * Make sure tile is placed next to an existing tile and word goes in right direction
-    *
-    */
-   Tile *tileToPlace = nullptr;
-
-   if (containsOnlyLetters(letter) == true && containsOnlyLetters(coord.substr(0)) == true && std::isdigit(coord.at(1)))
+   bool retVal = false;
+   
+   for (int i = 0; i < commands.size(); i++)
    {
-      // getting correct tile
-      for (int i = 0; i < playerHand->getSize(); i++)
+      /**
+       * TODO:
+       * Make sure tile is placed next to an existing tile and word goes in right direction
+       * place A at A2
+       */
+      Tile *tileToPlace = nullptr;
+
+      std::string letter = commands[i].substr(6);
+      std::string coord = commands[i].substr(11, 12);
+
+      if (containsOnlyLetters(letter) == true && containsOnlyLetters(coord.substr(0)) == true && std::isdigit(coord.at(1)))
       {
-         if (playerHand->get(i)->getLetter() == letter.at(0))
+         // getting correct tile
+         for (int i = 0; i < playerHand->getSize(); i++)
          {
-            tileToPlace = playerHand->get(i);
+            if (playerHand->get(i)->getLetter() == letter.at(0))
+            {
+               tileToPlace = playerHand->get(i);
+            }
          }
-      }
 
-      // getting row
-      char c = 'A';
-      int row = 0;
-      while (c != coord.at(0))
-      {
-         row++;
-         c++;
-      }
+         // getting row
+         char c = 'A';
+         int row = 0;
+         while (c != coord.at(0))
+         {
+            row++;
+            c++;
+         }
 
-      int col = coord.at(1) - '0';
+         // getting column
+         int col = coord.at(1) - '0';
 
-      
-      if (board->placeTile(tileToPlace, row, col) == false)
-      {
-         std::cout << "There is already a tile at " << coord << std::endl;
+         if (board->placeTile(tileToPlace, row, col) == false)
+         {
+            std::cout << "There is already a tile at " << coord << std::endl;
+         }
+         else
+         {
+            player->setScore(player->getScore() + tileToPlace->getValue());
+            playerHand->removeTile(tileToPlace);
+            retVal = true;
+         }
       }
       else
       {
-         player->setScore(player->getScore() + tileToPlace->getValue());
-         playerHand->removeTile(tileToPlace);
+         std::cout << "The command you entered is incorrect. Try again." << std::endl;
       }
    }
-   else
-   {
-      std::cout << "The command you entered is incorrect. Try again." << std::endl;
-   }
+
+   return retVal;
 }
