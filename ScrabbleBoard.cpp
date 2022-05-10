@@ -86,8 +86,9 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords)
    int col = 0;
 
    // Adds up how many of the coordinates are in a line
-   for (std::string &coord : coords)
+   for (std::string &c : coords)
    {
+      std::string coord = c.substr(11, 12);
       if (firstCoord != " ")
       {
          if (firstCoord.at(0) == coord.at(0))
@@ -104,7 +105,7 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords)
       {
          firstCoord = coord;
          row = findRow(coord.at(0));
-         col = coord.at(1);
+         col = coord.at(1) - '0';
          sameRow++;
          sameCol++;
       }
@@ -121,32 +122,30 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords)
    if (!boardEmpty && retVal)
    {
       retVal = false;
-      if (sameRow == coords.size())
+      for (std::string &c : coords)
       {
-         for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
+         std::string coord = c.substr(11, 12);
+         row = findRow(coord.at(0));
+         col = coord.at(1) - '0';
+         
+         // checking the surroundings of each tile placed
+         // to make sure the word connects with an
+         // existing word
+         if (scrabbleBoard[row][col + 1]->getLetter() != ' ')
          {
-            // also checking rows either side as word can be next to another word
-            if (scrabbleBoard[row][i]->getLetter() != ' ') {
-               retVal = true;
-            } else if (scrabbleBoard[row + 1][i]->getLetter() != ' ') {
-               retVal = true;
-            } else if (scrabbleBoard[row + 1][i]->getLetter() != ' ') {
-               retVal = true;
-            }
+            retVal = true;
          }
-      }
-      else if (sameCol == coords.size())
-      {
-         for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
+         else if (scrabbleBoard[row][col - 1]->getLetter() != ' ')
          {
-            // also checking rows either side as word can be next to another word
-            if (scrabbleBoard[i][col]->getLetter() != ' ') {
-               retVal = true;
-            } else if (scrabbleBoard[i][col - 1]->getLetter() != ' ') {
-               retVal = true;
-            } else if (scrabbleBoard[i][col + 1]->getLetter() != ' ') {
-               retVal = true;
-            }
+            retVal = true;
+         }
+         else if (scrabbleBoard[row + 1][col]->getLetter() != ' ')
+         {
+            retVal = true;
+         }
+         else if (scrabbleBoard[row - 1][col]->getLetter() != ' ')
+         {
+            retVal = true;
          }
       }
    }

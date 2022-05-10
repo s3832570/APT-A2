@@ -136,6 +136,7 @@ int main(void)
 
    // Load main menu
    mainMenu();
+   
 
    return EXIT_SUCCESS;
 }
@@ -145,8 +146,8 @@ void mainMenu()
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
 
-   int userMenuInput;
-   while (!std::cin.eof() && userMenuInput != 1 && userMenuInput != 4)
+   int userMenuInput = 0;
+   while (userMenuInput != 1 && userMenuInput != 4)
    {
       std::cout << "Menu" << std::endl;
       std::cout << "----" << std::endl;
