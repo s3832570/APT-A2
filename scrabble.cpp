@@ -118,6 +118,7 @@
  * in the report.
  */
 
+void mainMenu();
 void newGame();
 void viewCredits();
 bool containsOnlyLetters(std::string name);
@@ -133,6 +134,14 @@ int main(void)
 
    // std::cout << "TODO: Implement Scrabble!" << std::endl;
 
+   // Load main menu
+   mainMenu();
+
+   return EXIT_SUCCESS;
+}
+
+void mainMenu()
+{
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
 
@@ -181,8 +190,6 @@ int main(void)
    }
    std::cout << std::endl;
    std::cout << "Goodbye" << std::endl;
-
-   return EXIT_SUCCESS;
 }
 
 void newGame()
