@@ -32,6 +32,10 @@ Tile *ScrabbleBoard::get(int row, char col)
    return nullptr;
 }
 
+int ScrabbleBoard::getSize() {
+   return scrabbleBoard.size();
+}
+
 bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
 {
    bool placedTile = false;
@@ -70,6 +74,30 @@ void ScrabbleBoard::displayBoard()
       std::cout << "  |" << std::endl;
       coord++;
    }
+}
+
+std::string ScrabbleBoard::saveState() {
+   std::string save;
+   
+   // Displays the board
+   save = save + "     0   1   2   3   4   5   6   7   8   9   10  11  12  13  14";
+   save = save + "\n" + "----------------------------------------------------------------" + "\n";
+
+   char coord = 'A';
+
+   for (int i = 0; i < scrabbleBoard.size(); i++)
+   {
+      save = save + coord;
+      for (int j = 0; j < scrabbleBoard[i].size(); j++)
+      {
+         save = save + scrabbleBoard[i][j]->getLetter() + " | ";
+      }
+      save = save + "  |\n";
+
+      coord++;
+   }
+
+   return save;
 }
 
 bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords)

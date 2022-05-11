@@ -24,9 +24,13 @@ public:
 
    Tile* get(int row, char col);
 
+   int getSize();
+
    bool placeTile(Tile* tile, int row, int col);
 
    void displayBoard();
+
+   std::string saveState();
 
    bool checkPlacement(std::vector<std::string> coords);
 

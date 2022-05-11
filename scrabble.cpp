@@ -127,7 +127,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand);
 void savePlayerData(std::ofstream& output, Player* player);
-void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer);
+void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer, ScrabbleBoard* scrabbleBoard);
 
 int main(void)
 {
@@ -360,7 +360,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             std::ofstream output(saveName += ".txt",std::ofstream::trunc);
             savePlayerData(output, player1);
             savePlayerData(output, player2);
-            saveGameState(output, tileBag, currentPlayer);
+            saveGameState(output, tileBag, currentPlayer, scrabbleBoard);
 
             std::cout << std::endl;
             std::cout << "Game successfully saved" << std::endl;
@@ -520,9 +520,10 @@ void savePlayerData(std::ofstream& output, Player* player)
    } 
 }
 
-void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer) 
+void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer, ScrabbleBoard* scrabbleBoard) 
 {
-   output << "TODO print scrabbleboard" << std::endl;
+   // Displays the board
+   output << scrabbleBoard->saveState() << std::endl;
 
    for (int i = 0; i < tileBag->getSize(); i++)
    {
