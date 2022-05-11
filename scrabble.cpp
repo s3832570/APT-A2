@@ -125,7 +125,7 @@ bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
-void dealPlayer(TileBag *tileBag, Player *player, int numTiles);
+void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand* playerHand);
 
 int main(void)
 {
@@ -288,8 +288,10 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    std::cout << "vector size: " << placements.size() << std::endl;
 
    // Deal players initial 7 tiles
-   dealPlayer(tileBag, player1, MAX_TILES);
-   dealPlayer(tileBag, player2, MAX_TILES);
+   PlayerHand* p1Hand = new PlayerHand();
+   PlayerHand* p2Hand = new PlayerHand();
+   dealPlayer(tileBag, player1, MAX_TILES, p1Hand);
+   dealPlayer(tileBag, player2, MAX_TILES, p2Hand);
 
    // While Tiles are still left in bag
    while (tileBag->getSize() != 0)
@@ -361,7 +363,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       {
          if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
          {
-            dealPlayer(tileBag, currentPlayer, placements.size());
+            dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
             // Swap Current Player After Turn has Ended
             if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
             {
@@ -377,9 +379,9 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    delete scrabbleBoard;
 }
 
-void dealPlayer(TileBag *tileBag, Player *player, int numTiles)
+void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand* playerHand)
 {
-   PlayerHand *playerHand = new PlayerHand();
+   std::cout << numTiles << std::endl;
    for (int i = 0; i < numTiles; i++)
    {
       Tile *newTile = tileBag->getNewTile();

@@ -48,8 +48,6 @@ bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
 
    boardEmpty = false;
 
-   std::cout << "Placed tile" << std::endl;
-
    return placedTile;
 }
 
@@ -127,7 +125,7 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords)
          std::string coord = c.substr(11, 12);
          row = findRow(coord.at(0));
          col = coord.at(1) - '0';
-         
+
          // checking the surroundings of each tile placed
          // to make sure the word connects with an
          // existing word
