@@ -102,6 +102,11 @@ std::string ScrabbleBoard::saveState() {
 
 bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords)
 {
+   /**
+    * TODO:
+    * Get points from surrounding tiles
+    * 
+    */
    bool retVal = false;
 
    int sameRow = 0;

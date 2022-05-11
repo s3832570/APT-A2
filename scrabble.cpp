@@ -429,7 +429,6 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    /**
     * TODO:
     * - Get points from letters in existing word
-    * - Bingo
     *
     */
    bool retVal = false;
@@ -495,6 +494,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
 
    if (retVal && commands.size() == 7) {
       std::cout << "BINGO!!!" << std::endl;
+      player->setScore(player->getScore() + 50);
    }
 
    return retVal;
