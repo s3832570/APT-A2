@@ -22,6 +22,8 @@ public:
 
    int getSize();
 
+   Tile* get(int index);
+
 private:
 
     LinkedList* tileBag;

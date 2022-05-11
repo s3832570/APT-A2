@@ -61,3 +61,7 @@ void TileBag::shuffleBag()
 int TileBag::getSize() {
     return tileBag->getListSize();
 }
+
+Tile* TileBag::get(int index) {
+    return tileBag->get(index)->tile;
+}
