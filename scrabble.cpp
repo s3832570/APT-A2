@@ -126,6 +126,8 @@ void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles);
+void savePlayerData(std::ofstream& output, Player* player);
+void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer);
 
 int main(void)
 {
@@ -292,7 +294,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    dealPlayer(tileBag, player2, MAX_TILES);
 
    // While Tiles are still left in bag
-   while (tileBag->getSize() != 0)
+   while (!(std::cin.eof()) && tileBag->getSize() != 0)
    {
       placements.clear();
       // Output current player name and both players scores
@@ -318,8 +320,9 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       std::string next;
       std::string at;
       std::string coord;
+      std::string saveName;
 
-      while (turnIsDone != true)
+      while (!(std::cin.eof()) && turnIsDone != true)
       {
          std::cout << "> ";
          std::cin >> command;
@@ -347,6 +350,19 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
                   std::cout << "The command you entered is incorrect. Try again." << std::endl;
                }
             }
+         }
+
+         if (!(std::cin.eof()) && command == "save") 
+         {
+            std::cin >> saveName;
+            std::ofstream output(saveName += ".txt",std::ofstream::trunc);
+            savePlayerData(output, player1);
+            savePlayerData(output, player2);
+            saveGameState(output, tileBag, currentPlayer);
+
+            std::cout << std::endl;
+            std::cout << "Game successfully saved" << std::endl;
+            std::cout << std::endl;
          }
 
          /**
@@ -454,4 +470,45 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    }
 
    return retVal;
+}
+
+void savePlayerData(std::ofstream& output, Player* player) 
+{
+   output << player->getName() << std::endl;
+   output << player->getScore() << std::endl;
+
+   for (int i = 0; i < player->getPlayerHand()->getSize(); i++)
+   {
+      if (i < player->getPlayerHand()->getSize() - 1)
+      {
+         Tile *currTile = player->getPlayerHand()->get(i);
+         output << currTile->getLetter() << "-" << currTile->getValue() << ", ";
+      }
+      else
+      {
+         Tile *currTile = player->getPlayerHand()->get(i);
+         output << currTile->getLetter() << "-" << currTile->getValue() << std::endl;
+      }
+   } 
+}
+
+void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer) 
+{
+   output << "TODO print scrabbleboard" << std::endl;
+
+   for (int i = 0; i < tileBag->getSize(); i++)
+   {
+      if (i < tileBag->getSize() - 1)
+      {
+         Tile *currTile = tileBag->get(i);
+         output << currTile->getLetter() << "-" << currTile->getValue() << ", ";
+      }
+      else
+      {
+         Tile *currTile = tileBag->get(i);
+         output << currTile->getLetter() << "-" << currTile->getValue() << std::endl;
+      }
+   }
+   output << currentPlayer->getName();
+   output.close();
 }
