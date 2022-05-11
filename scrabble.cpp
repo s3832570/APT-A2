@@ -125,7 +125,7 @@ bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
-void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand* playerHand);
+void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand);
 
 int main(void)
 {
@@ -288,8 +288,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    std::cout << "vector size: " << placements.size() << std::endl;
 
    // Deal players initial 7 tiles
-   PlayerHand* p1Hand = new PlayerHand();
-   PlayerHand* p2Hand = new PlayerHand();
+   PlayerHand *p1Hand = new PlayerHand();
+   PlayerHand *p2Hand = new PlayerHand();
    dealPlayer(tileBag, player1, MAX_TILES, p1Hand);
    dealPlayer(tileBag, player2, MAX_TILES, p2Hand);
 
@@ -310,7 +310,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
       {
          Tile *currTile = currentPlayer->getPlayerHand()->get(i);
-         std::cout << currTile->getLetter() << "-" << currTile->getValue() << " ";
+         std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
       }
       std::cout << "\n"
                 << std::endl;
@@ -359,7 +359,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
           */
       }
 
-      if (placements.size() != 0)
+      // If there are any placement
+      if (placements.size() != 0 && command == "place")
       {
          if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
          {
@@ -375,13 +376,27 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             }
          }
       }
+      else
+      {
+         // Swap Current Player After Turn has Ended
+         if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+         {
+            currentPlayer = player2;
+         }
+         else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+         {
+            currentPlayer = player1;
+         }
+      }
    }
+
    delete scrabbleBoard;
+   delete p1Hand;
+   delete p2Hand;
 }
 
-void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand* playerHand)
+void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand)
 {
-   std::cout << numTiles << std::endl;
    for (int i = 0; i < numTiles; i++)
    {
       Tile *newTile = tileBag->getNewTile();
@@ -395,6 +410,12 @@ void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand* play
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                 ScrabbleBoard *board, Player *player)
 {
+   /**
+    * TODO:
+    * - Get points from letters in existing word
+    * - Bingo
+    *
+    */
    bool retVal = false;
    int tilesNotHolding = 0;
 
@@ -451,8 +472,13 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
 
    // If player has put down any tiles they are not holding
    // they will have to redo their turn
-   if (tilesNotHolding > 0) {
+   if (tilesNotHolding > 0)
+   {
       retVal = false;
+   }
+
+   if (retVal && commands.size() == 7) {
+      std::cout << "BINGO!!!" << std::endl;
    }
 
    return retVal;
