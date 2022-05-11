@@ -27,6 +27,8 @@ public:
 
     Tile* get(int index);
 
+    Tile* findTile(char letter);
+
 private:
     Player*         player;
     LinkedList*     tiles;

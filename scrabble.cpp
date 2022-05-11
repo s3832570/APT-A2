@@ -125,7 +125,7 @@ bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
-void dealPlayer(TileBag *tileBag, Player *player);
+void dealPlayer(TileBag *tileBag, Player *player, int numTiles);
 
 int main(void)
 {
@@ -136,7 +136,6 @@ int main(void)
 
    // Load main menu
    mainMenu();
-   
 
    return EXIT_SUCCESS;
 }
@@ -289,8 +288,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    std::cout << "vector size: " << placements.size() << std::endl;
 
    // Deal players initial 7 tiles
-   dealPlayer(tileBag, player1);
-   dealPlayer(tileBag, player2);
+   dealPlayer(tileBag, player1, MAX_TILES);
+   dealPlayer(tileBag, player2, MAX_TILES);
 
    // While Tiles are still left in bag
    while (tileBag->getSize() != 0)
@@ -362,6 +361,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       {
          if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
          {
+            dealPlayer(tileBag, currentPlayer, placements.size());
             // Swap Current Player After Turn has Ended
             if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
             {
@@ -377,10 +377,10 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    delete scrabbleBoard;
 }
 
-void dealPlayer(TileBag *tileBag, Player *player)
+void dealPlayer(TileBag *tileBag, Player *player, int numTiles)
 {
    PlayerHand *playerHand = new PlayerHand();
-   for (int i = 0; i < MAX_TILES; i++)
+   for (int i = 0; i < numTiles; i++)
    {
       Tile *newTile = tileBag->getNewTile();
       playerHand->addTile(newTile);
@@ -394,46 +394,48 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                 ScrabbleBoard *board, Player *player)
 {
    bool retVal = false;
+   int tilesNotHolding = 0;
 
+   // If the placements of the tiles is legal, place tiles on board
    if (board->checkPlacement(commands))
    {
       for (std::string &command : commands)
       {
-         /**
-          * TODO:
-          * Make sure tile is placed next to an existing tile and word goes in right direction
-          * place A at A2
-          */
-         Tile *tileToPlace = nullptr;
-
-         std::string letter;
-         letter.push_back(command.at(6));
+         char letter = command.at(6);
          std::string coord = command.substr(11, 12);
 
-         // getting correct tile
-         for (int i = 0; i < playerHand->getSize(); i++)
+         // Finding nominated tile in players hand
+         Tile *tileToPlace = playerHand->findTile(letter);
+
+         // If the player has the tile they have nominated to put down
+         // place tile, otherwise illegal
+         if (tileToPlace != nullptr)
          {
-            if (playerHand->get(i)->getLetter() == letter.at(0))
+            // getting row
+            int row = board->findRow(coord.at(0));
+
+            // getting column
+            int col = coord.at(1) - '0';
+
+            // If there isn't already at tile at coordinate, then place tile
+            if (board->placeTile(tileToPlace, row, col) == false)
             {
-               tileToPlace = playerHand->get(i);
+               std::cout << "There is already a tile at " << coord << std::endl;
             }
-         }
-
-         // getting row
-         int row = board->findRow(coord.at(0));
-
-         // getting column
-         int col = coord.at(1) - '0';
-
-         if (board->placeTile(tileToPlace, row, col) == false)
-         {
-            std::cout << "There is already a tile at " << coord << std::endl;
+            else
+            {
+               player->setScore(player->getScore() + tileToPlace->getValue());
+               playerHand->removeTile(tileToPlace);
+               retVal = true;
+            }
          }
          else
          {
-            player->setScore(player->getScore() + tileToPlace->getValue());
-            playerHand->removeTile(tileToPlace);
-            retVal = true;
+            std::cout << "\n";
+            std::cout << "You do not have tile " << letter << std::endl;
+            std::cout << "\n";
+
+            tilesNotHolding++;
          }
       }
    }
@@ -442,6 +444,12 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
       std::cout << "\n";
       std::cout << "The placement of your tiles is not legal. Try again." << std::endl;
       std::cout << "\n";
+      retVal = false;
+   }
+
+   // If player has put down any tiles they are not holding
+   // they will have to redo their turn
+   if (tilesNotHolding > 0) {
       retVal = false;
    }
 
