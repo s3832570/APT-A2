@@ -120,7 +120,9 @@
 
 void mainMenu();
 void newGame();
+void loadGame();
 void viewCredits();
+Player* loadPlayer(std::ifstream& infile);
 bool containsOnlyLetters(std::string name);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
@@ -165,13 +167,12 @@ void mainMenu()
       {
          newGame();
       }
-      /**
-       * TODO:
-       * if (userMenuInput == 2) {
-       *
-       * }
-       *
-       */
+
+      if (userMenuInput == 2)
+      {
+         loadGame();
+      }
+   
       if (userMenuInput == 3)
       {
          viewCredits();
@@ -224,6 +225,48 @@ void newGame()
    std::cout << std::endl;
 
    playGame(tileBag, player1, player2);
+}
+
+void loadGame() 
+{
+   std::cout << "Enter the filenane for which to load a game! " << std::endl;
+   std::cout << "> ";
+   std::string fileName;
+   std::string test;
+
+   std::cin >> fileName;
+
+   std::ifstream file(fileName);
+
+   Player *playerOne = loadPlayer(file);
+   Player *playerTwo = loadPlayer(file);
+
+}
+
+// Load Player in - Format of Save Game must be exact
+Player* loadPlayer(std::ifstream& infile) {
+   std::string playerName;
+   std::string playerScore;
+   std::string playerTiles;
+   getline(infile, playerName);
+   getline(infile, playerScore);
+   getline(infile, playerTiles);
+   int score = stoi(playerScore);
+   Player *player = new Player(playerName);
+   PlayerHand *hand = new PlayerHand();
+   player->setScore(score);
+   int counter = 0;
+   for(char c : playerTiles) {
+      if(isalpha(c)) {
+         char charValue = playerTiles[counter+2];
+         int num = (int)charValue - 48;
+         Tile *tile = new Tile(c, num);
+         hand->addTile(tile);
+      }
+       counter = counter + 1;
+   }
+   player->setPlayerHand(hand);
+   return player;
 }
 
 void inputName(std::string *name)
