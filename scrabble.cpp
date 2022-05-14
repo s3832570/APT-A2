@@ -340,6 +340,10 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             std::cout << "  5. Quit Game: type 'quit'" << std::endl;
          }
 
+         if(command == "pass") {
+            turnIsDone = true;
+         }
+
          if(command == "replace") {
             char letter;
             // Geet Letter to be Removed from Player Hand
