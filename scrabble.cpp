@@ -340,6 +340,27 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             std::cout << "  5. Quit Game: type 'quit'" << std::endl;
          }
 
+         if(command == "replace") {
+            char letter;
+            // Geet Letter to be Removed from Player Hand
+            std::cin >> letter;
+
+            // Get Tile from Front of Tile Bag
+            Tile* frontTile = tileBag->getNewTile();
+
+            //Remove Tile from Tile Bag
+            tileBag->removeTile();
+
+            // Get tile to be replaced
+            Tile* replaceTile = currentPlayer->getPlayerHand()->findTile(letter);
+
+            //Remove Tile from Player Hand
+            currentPlayer->getPlayerHand()->removeTile(replaceTile);
+
+            // Add front tile from tile bag to player hand
+            currentPlayer->getPlayerHand()->addTile(frontTile);
+         }
+
          if (command == "place")
          {
             std::cin >> next;
