@@ -317,6 +317,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       std::cout << "\n"
                 << std::endl;
 
+      std::cout << "Play your Turn! or type 'HELP' for options " << std::endl;
+
       bool turnIsDone = false;
       std::string command;
       std::string next;
@@ -328,6 +330,15 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       {
          std::cout << "> ";
          std::cin >> command;
+
+         if((command == "Help") || (command == "HELP") || (command == "help")) {
+            std::cout << "You can play the following actions:" << std::endl;
+            std::cout << "  1. Place a tile: type 'place <LETTER> at <CO-ORDINATES>'" << std::endl;
+            std::cout << "  2. Replace a tile: type 'replace <LETTER>'" << std::endl;
+            std::cout << "  3. Pass your turn: type 'pass'" << std::endl;
+            std::cout << "  4. Save Game: type 'save <FILENAME>'" << std::endl;
+            std::cout << "  5. Quit Game: type 'quit'" << std::endl;
+         }
 
          if (command == "place")
          {
