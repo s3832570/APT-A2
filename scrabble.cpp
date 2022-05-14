@@ -330,11 +330,13 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       std::string coord;
       std::string saveName;
 
+      // PLAYERS TURN
       while (!(std::cin.eof()) && turnIsDone != true)
       {
          std::cout << "> ";
          std::cin >> command;
 
+         // HELP MENU
          if((command == "Help") || (command == "HELP") || (command == "help")) {
             std::cout << "You can play the following actions:" << std::endl;
             std::cout << "  1. Place a tile: type 'place <LETTER> at <CO-ORDINATES>'" << std::endl;
@@ -344,10 +346,13 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             std::cout << "  5. Quit Game: type 'quit'" << std::endl;
          }
 
+         // PASS TURN
          if(command == "pass") {
             pass = true;
             turnIsDone = true;
          }
+
+         // QUIT DURING TURN
          if(command == "quit") {
             std::cout << "" << std::endl;
              std::cout << "Goodbye!!" << std::endl;
@@ -355,6 +360,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             exit(0);
          }
 
+         // REPLACE TILE
          if(command == "replace") {
             char letter;
             // Geet Letter to be Removed from Player Hand
@@ -376,6 +382,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             currentPlayer->getPlayerHand()->addTile(frontTile);
          }
 
+         // PLACE TILE
          if (command == "place")
          {
             std::cin >> next;
@@ -413,13 +420,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
             std::cout << "Game successfully saved" << std::endl;
             std::cout << std::endl;
          }
-
-         /**
-          * user turn:
-          * place, replace, save, pass, quit
-          * user selects done (isDone = true)
-          * use currentPlayer attribute for player functions
-          */
       }
 
       // If there are any placement
