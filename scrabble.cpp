@@ -131,14 +131,7 @@ void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlaye
 
 int main(void)
 {
-   // LinkedList* list = new LinkedList();
-   // delete list;
-
-   // std::cout << "TODO: Implement Scrabble!" << std::endl;
-
-   // Load main menu
    mainMenu();
-
    return EXIT_SUCCESS;
 }
 
@@ -191,7 +184,7 @@ void mainMenu()
       }
    }
    std::cout << std::endl;
-   std::cout << "Goodbye" << std::endl;
+   std::cout << "Goodbye!" << std::endl;
 }
 
 void newGame()
@@ -264,10 +257,6 @@ void viewCredits()
    std::cout << "Name: Hien Tran" << std::endl;
    std::cout << "Student ID: s3783447" << std::endl;
    std::cout << "Email: s3783447@student.rmit.edu.au" << std::endl;
-   std::cout << std::endl;
-   std::cout << "Name: Alexander Perera" << std::endl;
-   std::cout << "Student ID: s3721805" << std::endl;
-   std::cout << "Email: s3721805@student.rmit.edu.au" << std::endl;
    std::cout << std::endl;
    std::cout << "Name: Lachlan Ward" << std::endl;
    std::cout << "Student ID: s3888736" << std::endl;
