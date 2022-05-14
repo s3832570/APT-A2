@@ -294,12 +294,15 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    PlayerHand *p2Hand = new PlayerHand();
    dealPlayer(tileBag, player1, MAX_TILES, p1Hand);
    dealPlayer(tileBag, player2, MAX_TILES, p2Hand);
+   bool pass = false;
 
    // While Tiles are still left in bag
-   while (!(std::cin.eof()) && tileBag->getSize() != 0)
+   while (!(std::cin.eof()) && tileBag->getSize() != 0 && ((currentPlayer->getPlayerHand()->getSize() != 0) || pass != true) )
    {
+      pass = false;
       placements.clear();
       // Output current player name and both players scores
+      std::cout << "" << std::endl;
       std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
       std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
       std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
@@ -308,7 +311,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
       scrabbleBoard->displayBoard();
 
       // Displaying players hand
-      std::cout << "Your hand is" << std::endl;
+       std::cout << "" << std::endl;
+      std::cout << "Your hand is: " << std::endl;
       for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
       {
          Tile *currTile = currentPlayer->getPlayerHand()->get(i);
@@ -341,7 +345,14 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
          }
 
          if(command == "pass") {
+            pass = true;
             turnIsDone = true;
+         }
+         if(command == "quit") {
+            std::cout << "" << std::endl;
+             std::cout << "Goodbye!!" << std::endl;
+             std::cout << "" << std::endl;
+            exit(0);
          }
 
          if(command == "replace") {
