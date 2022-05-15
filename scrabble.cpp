@@ -134,6 +134,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, Scrab
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand);
 void savePlayerData(std::ofstream& output, Player* player);
 void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer, ScrabbleBoard* scrabbleBoard);
+void displayGameResults(Player *player1, Player *player2);
 
 int main(void)
 {
@@ -381,13 +382,16 @@ void startGame(TileBag *tileBag, Player *player1, Player *player2) {
 
 void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *currentPlayer, ScrabbleBoard *scrabbleBoard)
 {
-   bool pass = false;
+   //bool pass = false;
+
    std::vector<std::string> placements;
 
    // While Tiles are still left in bag
-   while (!(std::cin.eof()) && tileBag->getSize() != 0 && ((currentPlayer->getPlayerHand()->getSize() != 0) || pass != true) )
+   //tileBag->getSize() != 0 && 
+   while (currentPlayer->getPlayerHand()->getSize() != 0)
    {
-      pass = false;
+      //pass = false;
+
       placements.clear();
       // Output current player name and both players scores
       std::cout << "" << std::endl;
@@ -436,7 +440,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
          // PASS TURN
          if(command == "pass") {
-            pass = true;
+            //pass = true;
             turnIsDone = true;
          }
 
@@ -515,7 +519,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       {
          if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
          {
-            dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
+            // If tileBag is not empty, deal tile(s) to player
+            if(tileBag->getSize() != 0) {
+               dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
+            }
+            
             // Swap Current Player After Turn has Ended
             if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
             {
@@ -540,6 +548,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          }
       }
    }
+   displayGameResults(player1, player2);
 
    delete scrabbleBoard;
 }
@@ -672,6 +681,7 @@ void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlaye
       }
    }
    output << currentPlayer->getName();
+   //output << tileBag->getSize();
    output.close();
 }
 
@@ -686,4 +696,25 @@ int getValue(char c) {
    }
    // int number = values[counter];
    return value;
+}
+
+void displayGameResults(Player *player1, Player *player2) 
+{
+   std::cout << std::endl;
+   std::cout << "Game over" << std::endl;
+   std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
+   std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
+
+   if (player1->getScore() >= player2->getScore()) 
+   {
+      std::cout << "Player " << player1->getName() << " won!" << std::endl;
+   }
+   else if (player1->getScore() <= player2->getScore())
+   {
+      std::cout << "Player " << player2->getName() << " won!" << std::endl;
+   }
+   else if (player1->getScore() == player2->getScore())
+   {
+      std::cout << "Draw! Both players have the same score." << std::endl;
+   }
 }
