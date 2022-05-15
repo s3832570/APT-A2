@@ -125,9 +125,11 @@ void viewCredits();
 Player* loadPlayer(std::ifstream& infile);
 ScrabbleBoard* loadBoard(std::ifstream& infile);
 bool containsOnlyLetters(std::string name);
+TileBag* loadTileBag(std::ifstream& infile);
+void startGame(TileBag *tileBag, Player *player1, Player *player2);
 int getValue(char c);
 void inputName(std::string *name);
-void playGame(TileBag *tileBag, Player *player1, Player *player2);
+void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *currentPlayer, ScrabbleBoard *scrabbleBoard);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand);
 void savePlayerData(std::ofstream& output, Player* player);
@@ -226,7 +228,7 @@ void newGame()
    std::cout << "Let's Play!" << std::endl;
    std::cout << std::endl;
 
-   playGame(tileBag, player1, player2);
+   startGame(tileBag, player1, player2);
 }
 
 void loadGame() 
@@ -235,18 +237,23 @@ void loadGame()
    std::cout << "> ";
    std::string fileName;
    std::string test;
-
    std::cin >> fileName;
    std::ifstream file(fileName);
+   Player *playerOne = loadPlayer(file);
+   Player *playerTwo = loadPlayer(file);
+   Player *currentPlayer;
+   ScrabbleBoard *board = loadBoard(file);
+   TileBag *bag = loadTileBag(file);
+   std::string currentPlayerName;
+   getline(file, currentPlayerName);
 
-   //Player *playerOne = loadPlayer(file);
-   //Player *playerTwo = loadPlayer(file);
-   // ScrabbleBoard *board = loadBoard(file);
-
-   loadPlayer(file);
-   loadPlayer(file);
-   std::cout <<"Load Board" << std::endl;
-   loadBoard(file);
+   if(currentPlayerName == playerOne->getName()) {
+      currentPlayer = playerOne;
+   }
+   else {
+      currentPlayer = playerTwo;
+   }
+   playGame(bag, playerOne, playerTwo, currentPlayer, board);
 }
 
 // Load Player in - Format of Save Game must be exact
@@ -295,8 +302,26 @@ ScrabbleBoard* loadBoard(std::ifstream& infile) {
          }
       }
    }
-   board->displayBoard();
    return board;
+}
+
+// Load TileBag - Format of Save Game must be exact
+TileBag* loadTileBag(std::ifstream& infile) {
+   TileBag *bag = new TileBag();
+   std::string tilebag;
+   getline(infile, tilebag);
+
+    int counter = 0;
+    for(char c : tilebag) {
+       if(isalpha(c)) {
+          char charValue = tilebag[counter+2];
+          int num = (int)charValue - 48;
+          Tile *tile = new Tile(c, num);
+          bag->addNewTile(tile);
+      }
+        counter = counter + 1;
+    }
+   return bag;
 }
 
 void inputName(std::string *name)
@@ -338,25 +363,26 @@ void viewCredits()
    std::cout << std::endl;
 }
 
-void playGame(TileBag *tileBag, Player *player1, Player *player2)
-{
+void startGame(TileBag *tileBag, Player *player1, Player *player2) {
    // Initalise Board
    ScrabbleBoard *scrabbleBoard = new ScrabbleBoard();
 
    // Initalise Current Player to Player 1
    Player *currentPlayer = player1;
 
-   // Collection of all placements for players turn
-   std::vector<std::string> placements;
-
-   std::cout << "vector size: " << placements.size() << std::endl;
-
    // Deal players initial 7 tiles
    PlayerHand *p1Hand = new PlayerHand();
    PlayerHand *p2Hand = new PlayerHand();
    dealPlayer(tileBag, player1, MAX_TILES, p1Hand);
    dealPlayer(tileBag, player2, MAX_TILES, p2Hand);
+
+   playGame(tileBag, player1, player2, currentPlayer, scrabbleBoard);
+}
+
+void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *currentPlayer, ScrabbleBoard *scrabbleBoard)
+{
    bool pass = false;
+   std::vector<std::string> placements;
 
    // While Tiles are still left in bag
    while (!(std::cin.eof()) && tileBag->getSize() != 0 && ((currentPlayer->getPlayerHand()->getSize() != 0) || pass != true) )
@@ -516,8 +542,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2)
    }
 
    delete scrabbleBoard;
-   delete p1Hand;
-   delete p2Hand;
 }
 
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand)
