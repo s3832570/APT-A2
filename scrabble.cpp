@@ -123,7 +123,9 @@ void newGame();
 void loadGame();
 void viewCredits();
 Player* loadPlayer(std::ifstream& infile);
+ScrabbleBoard* loadBoard(std::ifstream& infile);
 bool containsOnlyLetters(std::string name);
+int getValue(char c);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
@@ -235,12 +237,16 @@ void loadGame()
    std::string test;
 
    std::cin >> fileName;
-
    std::ifstream file(fileName);
 
-   Player *playerOne = loadPlayer(file);
-   Player *playerTwo = loadPlayer(file);
+   //Player *playerOne = loadPlayer(file);
+   //Player *playerTwo = loadPlayer(file);
+   // ScrabbleBoard *board = loadBoard(file);
 
+   loadPlayer(file);
+   loadPlayer(file);
+   std::cout <<"Load Board" << std::endl;
+   loadBoard(file);
 }
 
 // Load Player in - Format of Save Game must be exact
@@ -267,6 +273,30 @@ Player* loadPlayer(std::ifstream& infile) {
    }
    player->setPlayerHand(hand);
    return player;
+}
+
+// Load ScrabbleBoard - Format of Save Game must be exact
+ScrabbleBoard* loadBoard(std::ifstream& infile) {
+   ScrabbleBoard *board = new ScrabbleBoard();
+   int boardMaxLines = 18;
+   std::string lineContent;
+
+   for(int row = 0; row < boardMaxLines; ++row) {
+      int col = 0;
+      getline(infile, lineContent);
+      for(char c : lineContent) {
+         if(c == '|') {
+            ++col;
+         }
+         if(isalpha(c) && col > 0) {
+            int value = getValue(c);
+            Tile *tile = new Tile(c, value);
+            board->placeTile(tile, row-3, col -1);
+         }
+      }
+   }
+   board->displayBoard();
+   return board;
 }
 
 void inputName(std::string *name)
@@ -619,4 +649,17 @@ void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlaye
    }
    output << currentPlayer->getName();
    output.close();
+}
+
+int getValue(char c) {
+   char alphabet[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+   int values[26] = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+   int value = 0;
+   for(int i = 0; i < 26; ++i) {
+      if(c==alphabet[i]) {
+         value = values[i];
+      }
+   }
+   // int number = values[counter];
+   return value;
 }
