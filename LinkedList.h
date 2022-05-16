@@ -8,6 +8,7 @@ class LinkedList {
 public:
 
    LinkedList();
+   LinkedList(LinkedList& other);
    ~LinkedList();
 
    int getListSize();

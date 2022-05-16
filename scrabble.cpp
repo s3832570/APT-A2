@@ -11,7 +11,7 @@
 #include <sstream>
 
 #define COMMAND_STRING_LENGTH 12
-#define INT_OF_LETTER         6
+#define INT_OF_LETTER 6
 
 #define EXIT_SUCCESS 0
 
@@ -125,25 +125,19 @@
 void mainMenu();
 void newGame();
 void loadGame();
-void viewCredits();
 Player *loadPlayer(std::ifstream &infile);
 ScrabbleBoard *loadBoard(std::ifstream &infile);
-bool containsOnlyLetters(std::string name);
 TileBag *loadTileBag(std::ifstream &infile);
 void startGame(TileBag *tileBag, Player *player1, Player *player2);
 int getValue(char c);
-void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *currentPlayer, ScrabbleBoard *scrabbleBoard);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
-void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand);
-void savePlayerData(std::ofstream &output, Player *player);
-void saveGameState(std::ofstream &output, TileBag *tileBag, Player *currentPlayer, ScrabbleBoard *scrabbleBoard);
-void displayGameResults(Player *player1, Player *player2);
+bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHand);
 
-int main(void)
+    int main(void)
 {
    mainMenu();
-   
+
    return EXIT_SUCCESS;
 }
 
@@ -254,7 +248,8 @@ void loadGame()
    getline(file, currentPlayerName);
 
    std::cout << "Current player is: " << currentPlayerName << std::endl;
-   if(currentPlayerName == playerOne->getName()) {
+   if (currentPlayerName == playerOne->getName())
+   {
       currentPlayer = playerOne;
    }
    else
@@ -365,7 +360,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
    // bool pass = false;
 
    std::vector<std::string> placements;
-
 
    // While Tiles are still left in bag
    // tileBag->getSize() != 0 &&
@@ -565,7 +559,6 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
     *
     */
    bool retVal = false;
-   int tilesNotHolding = 0;
    // Points from letters that are already on board
    int extraPoints = 0;
    int *ptr = &extraPoints;
@@ -573,45 +566,37 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    // If the placements of the tiles is legal, place tiles on board
    if (board->checkPlacement(commands, ptr))
    {
-      for (std::string &command : commands)
+      if (checkPlayerHasTiles(commands, playerHand))
       {
-         char letter = command.at(INT_OF_LETTER);
-
-         // Finding nominated tile in players hand
-         Tile *tileToPlace = playerHand->findTile(letter);
-
-         // If the player has the tile they have nominated to put down
-         // place tile, otherwise illegal
-         if (tileToPlace != nullptr)
+         for (std::string &command : commands)
          {
-            // getting row
-            int row = board->findRow(getRowLetter(command));
+            char letter = command.at(INT_OF_LETTER);
 
-            // getting column
-            int col;
-            col = getCol(command);
-            
+            // Finding nominated tile in players hand
+            Tile *tileToPlace = playerHand->findTile(letter);
 
-            // If there isn't already at tile at coordinate, then place tile
-            if (board->placeTile(tileToPlace, row, col) == false)
-            {
-               std::cout << "There is already a tile at " << getRowLetter(command) << col << std::endl;
-            }
-            else
-            {
-               player->setScore(player->getScore() + tileToPlace->getValue());
-               playerHand->removeTile(tileToPlace);
-               retVal = true;
-            }
+               // getting row
+               int row = board->findRow(getRowLetter(command));
+
+               // getting column
+               int col;
+               col = getCol(command);
+
+               // If there isn't already at tile at coordinate, then place tile
+               if (board->placeTile(tileToPlace, row, col) == false)
+               {
+                  std::cout << "There is already a tile at " << getRowLetter(command) << col << std::endl;
+               }
+               else
+               {
+                  player->setScore(player->getScore() + tileToPlace->getValue());
+                  playerHand->removeTile(tileToPlace);
+                  retVal = true;
+               }
          }
-         else
-         {
-            std::cout << "\n";
-            std::cout << "You do not have tile " << letter << std::endl;
-            std::cout << "\n";
-
-            tilesNotHolding++;
-         }
+      } else {
+         std::cout << "\n";
+         std::cout << "A tile you tried to place is not in your hand. Try again." << std::endl;
       }
    }
    else
@@ -622,13 +607,6 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
       retVal = false;
    }
 
-   // If player has put down any tiles they are not holding
-   // they will have to redo their turn
-   if (tilesNotHolding > 0)
-   {
-      retVal = false;
-   }
-
    // Give the player points for words that are already on the board
    player->setScore(player->getScore() + extraPoints);
 
@@ -636,6 +614,39 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    {
       std::cout << "BINGO!!!" << std::endl;
       player->setScore(player->getScore() + 50);
+   }
+
+   return retVal;
+}
+
+bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHand)
+{
+   bool retVal = false;
+   int dontHave = 0;
+   PlayerHand* phCopy = new PlayerHand(*playerHand);
+
+   for (std::string &command : commands)
+   {
+      char letter = command.at(INT_OF_LETTER);
+
+      // Finding nominated tile in players hand
+      Tile *tileToPlace = phCopy->findTile(letter);
+
+      if (tileToPlace == nullptr)
+      {
+         dontHave++;
+      } else {
+         // Removing tile so that if there are two of the same letters, but 
+         // the player only has one, program won't accept the letter twice
+         // adding dummy tile so that findTile function still works
+         phCopy->removeTile(tileToPlace);
+         phCopy->addTileBack(new Tile(' ', 0));
+      }
+   }
+
+   if (dontHave == 0)
+   {
+      retVal = true;
    }
 
    return retVal;

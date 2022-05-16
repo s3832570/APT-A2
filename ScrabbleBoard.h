@@ -36,11 +36,9 @@ public:
 
    int findRow(char c);
 
-private:
+   void remove(int row, int col);
 
-   // Card* deck[MAXIMUM_DECK_SIZE];
-   // // Card** deck;
-   // int length;
+private:
 
    std::vector<std::vector<Tile*> > scrabbleBoard;
 

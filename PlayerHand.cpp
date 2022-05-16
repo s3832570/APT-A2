@@ -1,5 +1,7 @@
 #include "PlayerHand.h"
 
+#include <iostream>
+
 PlayerHand::PlayerHand()
 {
     tiles = new LinkedList();
@@ -12,8 +14,8 @@ PlayerHand::PlayerHand(Player *player)
 
 PlayerHand::PlayerHand(PlayerHand &other)
 {
-    PlayerHand *playerHand = new PlayerHand(other.player);
-    playerHand->tiles = other.tiles;
+    tiles = new LinkedList(*other.tiles);
+    player = other.player;
 }
 
 PlayerHand::~PlayerHand()
@@ -81,7 +83,7 @@ Tile *PlayerHand::findTile(char letter)
     Tile *foundTile = nullptr;
     int i = 0;
 
-    while (foundTile == nullptr && i < MAX_TILES)
+    while (foundTile == nullptr && i < MAX_TILES-1)
     {
         if (tiles->get(i)->tile->getLetter() == letter)
         {

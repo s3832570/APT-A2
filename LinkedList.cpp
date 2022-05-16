@@ -9,6 +9,18 @@ LinkedList::LinkedList()
    listSize = 0;
 }
 
+LinkedList::LinkedList(LinkedList &other)
+{
+   head = nullptr;
+   tail = nullptr;
+   listSize = 0;
+   for (int i = 0; i < other.getListSize(); ++i)
+   {
+      Tile* tile = new Tile(other.get(i)->tile->getLetter(), other.get(i)->tile->getValue());
+      addTileBack(tile);
+   }
+}
+
 LinkedList::~LinkedList() {}
 
 int LinkedList::getListSize()
