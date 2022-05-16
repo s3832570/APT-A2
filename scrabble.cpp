@@ -247,7 +247,7 @@ void loadGame()
    TileBag *bag = loadTileBag(file);
    std::string currentPlayerName;
    getline(file, currentPlayerName);
-
+   std::cout << "Current player is: " << currentPlayerName << std::endl;
    if(currentPlayerName == playerOne->getName()) {
       currentPlayer = playerOne;
    }
@@ -702,11 +702,11 @@ void displayGameResults(Player *player1, Player *player2)
    std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
    std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
 
-   if (player1->getScore() >= player2->getScore()) 
+   if (player1->getScore() > player2->getScore()) 
    {
       std::cout << "Player " << player1->getName() << " won!" << std::endl;
    }
-   else if (player1->getScore() <= player2->getScore())
+   else if (player1->getScore() < player2->getScore())
    {
       std::cout << "Player " << player2->getName() << " won!" << std::endl;
    }
