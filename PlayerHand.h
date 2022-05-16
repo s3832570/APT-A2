@@ -19,6 +19,8 @@ public:
 
     void addTile(Tile* tile);
 
+    void addAtIndex(Tile* tile, int index);
+
     void addTileBack(Tile* tile);
 
     Player* getPlayer();

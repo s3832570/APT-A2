@@ -7,6 +7,10 @@
 #include <regex>
 #include <vector>
 #include <fstream>
+#include <sstream>
+
+#define COMMAND_STRING_LENGTH 12
+#define INT_OF_LETTER         6
 
 #define EXIT_SUCCESS 0
 
@@ -121,18 +125,18 @@ void mainMenu();
 void newGame();
 void loadGame();
 void viewCredits();
-Player* loadPlayer(std::ifstream& infile);
-ScrabbleBoard* loadBoard(std::ifstream& infile);
+Player *loadPlayer(std::ifstream &infile);
+ScrabbleBoard *loadBoard(std::ifstream &infile);
 bool containsOnlyLetters(std::string name);
-TileBag* loadTileBag(std::ifstream& infile);
+TileBag *loadTileBag(std::ifstream &infile);
 void startGame(TileBag *tileBag, Player *player1, Player *player2);
 int getValue(char c);
 void inputName(std::string *name);
 void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *currentPlayer, ScrabbleBoard *scrabbleBoard);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand);
-void savePlayerData(std::ofstream& output, Player* player);
-void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer, ScrabbleBoard* scrabbleBoard);
+void savePlayerData(std::ofstream &output, Player *player);
+void saveGameState(std::ofstream &output, TileBag *tileBag, Player *currentPlayer, ScrabbleBoard *scrabbleBoard);
 void displayGameResults(Player *player1, Player *player2);
 
 int main(void)
@@ -176,7 +180,7 @@ void mainMenu()
       {
          loadGame();
       }
-   
+
       if (userMenuInput == 3)
       {
          viewCredits();
@@ -231,7 +235,7 @@ void newGame()
    startGame(tileBag, player1, player2);
 }
 
-void loadGame() 
+void loadGame()
 {
    std::cout << "Enter the filenane for which to load a game! " << std::endl;
    std::cout << "> ";
@@ -247,17 +251,20 @@ void loadGame()
    std::string currentPlayerName;
    getline(file, currentPlayerName);
 
-   if(currentPlayerName == playerOne->getName()) {
+   if (currentPlayerName == playerOne->getName())
+   {
       currentPlayer = playerOne;
    }
-   else {
+   else
+   {
       currentPlayer = playerTwo;
    }
    playGame(bag, playerOne, playerTwo, currentPlayer, board);
 }
 
 // Load Player in - Format of Save Game must be exact
-Player* loadPlayer(std::ifstream& infile) {
+Player *loadPlayer(std::ifstream &infile)
+{
    std::string playerName;
    std::string playerScore;
    std::string playerTiles;
@@ -269,36 +276,43 @@ Player* loadPlayer(std::ifstream& infile) {
    PlayerHand *hand = new PlayerHand();
    player->setScore(score);
    int counter = 0;
-   for(char c : playerTiles) {
-      if(isalpha(c)) {
-         char charValue = playerTiles[counter+2];
+   for (char c : playerTiles)
+   {
+      if (isalpha(c))
+      {
+         char charValue = playerTiles[counter + 2];
          int num = (int)charValue - 48;
          Tile *tile = new Tile(c, num);
          hand->addTile(tile);
       }
-       counter = counter + 1;
+      counter = counter + 1;
    }
    player->setPlayerHand(hand);
    return player;
 }
 
 // Load ScrabbleBoard - Format of Save Game must be exact
-ScrabbleBoard* loadBoard(std::ifstream& infile) {
+ScrabbleBoard *loadBoard(std::ifstream &infile)
+{
    ScrabbleBoard *board = new ScrabbleBoard();
    int boardMaxLines = 18;
    std::string lineContent;
 
-   for(int row = 0; row < boardMaxLines; ++row) {
+   for (int row = 0; row < boardMaxLines; ++row)
+   {
       int col = 0;
       getline(infile, lineContent);
-      for(char c : lineContent) {
-         if(c == '|') {
+      for (char c : lineContent)
+      {
+         if (c == '|')
+         {
             ++col;
          }
-         if(isalpha(c) && col > 0) {
+         if (isalpha(c) && col > 0)
+         {
             int value = getValue(c);
             Tile *tile = new Tile(c, value);
-            board->placeTile(tile, row-3, col -1);
+            board->placeTile(tile, row - 3, col - 1);
          }
       }
    }
@@ -306,21 +320,24 @@ ScrabbleBoard* loadBoard(std::ifstream& infile) {
 }
 
 // Load TileBag - Format of Save Game must be exact
-TileBag* loadTileBag(std::ifstream& infile) {
+TileBag *loadTileBag(std::ifstream &infile)
+{
    TileBag *bag = new TileBag();
    std::string tilebag;
    getline(infile, tilebag);
 
-    int counter = 0;
-    for(char c : tilebag) {
-       if(isalpha(c)) {
-          char charValue = tilebag[counter+2];
-          int num = (int)charValue - 48;
-          Tile *tile = new Tile(c, num);
-          bag->addNewTile(tile);
+   int counter = 0;
+   for (char c : tilebag)
+   {
+      if (isalpha(c))
+      {
+         char charValue = tilebag[counter + 2];
+         int num = (int)charValue - 48;
+         Tile *tile = new Tile(c, num);
+         bag->addNewTile(tile);
       }
-        counter = counter + 1;
-    }
+      counter = counter + 1;
+   }
    return bag;
 }
 
@@ -363,7 +380,8 @@ void viewCredits()
    std::cout << std::endl;
 }
 
-void startGame(TileBag *tileBag, Player *player1, Player *player2) {
+void startGame(TileBag *tileBag, Player *player1, Player *player2)
+{
    // Initalise Board
    ScrabbleBoard *scrabbleBoard = new ScrabbleBoard();
 
@@ -385,16 +403,13 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
    std::vector<std::string> placements;
 
+
    // While Tiles are still left in bag
    // tileBag->getSize() != 0 &&
    while (currentPlayer->getPlayerHand()->getSize() != 0)
    {
-<<<<<<< HEAD
-      // pass = false;
-
-=======
->>>>>>> fa6245c1f53924edb89f868eb8fac0b33b8d8764
       placements.clear();
+
       // Output current player name and both players scores
       std::cout << "" << std::endl;
       std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
@@ -531,7 +546,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             std::cout << "The command you have given is incorrect, try again." << std::endl;
          }
 
-
          // Clear the cin, start input again
          std::cin.clear();
          std::cin.ignore(100, '\n');
@@ -576,12 +590,12 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
    delete scrabbleBoard;
 }
 
-
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand)
 {
    for (int i = 0; i < numTiles; i++)
    {
-      if(tileBag->getSize() > 0) {
+      if (tileBag->getSize() > 0)
+      {
          Tile *newTile = tileBag->getNewTile();
          playerHand->addTile(newTile);
          tileBag->removeTile();
@@ -606,8 +620,15 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    {
       for (std::string &command : commands)
       {
-         char letter = command.at(6);
-         std::string coord = command.substr(11, 12);
+         char letter = command.at(INT_OF_LETTER);
+         std::string coord;
+         if (command.length() == COMMAND_STRING_LENGTH + 1) {
+            coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH + 1);
+         } else {
+            coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH);
+         }
+
+         std::cout << "here: " << coord << std::endl;
 
          // Finding nominated tile in players hand
          Tile *tileToPlace = playerHand->findTile(letter);
@@ -620,7 +641,14 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
             int row = board->findRow(coord.at(0));
 
             // getting column
-            int col = coord.at(1) - '0';
+            int col;
+            if (coord.length() == 3) {
+               std::stringstream colValue(coord.substr(1, 2));
+               colValue >> col;
+            } else {
+               col = coord.at(1) - '0';
+            }
+            
 
             // If there isn't already at tile at coordinate, then place tile
             if (board->placeTile(tileToPlace, row, col) == false)
@@ -659,7 +687,8 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
       retVal = false;
    }
 
-   if (retVal && commands.size() == 7) {
+   if (retVal && commands.size() == 7)
+   {
       std::cout << "BINGO!!!" << std::endl;
       player->setScore(player->getScore() + 50);
    }
@@ -667,7 +696,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    return retVal;
 }
 
-void savePlayerData(std::ofstream& output, Player* player) 
+void savePlayerData(std::ofstream &output, Player *player)
 {
    output << player->getName() << std::endl;
    output << player->getScore() << std::endl;
@@ -684,10 +713,10 @@ void savePlayerData(std::ofstream& output, Player* player)
          Tile *currTile = player->getPlayerHand()->get(i);
          output << currTile->getLetter() << "-" << currTile->getValue() << std::endl;
       }
-   } 
+   }
 }
 
-void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer, ScrabbleBoard* scrabbleBoard) 
+void saveGameState(std::ofstream &output, TileBag *tileBag, Player *currentPlayer, ScrabbleBoard *scrabbleBoard)
 {
    // Displays the board
    output << scrabbleBoard->saveState() << std::endl;
@@ -706,16 +735,19 @@ void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlaye
       }
    }
    output << currentPlayer->getName();
-   //output << tileBag->getSize();
+   // output << tileBag->getSize();
    output.close();
 }
 
-int getValue(char c) {
-   char alphabet[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-   int values[26] = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+int getValue(char c)
+{
+   char alphabet[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+   int values[26] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
    int value = 0;
-   for(int i = 0; i < 26; ++i) {
-      if(c==alphabet[i]) {
+   for (int i = 0; i < 26; ++i)
+   {
+      if (c == alphabet[i])
+      {
          value = values[i];
       }
    }
@@ -723,14 +755,14 @@ int getValue(char c) {
    return value;
 }
 
-void displayGameResults(Player *player1, Player *player2) 
+void displayGameResults(Player *player1, Player *player2)
 {
    std::cout << std::endl;
    std::cout << "---Game over---" << std::endl;
    std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
    std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
 
-   if (player1->getScore() >= player2->getScore()) 
+   if (player1->getScore() >= player2->getScore())
    {
       std::cout << "Player " << player1->getName() << " won!" << std::endl;
    }

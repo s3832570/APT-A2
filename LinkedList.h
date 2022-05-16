@@ -18,6 +18,7 @@ public:
    Node* get(int index);
    Node* getTileFront();
    void remove(int index);
+   void add(Tile* tile, int index);
    void shuffle();
    void printList();
 

@@ -16,37 +16,46 @@ int LinkedList::getListSize()
    return listSize;
 }
 
-void LinkedList::addTileFront(Tile* tile) {
-   Node* node = new Node(tile, head);
-   if(listSize == 0) {
-       head = node;
-       tail = node;
+void LinkedList::addTileFront(Tile *tile)
+{
+   Node *node = new Node(tile, head);
+   if (listSize == 0)
+   {
+      head = node;
+      tail = node;
    }
-   else {
-       head = node;
+   else
+   {
+      head = node;
    }
    ++listSize;
 }
 
-Node* LinkedList::getTileFront(){
+Node *LinkedList::getTileFront()
+{
    return head;
 }
 
-void LinkedList::addTileBack(Tile* tile) {
-   Node* node = new Node(tile, nullptr);
+void LinkedList::addTileBack(Tile *tile)
+{
+   Node *node = new Node(tile, nullptr);
 
-   if (tail != nullptr) {
+   if (tail != nullptr)
+   {
       tail->next = node;
       tail = node;
-   } else {
+   }
+   else
+   {
       tail = node;
       tail->next = nullptr;
    }
 
-   if (head == nullptr) {
+   if (head == nullptr)
+   {
       head = node;
    }
-   
+
    // node->next = nullptr;
    ++listSize;
 }
@@ -82,24 +91,60 @@ Node *LinkedList::get(int index)
    return node;
 }
 
-void LinkedList::remove(int index) {
-   if(head == nullptr) {
+void LinkedList::remove(int index)
+{
+   if (head == nullptr)
+   {
       return;
    }
    Node *node = head;
-   if(index == 0) {
+   if (index == 0)
+   {
       head = head->next;
-       --listSize;
+      --listSize;
       return;
    }
    for (int i = 0; node != NULL && i < index - 1; i++)
-        node = node->next;
+      node = node->next;
 
-   Node* next = node->next->next;
+   Node *next = node->next->next;
 
    node->next = next;
    --listSize;
+}
 
+void LinkedList::add(Tile *tile, int index)
+{
+   Node *node = head;
+
+   if (head == nullptr)
+   {
+      head = new Node(tile, nullptr);
+   }
+
+   else if (index == 0)
+   {
+      Node *next = head->next;
+      head = new Node(tile, next);
+      ++listSize;
+      return;
+   }
+   else
+   {
+      int count = 0;
+      if (head != nullptr)
+      {
+         while (count != index)
+         {
+            node = node->next;
+         }
+      }
+   }
+
+   Node *next = node->next;
+
+   node->next = new Node(tile, next);
+   ++listSize;
 }
 
 void LinkedList::shuffle()
@@ -113,12 +158,14 @@ void LinkedList::shuffle()
    }
 }
 
-void LinkedList::printList() {
-   //FOR TESTING PURPOSES
-   Node* current = head;
+void LinkedList::printList()
+{
+   // FOR TESTING PURPOSES
+   Node *current = head;
    std::cout << "List: " << std::endl;
-   while(current != nullptr) {
-      std::cout << "Letter: " << current->tile->getLetter() <<"     Value: " << current->tile->getValue() << std::endl;
+   while (current != nullptr)
+   {
+      std::cout << "Letter: " << current->tile->getLetter() << "     Value: " << current->tile->getValue() << std::endl;
       current = current->next;
    }
    std::cout << "List Size: " << getListSize() << std::endl;

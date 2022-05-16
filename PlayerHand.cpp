@@ -35,6 +35,10 @@ void PlayerHand::addTile(Tile *tile)
     // tiles->addTile(tile, index);
 }
 
+void PlayerHand::addAtIndex(Tile* tile, int index) {
+    tiles->add(tile, index);
+}
+
 void PlayerHand::addTileBack(Tile* tile) {
     tiles->addTileBack(tile);
 }
