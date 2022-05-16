@@ -19,6 +19,8 @@ public:
 
     void addTile(Tile* tile);
 
+    void addTileBack(Tile* tile);
+
     Player* getPlayer();
 
     void removeTile(Tile* tile);
@@ -28,6 +30,8 @@ public:
     Tile* get(int index);
 
     Tile* findTile(char letter);
+
+    int getTileIndex(Tile* tile);
 
 private:
     Player*         player;

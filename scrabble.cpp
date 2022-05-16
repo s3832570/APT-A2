@@ -1,4 +1,3 @@
-
 #include "LinkedList.h"
 #include "Player.h"
 #include "ScrabbleBoard.h"
@@ -134,6 +133,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, Scrab
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand);
 void savePlayerData(std::ofstream& output, Player* player);
 void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlayer, ScrabbleBoard* scrabbleBoard);
+void displayGameResults(Player *player1, Player *player2);
 
 int main(void)
 {
@@ -381,13 +381,16 @@ void startGame(TileBag *tileBag, Player *player1, Player *player2) {
 
 void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *currentPlayer, ScrabbleBoard *scrabbleBoard)
 {
-   bool pass = false;
+   // bool pass = false;
+
    std::vector<std::string> placements;
 
    // While Tiles are still left in bag
-   while (!(std::cin.eof()) && tileBag->getSize() != 0 && ((currentPlayer->getPlayerHand()->getSize() != 0) || pass != true) )
+   // tileBag->getSize() != 0 &&
+   while (currentPlayer->getPlayerHand()->getSize() != 0)
    {
-      pass = false;
+      // pass = false;
+
       placements.clear();
       // Output current player name and both players scores
       std::cout << "" << std::endl;
@@ -399,7 +402,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       scrabbleBoard->displayBoard();
 
       // Displaying players hand
-       std::cout << "" << std::endl;
+      std::cout << "" << std::endl;
       std::cout << "Your hand is: " << std::endl;
       for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
       {
@@ -421,11 +424,13 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       // PLAYERS TURN
       while (!(std::cin.eof()) && turnIsDone != true)
       {
+         command = "";
          std::cout << "> ";
          std::cin >> command;
 
          // HELP MENU
-         if((command == "Help") || (command == "HELP") || (command == "help")) {
+         if ((command == "Help") || (command == "HELP") || (command == "help"))
+         {
             std::cout << "You can play the following actions:" << std::endl;
             std::cout << "  1. Place a tile: type 'place <LETTER> at <CO-ORDINATES>'" << std::endl;
             std::cout << "  2. Replace a tile: type 'replace <LETTER>'" << std::endl;
@@ -435,43 +440,51 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          }
 
          // PASS TURN
-         if(command == "pass") {
-            pass = true;
+         else if (command == "pass")
+         {
+            // pass = true;
             turnIsDone = true;
          }
 
          // QUIT DURING TURN
-         if(command == "quit") {
+         else if (command == "quit")
+         {
             std::cout << "" << std::endl;
-             std::cout << "Goodbye!!" << std::endl;
-             std::cout << "" << std::endl;
+            std::cout << "Goodbye!!" << std::endl;
+            std::cout << "" << std::endl;
             exit(0);
          }
 
          // REPLACE TILE
-         if(command == "replace") {
+         else if (command == "replace")
+         {
             char letter;
             // Geet Letter to be Removed from Player Hand
             std::cin >> letter;
 
             // Get Tile from Front of Tile Bag
-            Tile* frontTile = tileBag->getNewTile();
+            Tile *frontTile = tileBag->getNewTile();
 
-            //Remove Tile from Tile Bag
+            // Remove Tile from Tile Bag
             tileBag->removeTile();
 
             // Get tile to be replaced
-            Tile* replaceTile = currentPlayer->getPlayerHand()->findTile(letter);
+            Tile *replaceTile = currentPlayer->getPlayerHand()->findTile(letter);
 
-            //Remove Tile from Player Hand
+            // int index = currentPlayer->getPlayerHand()->getTileIndex(replaceTile);
+
+            // Remove Tile from Player Hand
             currentPlayer->getPlayerHand()->removeTile(replaceTile);
 
             // Add front tile from tile bag to player hand
             currentPlayer->getPlayerHand()->addTile(frontTile);
+
+            // Next players turn
+            turnIsDone = true;
          }
 
          // PLACE TILE
-         if (command == "place")
+         else if (command == "place")
          {
             std::cin >> next;
 
@@ -496,10 +509,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             }
          }
 
-         if (!(std::cin.eof()) && command == "save") 
+         // SAVE GAME
+         else if (!(std::cin.eof()) && command == "save")
          {
             std::cin >> saveName;
-            std::ofstream output(saveName += ".txt",std::ofstream::trunc);
+            std::ofstream output(saveName += ".txt", std::ofstream::trunc);
             savePlayerData(output, player1);
             savePlayerData(output, player2);
             saveGameState(output, tileBag, currentPlayer, scrabbleBoard);
@@ -508,6 +522,16 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             std::cout << "Game successfully saved" << std::endl;
             std::cout << std::endl;
          }
+
+         else if (command != "")
+         {
+            std::cout << "The command you have given is incorrect, try again." << std::endl;
+         }
+
+
+         // Clear the cin, start input again
+         std::cin.clear();
+         std::cin.ignore(100, '\n');
       }
 
       // If there are any placement
@@ -515,7 +539,12 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       {
          if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
          {
-            dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
+            // If tileBag is not empty, deal tile(s) to player
+            if (tileBag->getSize() != 0)
+            {
+               dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
+            }
+
             // Swap Current Player After Turn has Ended
             if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
             {
@@ -540,19 +569,22 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          }
       }
    }
+   displayGameResults(player1, player2);
 
    delete scrabbleBoard;
 }
+
 
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand)
 {
    for (int i = 0; i < numTiles; i++)
    {
-      Tile *newTile = tileBag->getNewTile();
-      playerHand->addTile(newTile);
-      tileBag->removeTile();
+      if(tileBag->getSize() > 0) {
+         Tile *newTile = tileBag->getNewTile();
+         playerHand->addTile(newTile);
+         tileBag->removeTile();
+      };
    }
-
    player->setPlayerHand(playerHand);
 }
 
@@ -672,6 +704,7 @@ void saveGameState(std::ofstream& output, TileBag* tileBag, Player* currentPlaye
       }
    }
    output << currentPlayer->getName();
+   //output << tileBag->getSize();
    output.close();
 }
 
@@ -686,4 +719,25 @@ int getValue(char c) {
    }
    // int number = values[counter];
    return value;
+}
+
+void displayGameResults(Player *player1, Player *player2) 
+{
+   std::cout << std::endl;
+   std::cout << "---Game over---" << std::endl;
+   std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
+   std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
+
+   if (player1->getScore() >= player2->getScore()) 
+   {
+      std::cout << "Player " << player1->getName() << " won!" << std::endl;
+   }
+   else if (player1->getScore() <= player2->getScore())
+   {
+      std::cout << "Player " << player2->getName() << " won!" << std::endl;
+   }
+   else if (player1->getScore() == player2->getScore())
+   {
+      std::cout << "Draw! Both players have the same score." << std::endl;
+   }
 }
