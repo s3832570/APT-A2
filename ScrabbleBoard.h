@@ -32,7 +32,7 @@ public:
 
    std::string saveState();
 
-   bool checkPlacement(std::vector<std::string> coords);
+   bool checkPlacement(std::vector<std::string> coords, int* points);
 
    int findRow(char c);
 

@@ -143,6 +143,7 @@ void displayGameResults(Player *player1, Player *player2);
 int main(void)
 {
    mainMenu();
+   
    return EXIT_SUCCESS;
 }
 
@@ -311,7 +312,7 @@ ScrabbleBoard *loadBoard(std::ifstream &infile)
          }
          if (isalpha(c) && col > 0)
          {
-            int value = board->findRow(c);
+            int value = getValue(c);
             Tile *tile = new Tile(c, value);
             board->placeTile(tile, row - 3, col - 1);
          }
@@ -565,9 +566,12 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
     */
    bool retVal = false;
    int tilesNotHolding = 0;
+   // Points from letters that are already on board
+   int extraPoints = 0;
+   int *ptr = &extraPoints;
 
    // If the placements of the tiles is legal, place tiles on board
-   if (board->checkPlacement(commands))
+   if (board->checkPlacement(commands, ptr))
    {
       for (std::string &command : commands)
       {
@@ -578,8 +582,6 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
          } else {
             coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH);
          }
-
-         std::cout << "here: " << coord << std::endl;
 
          // Finding nominated tile in players hand
          Tile *tileToPlace = playerHand->findTile(letter);
@@ -638,6 +640,9 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
       retVal = false;
    }
 
+   // Give the player points for words that are already on the board
+   player->setScore(player->getScore() + extraPoints);
+
    if (retVal && commands.size() == 7)
    {
       std::cout << "BINGO!!!" << std::endl;
@@ -645,20 +650,4 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    }
 
    return retVal;
-}
-
-int getValue(char c)
-{
-   char alphabet[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-   int values[26] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
-   int value = 0;
-   for (int i = 0; i < 26; ++i)
-   {
-      if (c == alphabet[i])
-      {
-         value = values[i];
-      }
-   }
-   // int number = values[counter];
-   return value;
 }

@@ -1,7 +1,4 @@
 #include "utils.h"
-#include "Player.h"
-#include "ScrabbleBoard.h"
-#include "TileBag.h"
 
 #include <iostream>
 #include <regex>
@@ -123,4 +120,20 @@ void displayGameResults(Player *player1, Player *player2)
    {
       std::cout << "Draw! Both players have the same score." << std::endl;
    }
+}
+
+int getValue(char c)
+{
+   char alphabet[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+   int values[26] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
+   int value = 0;
+   for (int i = 0; i < 26; ++i)
+   {
+      if (c == alphabet[i])
+      {
+         value = values[i];
+      }
+   }
+   // int number = values[counter];
+   return value;
 }
