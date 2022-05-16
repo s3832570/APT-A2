@@ -390,8 +390,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
    //tileBag->getSize() != 0 && 
    while (currentPlayer->getPlayerHand()->getSize() != 0)
    {
-      //pass = false;
-
       placements.clear();
       // Output current player name and both players scores
       std::cout << "" << std::endl;
@@ -440,7 +438,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
          // PASS TURN
          if(command == "pass") {
-            //pass = true;
             turnIsDone = true;
          }
 
@@ -513,7 +510,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             std::cout << std::endl;
          }
       }
-
       // If there are any placement
       if (placements.size() != 0 && command == "place")
       {
@@ -557,11 +553,12 @@ void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *play
 {
    for (int i = 0; i < numTiles; i++)
    {
-      Tile *newTile = tileBag->getNewTile();
-      playerHand->addTile(newTile);
-      tileBag->removeTile();
+      if(tileBag->getSize() > 0) {
+         Tile *newTile = tileBag->getNewTile();
+         playerHand->addTile(newTile);
+         tileBag->removeTile();
+      };
    }
-
    player->setPlayerHand(playerHand);
 }
 
@@ -701,7 +698,7 @@ int getValue(char c) {
 void displayGameResults(Player *player1, Player *player2) 
 {
    std::cout << std::endl;
-   std::cout << "Game over" << std::endl;
+   std::cout << "---Game over---" << std::endl;
    std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
    std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
 
