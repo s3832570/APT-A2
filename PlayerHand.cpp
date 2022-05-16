@@ -32,6 +32,11 @@ PlayerHand::~PlayerHand()
 void PlayerHand::addTile(Tile *tile)
 {
     tiles->addTileBack(tile);
+    // tiles->addTile(tile, index);
+}
+
+void PlayerHand::addTileBack(Tile* tile) {
+    tiles->addTileBack(tile);
 }
 
 Player *PlayerHand::getPlayer()
@@ -85,4 +90,24 @@ Tile *PlayerHand::findTile(char letter)
     }
 
     return foundTile;
+}
+
+int PlayerHand::getTileIndex(Tile* tile)
+{
+    Tile *foundTile = nullptr;
+    int i = 0;
+
+    while (foundTile == nullptr && i < MAX_TILES)
+    {
+        if (tiles->get(i)->tile->getLetter() == tile->getLetter())
+        {
+            foundTile = tiles->get(i)->tile;
+        }
+        else
+        {
+            i++;
+        }
+    }
+
+    return i;
 }
