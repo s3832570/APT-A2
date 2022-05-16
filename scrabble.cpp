@@ -133,8 +133,9 @@ int getValue(char c);
 void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *currentPlayer, ScrabbleBoard *scrabbleBoard);
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
 bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHand);
+bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2);
 
-    int main(void)
+int main(void)
 {
    mainMenu();
 
@@ -361,9 +362,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
    std::vector<std::string> placements;
 
-   // While Tiles are still left in bag
-   // tileBag->getSize() != 0 &&
-   while (currentPlayer->getPlayerHand()->getSize() != 0)
+   // While not end of file and game is not endable
+   while (!(std::cin.eof()) && (!gameIsEndable(tileBag, player1, player2)))
    {
       placements.clear();
 
@@ -419,7 +419,19 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          else if (command == "pass")
          {
             turnIsDone = true;
+
+            // Increment passTotal by 1 for currentPlayer if they pass while tileBag is empty
+            if (tileBag->getSize() == 0) 
+            {
+               currentPlayer->setPassTotal(currentPlayer->getPassTotal() +  1);
+            }
+            // Consecutive passes stay at 1 for players if tileBag is not empty
+            else
+            {
+               currentPlayer->setPassTotal(1);
+            }
          }
+
 
          // QUIT DURING TURN
          else if (command == "quit")
@@ -519,6 +531,13 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             if (tileBag->getSize() != 0)
             {
                dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
+            }
+
+            // Reset consecutive passes back to 0 for both players if passTotal of current player that makes a placement is 1
+            if (currentPlayer->getPassTotal() == 1) 
+            {
+               player1->setPassTotal(0);
+               player2->setPassTotal(0);
             }
 
             // Swap Current Player After Turn has Ended
@@ -646,4 +665,30 @@ bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHa
    }
 
    return retVal;
+}
+
+bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2)
+{
+   bool endGame = false;
+
+   // If tileBag is empty and...
+   if (tileBag->getSize() == 0)
+   {
+      // ...if either player hand's are empty, then return endGame is true
+      if (player1->getPlayerHand()->getSize() == 0 || player2->getPlayerHand()->getSize() == 0)
+      {
+         endGame = true;
+      }
+      // else if both players passed once one after the other, then return endGame is true
+      else if (player1->getPassTotal() == 1 && player2->getPassTotal() == 1)
+      {
+         endGame = true;
+      }
+      // else if either players passed twice in a row, then return endGame is true
+      else if (player1->getPassTotal() == 2 || player2->getPassTotal() == 2)
+      {
+         endGame = true;
+      }
+   }
+   return endGame;
 }

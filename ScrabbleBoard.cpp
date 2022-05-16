@@ -65,10 +65,10 @@ void ScrabbleBoard::displayBoard()
 
    char coord = 'A';
 
-   for (int i = 0; i < scrabbleBoard.size(); i++)
+   for (int i = 0; i < int(scrabbleBoard.size()); i++)
    {
       std::cout << coord;
-      for (int j = 0; j < scrabbleBoard[i].size(); j++)
+      for (int j = 0; j < int(scrabbleBoard[i].size()); j++)
       {
          std::cout << scrabbleBoard[i][j]->getLetter() << " | ";
       }
@@ -86,10 +86,10 @@ std::string ScrabbleBoard::saveState() {
 
    char coord = 'A';
 
-   for (int i = 0; i < scrabbleBoard.size(); i++)
+   for (int i = 0; i < int(scrabbleBoard.size()); i++)
    {
       save = save + coord;
-      for (int j = 0; j < scrabbleBoard[i].size(); j++)
+      for (int j = 0; j < int(scrabbleBoard[i].size()); j++)
       {
          save = save + scrabbleBoard[i][j]->getLetter() + " | ";
       }
@@ -146,7 +146,7 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
 
    // if all of the coordinates are in a line either horizontally or verticlly
    // return true, otherwise placement is illegal
-   if (sameRow == coords.size() || sameCol == coords.size())
+   if (sameRow == int(coords.size()) || sameCol == int(coords.size()))
    {
       retVal = true;
    }

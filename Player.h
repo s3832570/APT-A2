@@ -23,10 +23,15 @@ public:
 
     void setPlayerHand(PlayerHand* playerHand);
 
+    int getPassTotal();
+
+    void setPassTotal(int passTotal);
+
 private:
     std::string     name;
     int             score;
     PlayerHand*     playerHand;
+    int             passTotal;
 };
 
 #endif // ASSIGN2_PLAYER_H
