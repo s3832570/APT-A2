@@ -41,3 +41,13 @@ PlayerHand* Player::getPlayerHand()
 {
     return this->playerHand;
 }
+
+int Player::getPassTotal()
+{
+    return passTotal;
+}
+
+void Player::setPassTotal(int passTotal) 
+{
+    this->passTotal = passTotal;
+}
