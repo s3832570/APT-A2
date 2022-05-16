@@ -452,7 +452,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          // REPLACE TILE
          if(command == "replace") {
             char letter;
-            // Geet Letter to be Removed from Player Hand
+            // Get Letter to be Removed from Player Hand
             std::cin >> letter;
 
             // Get Tile from Front of Tile Bag
