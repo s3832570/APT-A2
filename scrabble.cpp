@@ -250,9 +250,14 @@ void loadGame()
    TileBag *bag = loadTileBag(file);
    std::string currentPlayerName;
    getline(file, currentPlayerName);
+<<<<<<< HEAD
 
    if (currentPlayerName == playerOne->getName())
    {
+=======
+   std::cout << "Current player is: " << currentPlayerName << std::endl;
+   if(currentPlayerName == playerOne->getName()) {
+>>>>>>> 797daaaec6d58663ad4a3e4d4b3997e041468b6c
       currentPlayer = playerOne;
    }
    else
@@ -477,7 +482,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          else if (command == "replace")
          {
             char letter;
-            // Geet Letter to be Removed from Player Hand
+            // Get Letter to be Removed from Player Hand
             std::cin >> letter;
 
             // Get Tile from Front of Tile Bag
@@ -496,6 +501,9 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
             // Add front tile from tile bag to player hand
             currentPlayer->getPlayerHand()->addTile(frontTile);
+
+            // Place replaced tile in back of tilebag
+            tileBag->addNewTile(frontTile);
 
             // Next players turn
             turnIsDone = true;
@@ -762,11 +770,12 @@ void displayGameResults(Player *player1, Player *player2)
    std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
    std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
 
-   if (player1->getScore() >= player2->getScore())
+
+   if (player1->getScore() > player2->getScore()) 
    {
       std::cout << "Player " << player1->getName() << " won!" << std::endl;
    }
-   else if (player1->getScore() <= player2->getScore())
+   else if (player1->getScore() < player2->getScore())
    {
       std::cout << "Player " << player2->getName() << " won!" << std::endl;
    }
