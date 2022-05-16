@@ -138,7 +138,7 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
       {
          firstCoord = coord;
          row = findRow(coord.at(0));
-         col = coord.at(1) - '0';
+         col = getCol(c);
          sameRow++;
          sameCol++;
       }
@@ -159,7 +159,7 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
       {
          std::string coord = c.substr(11, 12);
          row = findRow(coord.at(0));
-         col = (coord.at(1) - '0') + 1;
+         col = getCol(c);
 
          // checking the surroundings of each tile placed
          // to make sure the word connects with an
@@ -167,25 +167,21 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
          if (scrabbleBoard[row][col + 1]->getLetter() != ' ')
          {
             p = p + getValue(scrabbleBoard[row][col + 1]->getLetter());
-            // std::cout << "Found surrounding" << std::endl;
             retVal = true;
          }
          else if (scrabbleBoard[row][col - 1]->getLetter() != ' ')
          {
             p = p + getValue(scrabbleBoard[row][col - 1]->getLetter());
-            // std::cout << "Found surrounding" << std::endl;
             retVal = true;
          }
          else if (scrabbleBoard[row + 1][col]->getLetter() != ' ')
          {
             p = p + getValue(scrabbleBoard[row + 1][col]->getLetter());
-            // std::cout << "Found surrounding" << std::endl;
             retVal = true;
          }
          else if (scrabbleBoard[row - 1][col]->getLetter() != ' ')
          {
             p = p + getValue(scrabbleBoard[row - 1][col]->getLetter());
-            // std::cout << "Found surrounding" << std::endl;
             retVal = true;
          }
       }

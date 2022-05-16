@@ -5,6 +5,9 @@
 #include "ScrabbleBoard.h"
 #include "TileBag.h"
 
+#define COMMAND_STRING_LENGTH 12
+#define INDEX_OF_ROW          11         
+
 #include <iostream>
 
 void viewCredits();
@@ -16,5 +19,7 @@ void saveGameState(std::ofstream &output, TileBag *tileBag, Player *currentPlaye
 void savePlayerData(std::ofstream &output, Player *player);
 void displayGameResults(Player *player1, Player *player2);
 int getValue(char c);
+int getCol(std::string command);
+char getRowLetter(std::string command);
 
 #endif // UTILS_H

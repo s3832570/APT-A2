@@ -576,12 +576,6 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
       for (std::string &command : commands)
       {
          char letter = command.at(INT_OF_LETTER);
-         std::string coord;
-         if (command.length() == COMMAND_STRING_LENGTH + 1) {
-            coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH + 1);
-         } else {
-            coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH);
-         }
 
          // Finding nominated tile in players hand
          Tile *tileToPlace = playerHand->findTile(letter);
@@ -591,22 +585,17 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
          if (tileToPlace != nullptr)
          {
             // getting row
-            int row = board->findRow(coord.at(0));
+            int row = board->findRow(getRowLetter(command));
 
             // getting column
             int col;
-            if (coord.length() == 3) {
-               std::stringstream colValue(coord.substr(1, 2));
-               colValue >> col;
-            } else {
-               col = coord.at(1) - '0';
-            }
+            col = getCol(command);
             
 
             // If there isn't already at tile at coordinate, then place tile
             if (board->placeTile(tileToPlace, row, col) == false)
             {
-               std::cout << "There is already a tile at " << coord << std::endl;
+               std::cout << "There is already a tile at " << getRowLetter(command) << col << std::endl;
             }
             else
             {
