@@ -21,5 +21,6 @@ void displayGameResults(Player *player1, Player *player2);
 int getValue(char c);
 int getCol(std::string command);
 char getRowLetter(std::string command);
+bool checkPlaceTiles(Tile *tile, int row, int col);
 
 #endif // UTILS_H

@@ -16,7 +16,7 @@ LinkedList::LinkedList(LinkedList &other)
    listSize = 0;
    for (int i = 0; i < other.getListSize(); ++i)
    {
-      Tile* tile = new Tile(other.get(i)->tile->getLetter(), other.get(i)->tile->getValue());
+      Tile *tile = new Tile(other.get(i)->tile->getLetter(), other.get(i)->tile->getValue());
       addTileBack(tile);
    }
 }
@@ -50,25 +50,24 @@ Node *LinkedList::getTileFront()
 
 void LinkedList::addTileBack(Tile *tile)
 {
-   Node *node = new Node(tile, nullptr);
-
-   if (tail != nullptr)
-   {
-      tail->next = node;
-      tail = node;
-   }
-   else
-   {
-      tail = node;
-      tail->next = nullptr;
-   }
+   Node *node = new Node();
+   node->tile = tile;
+   node->next = nullptr;
 
    if (head == nullptr)
    {
       head = node;
    }
+   else
+   {
+      Node *current = head;
+      while (current->next != nullptr)
+      {
+         current = current->next;
+      }
+      current->next = node;
+   }
 
-   // node->next = nullptr;
    ++listSize;
 }
 
@@ -89,17 +88,18 @@ void LinkedList::removeTileFront()
 Node *LinkedList::get(int index)
 {
    Node *node = nullptr;
-   if (index >= 0 && index < listSize)
+   if (index >= 0 && index <= listSize)
    {
       int count = 0;
       Node *current = head;
       while (count != index)
       {
-         ++count;
          current = current->next;
+         count++;
       }
       node = current;
    }
+
    return node;
 }
 
@@ -157,28 +157,4 @@ void LinkedList::add(Tile *tile, int index)
 
    node->next = new Node(tile, next);
    ++listSize;
-}
-
-void LinkedList::shuffle()
-{
-   srand(100);
-   for (int i = 0; i < listSize; i++)
-   {
-      int randNum = std::rand() % listSize;
-      this->addTileBack(get(randNum)->tile);
-      this->remove(randNum);
-   }
-}
-
-void LinkedList::printList()
-{
-   // FOR TESTING PURPOSES
-   Node *current = head;
-   std::cout << "List: " << std::endl;
-   while (current != nullptr)
-   {
-      std::cout << "Letter: " << current->tile->getLetter() << "     Value: " << current->tile->getValue() << std::endl;
-      current = current->next;
-   }
-   std::cout << "List Size: " << getListSize() << std::endl;
 }

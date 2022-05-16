@@ -379,7 +379,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       // Displaying players hand
       std::cout << "" << std::endl;
       std::cout << "Your hand is: " << std::endl;
-      for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
+      for (int i = 0; i < MAX_TILES; i++)
       {
          Tile *currTile = currentPlayer->getPlayerHand()->get(i);
          std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
@@ -553,11 +553,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                 ScrabbleBoard *board, Player *player)
 {
-   /**
-    * TODO:
-    * - Get points from letters in existing word
-    *
-    */
    bool retVal = false;
    // Points from letters that are already on board
    int extraPoints = 0;
@@ -586,6 +581,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                if (board->placeTile(tileToPlace, row, col) == false)
                {
                   std::cout << "There is already a tile at " << getRowLetter(command) << col << std::endl;
+                  retVal = false;
                }
                else
                {

@@ -170,3 +170,19 @@ char getRowLetter(std::string command) {
 
     return c;
 }
+
+// bool checkPlaceTiles(ScarbbleBoard board, std::vector<std::string> commands) {
+//     bool retVal = false;
+
+//     for (std::string &command : commands)
+//          {
+//             char letter = command.at(INT_OF_LETTER);
+
+//             // Finding nominated tile in players hand
+//             Tile *tileToPlace = playerHand->findTile(letter);
+//             int row = int row = board->findRow(getRowLetter(command));
+//          }
+
+
+//    return retVal;
+// }

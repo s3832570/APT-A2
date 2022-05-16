@@ -151,6 +151,8 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
       retVal = true;
    }
 
+   std::cout << "getting here" << std::endl;
+
    // if the board isn't empty, make sure new word connects with existing word
    if (!boardEmpty && retVal)
    {
@@ -159,7 +161,7 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
       {
          std::string coord = c.substr(11, 12);
          row = findRow(coord.at(0));
-         col = getCol(c);
+         col = getCol(c)+1;
 
          // checking the surroundings of each tile placed
          // to make sure the word connects with an
@@ -169,17 +171,19 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
             p = p + getValue(scrabbleBoard[row][col + 1]->getLetter());
             retVal = true;
          }
-         else if (scrabbleBoard[row][col - 1]->getLetter() != ' ')
+         else if (scrabbleBoard[row][col - 1]->getLetter() != ' ' && col > 0)
          {
-            p = p + getValue(scrabbleBoard[row][col - 1]->getLetter());
-            retVal = true;
+            if (scrabbleBoard[row][col - 1]->getLetter() != ' ') {
+               p = p + getValue(scrabbleBoard[row][col - 1]->getLetter());
+               retVal = true;
+            }
          }
          else if (scrabbleBoard[row + 1][col]->getLetter() != ' ')
          {
             p = p + getValue(scrabbleBoard[row + 1][col]->getLetter());
             retVal = true;
          }
-         else if (scrabbleBoard[row - 1][col]->getLetter() != ' ')
+         else if (scrabbleBoard[row - 1][col]->getLetter() != ' ' && row > 0)
          {
             p = p + getValue(scrabbleBoard[row - 1][col]->getLetter());
             retVal = true;
