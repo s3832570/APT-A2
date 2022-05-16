@@ -6,7 +6,8 @@
 #include "TileBag.h"
 
 #define COMMAND_STRING_LENGTH 12
-#define INDEX_OF_ROW          11         
+#define INDEX_OF_ROW          11   
+#define INT_OF_LETTER         6      
 
 #include <iostream>
 
@@ -21,6 +22,6 @@ void displayGameResults(Player *player1, Player *player2);
 int getValue(char c);
 int getCol(std::string command);
 char getRowLetter(std::string command);
-bool checkPlaceTiles(Tile *tile, int row, int col);
+bool checkPlaceTiles(ScrabbleBoard* board, std::vector<std::string> commands, PlayerHand *playerHand);
 
 #endif // UTILS_H

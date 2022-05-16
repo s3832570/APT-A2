@@ -38,6 +38,8 @@ public:
 
    void remove(int row, int col);
 
+   std::vector<std::vector<Tile*> > getBoard();
+
 private:
 
    std::vector<std::vector<Tile*> > scrabbleBoard;

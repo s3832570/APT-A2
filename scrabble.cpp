@@ -134,7 +134,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands, ScrabbleBoard *board, Player *player);
 bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHand);
 
-    int main(void)
+int main(void)
 {
    mainMenu();
 
@@ -563,12 +563,14 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    {
       if (checkPlayerHasTiles(commands, playerHand))
       {
-         for (std::string &command : commands)
+         if (checkPlaceTiles(board, commands, playerHand))
          {
-            char letter = command.at(INT_OF_LETTER);
+            for (std::string &command : commands)
+            {
+               char letter = command.at(INT_OF_LETTER);
 
-            // Finding nominated tile in players hand
-            Tile *tileToPlace = playerHand->findTile(letter);
+               // Finding nominated tile in players hand
+               Tile *tileToPlace = playerHand->findTile(letter);
 
                // getting row
                int row = board->findRow(getRowLetter(command));
@@ -577,20 +579,22 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                int col;
                col = getCol(command);
 
+               board->placeTile(tileToPlace, row, col);
+
                // If there isn't already at tile at coordinate, then place tile
-               if (board->placeTile(tileToPlace, row, col) == false)
-               {
-                  std::cout << "There is already a tile at " << getRowLetter(command) << col << std::endl;
-                  retVal = false;
-               }
-               else
-               {
-                  player->setScore(player->getScore() + tileToPlace->getValue());
-                  playerHand->removeTile(tileToPlace);
-                  retVal = true;
-               }
+               player->setScore(player->getScore() + tileToPlace->getValue());
+               playerHand->removeTile(tileToPlace);
+               retVal = true;
+            }
          }
-      } else {
+         else
+         {
+            std::cout << "\n";
+            std::cout << "You have tried to place a tile on an existing tile. Try again." << std::endl;
+         }
+      }
+      else
+      {
          std::cout << "\n";
          std::cout << "A tile you tried to place is not in your hand. Try again." << std::endl;
       }
@@ -619,7 +623,7 @@ bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHa
 {
    bool retVal = false;
    int dontHave = 0;
-   PlayerHand* phCopy = new PlayerHand(*playerHand);
+   PlayerHand *phCopy = new PlayerHand(*playerHand);
 
    for (std::string &command : commands)
    {
@@ -631,8 +635,10 @@ bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHa
       if (tileToPlace == nullptr)
       {
          dontHave++;
-      } else {
-         // Removing tile so that if there are two of the same letters, but 
+      }
+      else
+      {
+         // Removing tile so that if there are two of the same letters, but
          // the player only has one, program won't accept the letter twice
          // adding dummy tile so that findTile function still works
          phCopy->removeTile(tileToPlace);

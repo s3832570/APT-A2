@@ -165,24 +165,34 @@ int getCol(std::string command)
     return col;
 }
 
-char getRowLetter(std::string command) {
+char getRowLetter(std::string command)
+{
     char c = command.at(INDEX_OF_ROW);
 
     return c;
 }
 
-// bool checkPlaceTiles(ScarbbleBoard board, std::vector<std::string> commands) {
-//     bool retVal = false;
+bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, PlayerHand *playerHand)
+{
+    bool retVal = true;
+    int count = 0;
 
-//     for (std::string &command : commands)
-//          {
-//             char letter = command.at(INT_OF_LETTER);
+    for (std::string &command : commands)
+    {
+        // Finding nominated tile in players hand
+        int row = board->findRow(getRowLetter(command));
+        int col = getCol(command);
 
-//             // Finding nominated tile in players hand
-//             Tile *tileToPlace = playerHand->findTile(letter);
-//             int row = int row = board->findRow(getRowLetter(command));
-//          }
+        if (board->getBoard()[row][col+1]->getLetter() != ' ')
+        {
+            count++;
+        }
+    }
 
+    if (count > 0)
+    {
+        retVal = false;
+    }
 
-//    return retVal;
-// }
+    return retVal;
+}
