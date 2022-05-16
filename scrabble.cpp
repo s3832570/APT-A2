@@ -389,8 +389,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
    // tileBag->getSize() != 0 &&
    while (currentPlayer->getPlayerHand()->getSize() != 0)
    {
+<<<<<<< HEAD
       // pass = false;
 
+=======
+>>>>>>> fa6245c1f53924edb89f868eb8fac0b33b8d8764
       placements.clear();
       // Output current player name and both players scores
       std::cout << "" << std::endl;
@@ -440,9 +443,9 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          }
 
          // PASS TURN
+
          else if (command == "pass")
          {
-            // pass = true;
             turnIsDone = true;
          }
 
@@ -533,7 +536,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          std::cin.clear();
          std::cin.ignore(100, '\n');
       }
-
       // If there are any placement
       if (placements.size() != 0 && command == "place")
       {
