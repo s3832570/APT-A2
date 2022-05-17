@@ -83,21 +83,28 @@ void saveGameState(std::ofstream &output, TileBag *tileBag, Player *currentPlaye
     // Displays the board
     output << scrabbleBoard->saveState() << std::endl;
 
-    for (int i = 0; i < tileBag->getSize(); i++)
+    if (tileBag->getSize() != 0)
     {
-        if (i < tileBag->getSize() - 1)
+        for (int i = 0; i < tileBag->getSize(); i++)
         {
-            Tile *currTile = tileBag->get(i);
-            output << currTile->getLetter() << "-" << currTile->getValue() << ", ";
-        }
-        else
-        {
-            Tile *currTile = tileBag->get(i);
-            output << currTile->getLetter() << "-" << currTile->getValue() << std::endl;
+            if (i < tileBag->getSize() - 1)
+            {
+                Tile *currTile = tileBag->get(i);
+                output << currTile->getLetter() << "-" << currTile->getValue() << ", ";
+            }
+            else
+            {
+                Tile *currTile = tileBag->get(i);
+                output << currTile->getLetter() << "-" << currTile->getValue() << std::endl;
+            }
         }
     }
+    else
+    {
+        output << "" << std::endl;
+    }
+    
     output << currentPlayer->getName();
-    // output << tileBag->getSize();
     output.close();
 }
 
