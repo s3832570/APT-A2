@@ -25,8 +25,6 @@ std::string Player::getName()
     return name;
 }
 
-// add setName
-
 int Player::getScore()
 {
     return score;

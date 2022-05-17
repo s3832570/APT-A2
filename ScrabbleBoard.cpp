@@ -40,7 +40,8 @@ Tile *ScrabbleBoard::get(int row, char col)
    return nullptr;
 }
 
-int ScrabbleBoard::getSize() {
+int ScrabbleBoard::getSize()
+{
    return scrabbleBoard.size();
 }
 
@@ -74,19 +75,20 @@ void ScrabbleBoard::displayBoard()
 
    for (int i = 0; i < int(scrabbleBoard.size()); i++)
    {
-      std::cout <<" "<<coord <<" | ";
+      std::cout << " " << coord << " | ";
       for (int j = 0; j < int(scrabbleBoard[i].size()); j++)
       {
          std::cout << scrabbleBoard[i][j]->getLetter() << " | ";
       }
-      std::cout << ""<< std::endl;
+      std::cout << "" << std::endl;
       coord++;
    }
 }
 
-std::string ScrabbleBoard::saveState() {
+std::string ScrabbleBoard::saveState()
+{
    std::string save;
-   
+
    // Displays the board
    save = save + "     0   1   2   3   4   5   6   7   8   9   10  11  12  13  14";
    save = save + "\n" + "----------------------------------------------------------------" + "\n";
@@ -95,7 +97,7 @@ std::string ScrabbleBoard::saveState() {
 
    for (int i = 0; i < int(scrabbleBoard.size()); i++)
    {
-      save = save + " " +  coord + " | ";
+      save = save + " " + coord + " | ";
       for (int j = 0; j < int(scrabbleBoard[i].size()); j++)
       {
          save = save + scrabbleBoard[i][j]->getLetter() + " | ";
@@ -108,14 +110,10 @@ std::string ScrabbleBoard::saveState() {
    return save;
 }
 
-bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
+bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int *points)
 {
    int p = *points;
-   /**
-    * TODO:
-    * Get points from surrounding tiles
-    * 
-    */
+
    bool retVal = false;
 
    int sameRow = 0;
@@ -169,26 +167,27 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
          // existing word
 
          if (col < 14 && scrabbleBoard[row][col + 1]->getLetter() != ' ')
-            {
+         {
             p = p + getValue(scrabbleBoard[row][col + 1]->getLetter());
             retVal = true;
-            }
+         }
 
-         else if (col > 0 && scrabbleBoard[row][col - 1]->getLetter() != ' ') {
+         else if (col > 0 && scrabbleBoard[row][col - 1]->getLetter() != ' ')
+         {
             p = p + getValue(scrabbleBoard[row][col - 1]->getLetter());
             retVal = true;
-            }
-      
+         }
+
          else if (row < 14 && scrabbleBoard[row + 1][col]->getLetter() != ' ')
          {
             p = p + getValue(scrabbleBoard[row + 1][col]->getLetter());
             retVal = true;
          }
-         else if (row > 0 && scrabbleBoard[row-1][col]->getLetter() != ' ') {
-            p = p + getValue(scrabbleBoard[row-1][col]->getLetter());
+         else if (row > 0 && scrabbleBoard[row - 1][col]->getLetter() != ' ')
+         {
+            p = p + getValue(scrabbleBoard[row - 1][col]->getLetter());
             retVal = true;
-            }
-
+         }
       }
    }
    *points = p;
@@ -208,6 +207,7 @@ int ScrabbleBoard::findRow(char c)
    return row;
 }
 
-std::vector<std::vector<Tile*> > ScrabbleBoard::getBoard() {
+std::vector<std::vector<Tile *>> ScrabbleBoard::getBoard()
+{
    return scrabbleBoard;
 }

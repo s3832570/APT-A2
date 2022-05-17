@@ -23,5 +23,7 @@ int getValue(char c);
 int getCol(std::string command);
 char getRowLetter(std::string command);
 bool checkPlaceTiles(ScrabbleBoard* board, std::vector<std::string> commands, PlayerHand *playerHand);
+void displayInfo(Player *currentPlayer, Player *player1, Player *player2, ScrabbleBoard *scrabbleBoard);
+void swapPlayer(Player *currentPlayer, Player *player1, Player *player2, bool turnIsDone);
 
 #endif // UTILS_H

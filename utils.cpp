@@ -107,7 +107,7 @@ void saveGameState(std::ofstream &output, TileBag *tileBag, Player *currentPlaye
     {
         output << "" << std::endl;
     }
-    
+
     output << currentPlayer->getName();
     output.close();
 }
@@ -239,4 +239,41 @@ bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, Pl
     }
 
     return retVal;
+}
+
+void displayInfo(Player *currentPlayer, Player *player1, Player *player2, ScrabbleBoard *scrabbleBoard)
+{
+    // Output current player name and both players scores
+    std::cout << "" << std::endl;
+    std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
+    std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
+    std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
+
+    // Output Board
+    scrabbleBoard->displayBoard();
+
+    // Displaying players hand
+    std::cout << "" << std::endl;
+    std::cout << "Your hand is: " << std::endl;
+    for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
+    {
+        Tile *currTile = currentPlayer->getPlayerHand()->get(i);
+        std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
+    }
+    std::cout << "\n"
+              << std::endl;
+
+    std::cout << "Play your Turn! or type 'HELP' for options " << std::endl;
+}
+
+void swapPlayer(Player *currentPlayer, Player *player1, Player *player2, bool turnIsDone) {
+    // Swap Current Player After Turn has Ended
+         if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+         {
+            currentPlayer = player2;
+         }
+         else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+         {
+            currentPlayer = player1;
+         }
 }

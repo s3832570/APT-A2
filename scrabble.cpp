@@ -21,7 +21,7 @@
  * - user input checking for place tile
  * - replace letter thats not in hand
  * - tests
- * 
+ *
  * - memory cleanup
  * - commenting
  */
@@ -86,13 +86,8 @@ void mainMenu()
       {
          viewCredits();
       }
-
-      // TESTING FUNCTION ONLY
-      if (userMenuInput == 4)
-      {
-         // quit
-      }
    }
+
    std::cout << std::endl;
    std::cout << "Goodbye!" << std::endl;
 }
@@ -150,7 +145,8 @@ void loadGame()
 
    std::ifstream file(fileName);
 
-   if(file.good()) {
+   if (file.good())
+   {
       Player *playerOne = loadPlayer(file);
       Player *playerTwo = loadPlayer(file);
       Player *currentPlayer;
@@ -170,8 +166,8 @@ void loadGame()
       {
          currentPlayer = playerTwo;
       }
-      std::cout << ""<< std::endl;
-      std::cout << "Scrabble game successfully loaded"<< std::endl;
+      std::cout << "" << std::endl;
+      std::cout << "Scrabble game successfully loaded" << std::endl;
       playGame(bag, playerOne, playerTwo, currentPlayer, board);
 
       delete playerOne;
@@ -180,10 +176,11 @@ void loadGame()
       delete board;
       delete bag;
    }
-   else {
-      std::cout << ""<< std::endl;
-      std::cout << "Invalid File - Please Try Again"<< std::endl;
-      std::cout << ""<< std::endl;
+   else
+   {
+      std::cout << "" << std::endl;
+      std::cout << "Invalid File - Please Try Again" << std::endl;
+      std::cout << "" << std::endl;
       loadGame();
    }
 }
@@ -237,7 +234,7 @@ ScrabbleBoard *loadBoard(std::ifstream &infile)
             Tile *tile = new Tile(c, value);
             board->placeTile(tile, row, col);
          }
-          if (c == '|')
+         if (c == '|')
          {
             ++col;
          }
@@ -297,27 +294,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
    {
       placements.clear();
 
-      // Output current player name and both players scores
-      std::cout << "" << std::endl;
-      std::cout << currentPlayer->getName() << ", it's your turn" << std::endl;
-      std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
-      std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
-
-      // Output Board
-      scrabbleBoard->displayBoard();
-
-      // Displaying players hand
-      std::cout << "" << std::endl;
-      std::cout << "Your hand is: " << std::endl;
-      for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
-      {
-         Tile *currTile = currentPlayer->getPlayerHand()->get(i);
-         std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
-      }
-      std::cout << "\n"
-                << std::endl;
-
-      std::cout << "Play your Turn! or type 'HELP' for options " << std::endl;
+      displayInfo(currentPlayer, player1, player2, scrabbleBoard);
 
       bool turnIsDone = false;
       std::string command;
@@ -379,13 +356,14 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             std::cin >> letter;
             std::string sendCommand = "place " + std::string(1, letter);
             replacements.push_back(sendCommand);
-            if(checkPlayerHasTiles(replacements, currentPlayer->getPlayerHand())) {
+            if (checkPlayerHasTiles(replacements, currentPlayer->getPlayerHand()))
+            {
                // Get Tile from Front of Tile Bag
                Tile *frontTile = tileBag->getNewTile();
 
                // Remove Tile from Tile Bag
                tileBag->removeTile();
-            
+
                // Get tile to be replaced
                Tile *replaceTile = currentPlayer->getPlayerHand()->findTile(letter);
 
@@ -402,8 +380,8 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
                // Next players turn
                turnIsDone = true;
-               }
-            else 
+            }
+            else
             {
                std::cout << "" << std::endl;
                std::cout << "You cannot replace a Tile you do not have. Try again." << std::endl;
@@ -430,7 +408,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                row = getRowLetter(command);
                int col = getCol(command);
                // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
-               if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4) 
+               if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
                {
                   placements.push_back(command);
                }
@@ -474,7 +452,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             {
                dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
             }
-            
+
             // Reset consecutive passes back to 0 for both players if passTotal of current player that makes a placement is 1
             if (currentPlayer->getPassTotal() == 1)
             {
@@ -483,34 +461,36 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             }
 
             // Swap Current Player After Turn has Ended
-            if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
-            {
-               currentPlayer = player2;
-            }
-            else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
-            {
-               currentPlayer = player1;
-            }
+            swapPlayer(currentPlayer, player1, player2, turnIsDone);
          }
       }
       else
       {
          // Swap Current Player After Turn has Ended
-         if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
-         {
-            currentPlayer = player2;
-         }
-         else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
-         {
-            currentPlayer = player1;
-         }
+         swapPlayer(currentPlayer, player1, player2, turnIsDone);
       }
    }
+
    displayGameResults(player1, player2);
 
    delete scrabbleBoard;
 }
 
+/**
+ * @brief
+ * Checks placements are legal, if they are will go through and place tiles on the
+ * scrabble board.
+ *
+ * If a player places all 7 of their tiles, will print "BINGO!!!" and give the player
+ * an extra 50 points.
+ *
+ * @param playerHand
+ * @param commands
+ * @param board
+ * @param player
+ * @return true
+ * @return false
+ */
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                 ScrabbleBoard *board, Player *player)
 {
@@ -539,13 +519,13 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                // getting column
                int col;
                col = getCol(command);
-    
-                  board->placeTile(tileToPlace, row, col);
-                  // Set player score and remove tile that was placed from player hand
-                  player->setScore(player->getScore() + tileToPlace->getValue());
-                  playerHand->removeTile(tileToPlace);
-   
-                  retVal = true;
+
+               board->placeTile(tileToPlace, row, col);
+               // Set player score and remove tile that was placed from player hand
+               player->setScore(player->getScore() + tileToPlace->getValue());
+               playerHand->removeTile(tileToPlace);
+
+               retVal = true;
             }
          }
          else
@@ -581,6 +561,16 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    return retVal;
 }
 
+/**
+ * @brief
+ * Checks that a player actually has the tiles that they are trying to place
+ * in their hand.
+ *
+ * @param commands
+ * @param playerHand
+ * @return true
+ * @return false
+ */
 bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHand)
 {
    bool retVal = false;
@@ -641,8 +631,6 @@ bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2)
          endGame = true;
       }
    }
-
-
 
    return endGame;
 }

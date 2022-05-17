@@ -18,11 +18,12 @@ TileBag::~TileBag()
     delete tileBag;
 }
 
-void TileBag::addNewTile(Tile* tile) {
+void TileBag::addNewTile(Tile *tile)
+{
     tileBag->addTileBack(tile);
 }
 
-Tile* TileBag::getNewTile()
+Tile *TileBag::getNewTile()
 {
     return tileBag->getTileFront()->tile;
 }
@@ -40,7 +41,7 @@ void TileBag::shuffleBag()
     std::uniform_int_distribution<int> uniform_dist(0, TILEBAG_MAX_TILES - 1);
     int i = 0;
     while (i < TILEBAG_MAX_TILES)
-    { 
+    {
         int randIndex = uniform_dist(randomSeed);
 
         if (tileBag->get(randIndex) != nullptr)
@@ -56,10 +57,12 @@ void TileBag::shuffleBag()
     tileBag = shuffledTileBag;
 }
 
-int TileBag::getSize() {
+int TileBag::getSize()
+{
     return tileBag->getListSize();
 }
 
-Tile* TileBag::get(int index) {
+Tile *TileBag::get(int index)
+{
     return tileBag->get(index)->tile;
 }
