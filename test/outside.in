@@ -3,5 +3,4 @@ savedGame.save
 place C at H14
 place A at H15
 place Done
-save ./test/outside
 quit

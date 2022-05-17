@@ -7,15 +7,9 @@ Menu
 3. Credits (Show student information)
 4. Quit
 
+> Enter the filenane for which to load a game! 
 > 
-Starting a New Game
-
-Enter a name for player 1 (uppercase characters only)
-> 
-Enter a name for player 2 (uppercase characters only)
-> 
-Let's Play!
-
+Scrabble game successfully loaded
 
 A, it's your turn
 Score for A: 0
@@ -97,11 +91,6 @@ Play your Turn! or type 'HELP' for options
 > 
 Game successfully saved
 
+> 
+Goodbye!!
 
----Game over---
-Score for A: 7
-Score for B: 8
-Player B won!
-
-
-Goodbye!

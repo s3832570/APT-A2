@@ -8,5 +8,4 @@ place G at I4
 place I at I5
 place F at I6
 place Done
-save ./test/parallel
 quit

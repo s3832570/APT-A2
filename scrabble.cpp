@@ -492,7 +492,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
                if (command.length() >= COMMAND_STRING_LENGTH)
                {
-
                   // Get Row and Col from Command
                   row = getRowLetter(command);
                   int col = getCol(command);
