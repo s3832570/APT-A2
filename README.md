@@ -1,5 +1,5 @@
 # APT-A2
-By Chloe, Hien, Alexander and Lachlan
+By Chloe, Hien and Lachlan
 
 ## Test Cases
 **edge** <br>
@@ -11,5 +11,5 @@ The outside test shows that a player is unable to place a tile outside the bound
 **parallel** <br>
 The parallel test shows that you can place a word parallel to another word, and you will get the points from <br> the letters that are directly connected to the letters that you placed.
 
-**wrong input**
+**wrong input** <br>
 The wrong input test shows that the "place <letter> at <coordinate>" input must be entered correctly for the game <br> to continue.

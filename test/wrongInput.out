@@ -7,7 +7,7 @@ Menu
 3. Credits (Show student information)
 4. Quit
 
-> Enter the filenane for which to load a game! 
+> Enter the filename for which to load a game! 
 > 
 Scrabble game successfully loaded
 
@@ -39,6 +39,7 @@ Play your Turn! or type 'HELP' for options
 > > Invalid Input
 > Invalid Input
 > Invalid Input
+> > Invalid Input
 > 
 Goodbye!!
 
