@@ -207,15 +207,6 @@ int ScrabbleBoard::findRow(char c)
    return row;
 }
 
-void ScrabbleBoard::remove(int row, int col) {
-
-   std::cout << "removing tile" << std::endl;
-   delete scrabbleBoard[row][col];
-   scrabbleBoard[row][col] = new Tile(' ', 0);
-
-   std::cout << "place on board is now: " << scrabbleBoard[row][col]->getLetter() << std::endl;
-}
-
 std::vector<std::vector<Tile*> > ScrabbleBoard::getBoard() {
    return scrabbleBoard;
 }

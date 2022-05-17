@@ -35,9 +35,7 @@ public:
    bool checkPlacement(std::vector<std::string> coords, int* points);
 
    int findRow(char c);
-
-   void remove(int row, int col);
-
+   
    std::vector<std::vector<Tile*> > getBoard();
 
 private:
