@@ -379,13 +379,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             // Place replaced tile in back of tilebag
             tileBag->addNewTile(frontTile);
 
-            std::cout << "Your new hand is: " << std::endl;
-            for (int i = 0; i < MAX_TILES; i++)
-            {
-            Tile *currTile = currentPlayer->getPlayerHand()->get(i);
-            std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
-            }
-
             // Next players turn
             turnIsDone = true;
          }
