@@ -189,7 +189,7 @@ int getCol(std::string command)
     } else {
         col = -1;
     }
-    
+
     if (coord.length() == 2)
     {
         std::string c = coord.substr(0, 2);
@@ -223,7 +223,6 @@ int getCol(std::string command)
 
     return col;
 }
-
 
 /**
  * @brief 

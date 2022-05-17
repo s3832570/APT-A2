@@ -490,7 +490,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                // Concat command string
                command = command + " " + next + " " + at + " " + coord;
 
-               if (command.length() >= COMMAND_STRING_LENGTH)
+               // Get Row and Col from Command
+               row = getRowLetter(command);
+               int col = getCol(command);
+               // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
+               if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
                {
                   // Get Row and Col from Command
                   row = getRowLetter(command);
