@@ -352,6 +352,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          else if (command == "replace")
          {
             char letter;
+            replacements.clear();
             // Get Letter to be Removed from Player Hand
             std::cin >> letter;
             std::string sendCommand = "place " + std::string(1, letter);
@@ -580,7 +581,6 @@ bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHa
    for (std::string &command : commands)
    {
       char letter = command.at(INT_OF_LETTER);
-
       // Finding nominated tile in players hand
       Tile *tileToPlace = phCopy->findTile(letter);
 
