@@ -10,7 +10,6 @@
 #include <fstream>
 #include <sstream>
 
-#define COMMAND_STRING_LENGTH 12
 #define INT_OF_LETTER 6
 
 #define EXIT_SUCCESS 0
@@ -412,7 +411,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                // concat command string
                command = command + " " + next + " " + at + " " + coord;
                
-               if (command.length() > COMMAND_STRING_LENGTH)
+               if (command.length() >= COMMAND_STRING_LENGTH)
                {
                   row = getRowLetter(command);
                   int col = getCol(command);

@@ -186,9 +186,9 @@ int getCol(std::string command)
         col = -1;
     }
     
-    if (coord.length() == 3)
+    if (coord.length() == 2)
     {
-        std::string c = coord.substr(1, 2);
+        std::string c = coord.substr(0, 2);
         int containsChar = 0;
 
         // Check to see if column contains any characters
@@ -204,7 +204,7 @@ int getCol(std::string command)
         // If contains characters - error
         if (containsChar == 0)
         {
-            std::stringstream colValue(coord.substr(1, 2));
+            std::stringstream colValue(coord.substr(0, 2));
             colValue >> col;
         }
         else
@@ -214,8 +214,9 @@ int getCol(std::string command)
     }
     else
     {
-        col = coord.at(1) - '0';
+        col = coord.at(0) - '0';
     }
+
     return col;
 }
 

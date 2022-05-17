@@ -1,6 +1,5 @@
-1
-A
-B
+2
+savedGame.save
 place C at H4
 place A at H5
 place B at H6
@@ -9,4 +8,5 @@ place G at I4
 place I at I5
 place F at I6
 place Done
-save ./test/test1
+save ./test/parallel
+quit
