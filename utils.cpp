@@ -44,6 +44,16 @@ bool containsOnlyLetters(std::string name)
     return std::regex_match(name, std::regex("^[A-Z]+$"));
 }
 
+/**
+ * @brief 
+ * Gives the player the amount of nominated tiles from the tile bag. Deletes the tile from the
+ * tile bag once it has been given to the player and then updates the players hand.
+ * 
+ * @param tileBag 
+ * @param player 
+ * @param numTiles 
+ * @param playerHand 
+ */
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand)
 {
     // Iterate through the specified amount of times
@@ -151,6 +161,14 @@ int getValue(char c)
     return value;
 }
 
+/**
+ * @brief
+ * This converts the end of the command string into an int and returns that as the column 
+ * number. If there is a character where a number should be, returns -1;
+ * 
+ * @param command 
+ * @return int 
+ */
 int getCol(std::string command)
 {
     std::string coord;
@@ -198,6 +216,15 @@ int getCol(std::string command)
     return col;
 }
 
+
+/**
+ * @brief 
+ * Returns the char that represents the row at a certain
+ * point in the command string.
+ * 
+ * @param command 
+ * @return char 
+ */
 char getRowLetter(std::string command)
 {
     char c = command.at(INDEX_OF_ROW);
@@ -205,6 +232,17 @@ char getRowLetter(std::string command)
     return c;
 }
 
+/**
+ * @brief 
+ * Check that a tile isn't being placed on top of a tile that
+ * is already on the board
+ * 
+ * @param board 
+ * @param commands 
+ * @param playerHand 
+ * @return true 
+ * @return false 
+ */
 bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, PlayerHand *playerHand)
 {
     bool retVal = true;
@@ -241,6 +279,15 @@ bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, Pl
     return retVal;
 }
 
+/**
+ * @brief 
+ * Display player info, board and player tiles before they take their turn
+ * 
+ * @param currentPlayer 
+ * @param player1 
+ * @param player2 
+ * @param scrabbleBoard 
+ */
 void displayInfo(Player *currentPlayer, Player *player1, Player *player2, ScrabbleBoard *scrabbleBoard)
 {
     // Output current player name and both players scores
@@ -266,14 +313,24 @@ void displayInfo(Player *currentPlayer, Player *player1, Player *player2, Scrabb
     std::cout << "Play your Turn! or type 'HELP' for options " << std::endl;
 }
 
-void swapPlayer(Player *currentPlayer, Player *player1, Player *player2, bool turnIsDone) {
+/**
+ * @brief 
+ * Swap current player to the next player
+ * 
+ * @param currentPlayer 
+ * @param player1 
+ * @param player2 
+ * @param turnIsDone 
+ */
+void swapPlayer(Player *currentPlayer, Player *player1, Player *player2, bool turnIsDone)
+{
     // Swap Current Player After Turn has Ended
-         if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
-         {
-            currentPlayer = player2;
-         }
-         else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
-         {
-            currentPlayer = player1;
-         }
+    if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+    {
+        *currentPlayer = *player2;
+    }
+    else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+    {
+        *currentPlayer = *player1;
+    }
 }
