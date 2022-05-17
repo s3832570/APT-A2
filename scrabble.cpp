@@ -140,7 +140,7 @@ void newGame()
 void loadGame()
 {
    // Get File Name
-   std::cout << "Enter the filenane for which to load a game! " << std::endl;
+   std::cout << "Enter the filename for which to load a game! " << std::endl;
    std::cout << "> ";
 
    // Get File Name to Be Loaded
@@ -487,16 +487,12 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                std::cin >> at >> coord;
                std::string row;
 
+
                // Concat command string
                command = command + " " + next + " " + at + " " + coord;
 
-               // Get Row and Col from Command
-               row = getRowLetter(command);
-               int col = getCol(command);
-               // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
-               if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
-               {
-
+               if(coord.size() > 1 && coord.size() < 4) {
+           
                   // Get Row and Col from Command
                   row = getRowLetter(command);
                   int col = getCol(command);
@@ -512,6 +508,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                   {
                      std::cout << "Invalid Input" << std::endl;
                   }
+   
                }
                else
                {
