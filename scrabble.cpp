@@ -403,11 +403,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                command = command + " " + next + " " + at + " " + coord;
                row = getRowLetter(command);
                int col = getCol(command);
-
-               // Check that command is entered correclty
-               if (containsOnlyLetters(next) && containsOnlyLetters(row) && std::isdigit(coord.at(1)) 
-                     && col != -1)
+                std::cout << col<< std::endl;
+               // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
+               if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4) 
                {
+                  std::cout << command << std::endl;
                   placements.push_back(command);
                }
                else
