@@ -4,7 +4,11 @@
 Tile::Tile(Letter letter, Value value) {
     this->letter = letter;
     this->value = value;
-};
+}
+
+Tile::~Tile() {
+
+}
 
 char Tile::getLetter() {
     return this->letter;

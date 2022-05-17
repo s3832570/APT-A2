@@ -127,6 +127,8 @@ void displayGameResults(Player *player1, Player *player2)
     {
         std::cout << "Draw! Both players have the same score." << std::endl;
     }
+
+    std::cout << std::endl;
 }
 
 int getValue(char c)

@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player() {
-
+    passTotal = 0;
 }
 
 Player::Player(std::string name) : score(0)
@@ -14,6 +14,10 @@ Player::Player(Player &other)
     this->score = other.score;
     this->name = other.name;
     this->playerHand = other.playerHand;
+}
+
+Player::~Player() {
+    delete playerHand;
 }
 
 std::string Player::getName()

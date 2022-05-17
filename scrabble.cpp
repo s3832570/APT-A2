@@ -21,6 +21,9 @@
  * - user input checking for place tile
  * - replace letter thats not in hand
  * - tests
+ * 
+ * - memory cleanup
+ * - commenting
  */
 
 void mainMenu();
@@ -135,7 +138,7 @@ void newGame()
 
 void loadGame()
 {
-    std::cout << "Enter the filenane for which to load a game! " << std::endl;
+   std::cout << "Enter the filenane for which to load a game! " << std::endl;
    std::cout << "> ";
    std::string fileName;
    std::string test;
@@ -459,11 +462,9 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             // If tileBag is not empty, deal tile(s) to player
             if (tileBag->getSize() != 0)
             {
-       
                dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
-
             }
-      
+            
             // Reset consecutive passes back to 0 for both players if passTotal of current player that makes a placement is 1
             if (currentPlayer->getPassTotal() == 1)
             {
@@ -602,6 +603,8 @@ bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHa
       retVal = true;
    }
 
+   delete phCopy;
+
    return retVal;
 }
 
@@ -628,5 +631,10 @@ bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2)
          endGame = true;
       }
    }
+
+   delete tileBag;
+   delete player1;
+   delete player2;
+
    return endGame;
 }
