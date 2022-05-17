@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player() {
-
+    passTotal = 0;
 }
 
 Player::Player(std::string name) : score(0)
