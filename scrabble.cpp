@@ -465,13 +465,27 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             }
 
             // Swap Current Player After Turn has Ended
-            swapPlayer(currentPlayer, player1, player2, turnIsDone);
+            if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+            {
+               currentPlayer = player2;
+            }
+            else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+            {
+               currentPlayer = player1;
+            }
          }
       }
       else
       {
          // Swap Current Player After Turn has Ended
-         swapPlayer(currentPlayer, player1, player2, turnIsDone);
+         if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
+         {
+            currentPlayer = player2;
+         }
+         else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
+         {
+            currentPlayer = player1;
+         }
       }
    }
 

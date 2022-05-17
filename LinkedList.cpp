@@ -159,3 +159,14 @@ void LinkedList::clear()
       removeTileFront();
    }
 }
+
+void LinkedList::shuffle()
+{
+   srand(100);
+   for (int i = 0; i < listSize; i++)
+   {
+      int randNum = std::rand() % listSize;
+      this->addTileBack(get(randNum)->tile);
+      this->remove(randNum);
+   }
+}
