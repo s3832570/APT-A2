@@ -148,9 +148,13 @@ void loadGame()
       Player *playerTwo = loadPlayer(file);
       Player *currentPlayer;
       ScrabbleBoard *board = loadBoard(file);
+      std::string line;
+      getline(file, line);
+
       TileBag *bag = loadTileBag(file);
       std::string currentPlayerName;
       getline(file, currentPlayerName);
+
       if (currentPlayerName == playerOne->getName())
       {
          currentPlayer = playerOne;
@@ -296,7 +300,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          Tile *currTile = currentPlayer->getPlayerHand()->get(i);
          std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
       }
-      std::cout << "After tiles" << std::endl;
       std::cout << "\n"
                 << std::endl;
 
@@ -403,11 +406,9 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                command = command + " " + next + " " + at + " " + coord;
                row = getRowLetter(command);
                int col = getCol(command);
-                std::cout << col<< std::endl;
                // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
                if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4) 
                {
-                  std::cout << command << std::endl;
                   placements.push_back(command);
                }
                else
