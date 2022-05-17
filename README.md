@@ -2,6 +2,8 @@
 By Chloe, Hien and Lachlan
 
 ## Test Cases
+*All test cases test the load function so that the tiles are in the same order for the .out and .gameout files.*
+
 **edge** <br>
 The edge test tests whether you can place tiles along the edge of the board without errors. <br> It also shows that the save file saves the correct points & tiles.
 
