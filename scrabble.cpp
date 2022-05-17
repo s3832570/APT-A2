@@ -579,30 +579,20 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       }
    }
 
+   // Once Game has Ended, Display Results
    displayGameResults(player1, player2);
 
+   // Delete Board
    delete scrabbleBoard;
 }
 
-/**
- * @brief
- * Checks placements are legal, if they are will go through and place tiles on the
- * scrabble board.
- *
- * If a player places all 7 of their tiles, will print "BINGO!!!" and give the player
- * an extra 50 points.
- *
- * @param playerHand
- * @param commands
- * @param board
- * @param player
- * @return true
- * @return false
- */
+// Place Tiles on the Board
 bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                 ScrabbleBoard *board, Player *player)
 {
+   // Inialised Placed Value
    bool retVal = false;
+
    // Points from letters that are already on board
    int extraPoints = 0;
    int *ptr = &extraPoints;
@@ -618,24 +608,28 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
          {
             for (std::string &command : commands)
             {
-
                char letter = command.at(INT_OF_LETTER);
+
                // Finding nominated tile in players hand
                Tile *tileToPlace = playerHand->findTile(letter);
+
                // getting row
                int row = board->findRow(getRowLetter(command));
+
                // getting column
                int col;
                col = getCol(command);
-
                board->placeTile(tileToPlace, row, col);
+
                // Set player score and remove tile that was placed from player hand
                player->setScore(player->getScore() + tileToPlace->getValue());
                playerHand->removeTile(tileToPlace);
 
+               // Update date Return Value
                retVal = true;
             }
          }
+         // Handle Invalid input
          else
          {
             std::cout << "\n";
@@ -644,12 +638,14 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
       }
       else
       {
+         // Handle Invalid input
          std::cout << "\n";
          std::cout << "Invalid Input" << std::endl;
       }
    }
    else
    {
+      // Handle Invalid input
       std::cout << "\n";
       std::cout << "Invalid Input" << std::endl;
       std::cout << "\n";
@@ -665,26 +661,20 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
       std::cout << "BINGO!!!" << std::endl;
       player->setScore(player->getScore() + 50);
    }
-
    return retVal;
 }
 
-/**
- * @brief
- * Checks that a player actually has the tiles that they are trying to place
- * in their hand.
- *
- * @param commands
- * @param playerHand
- * @return true
- * @return false
- */
+// Check player has Tiles in their hand
 bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHand)
 {
+   // Return Value
    bool retVal = false;
    int dontHave = 0;
+
+   // Create Copy of player Hand
    PlayerHand *phCopy = new PlayerHand(*playerHand);
 
+   // For each Command in commands
    for (std::string &command : commands)
    {
       char letter = command.at(INT_OF_LETTER);
@@ -705,16 +695,20 @@ bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHa
       }
    }
 
+   // If player has tiles
    if (dontHave == 0)
    {
       retVal = true;
    }
 
+   // Delete Copy
    delete phCopy;
 
+   // Return Value
    return retVal;
 }
 
+// If game can end, return whether game is over
 bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2)
 {
    bool endGame = false;
@@ -739,5 +733,6 @@ bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2)
       }
    }
 
+   // Return whether game should end
    return endGame;
 }

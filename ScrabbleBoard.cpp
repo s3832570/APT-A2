@@ -3,6 +3,7 @@
 #include "ScrabbleBoard.h"
 #include "utils.h"
 
+// Create Scrabble Board using Vectors
 ScrabbleBoard::ScrabbleBoard()
 {
    for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
@@ -20,10 +21,12 @@ ScrabbleBoard::ScrabbleBoard()
    boardEmpty = true;
 }
 
+// Copy Scrabble Boards
 ScrabbleBoard::ScrabbleBoard(ScrabbleBoard &other)
 {
 }
 
+// Delete ScrabbleBoard
 ScrabbleBoard::~ScrabbleBoard()
 {
    for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
@@ -35,16 +38,19 @@ ScrabbleBoard::~ScrabbleBoard()
    }
 }
 
+// Get Tile at Row and Col
 Tile *ScrabbleBoard::get(int row, char col)
 {
    return nullptr;
 }
 
+// Get Size of Board
 int ScrabbleBoard::getSize()
 {
    return scrabbleBoard.size();
 }
 
+// Place Tile at Position
 bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
 {
    bool placedTile = false;
@@ -64,7 +70,7 @@ bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
    return placedTile;
 }
 
-// display scrabble board
+// Display Scrabble Board
 void ScrabbleBoard::displayBoard()
 {
    // Displays the board
@@ -85,6 +91,7 @@ void ScrabbleBoard::displayBoard()
    }
 }
 
+// Save Board State
 std::string ScrabbleBoard::saveState()
 {
    std::string save;
@@ -112,6 +119,7 @@ std::string ScrabbleBoard::saveState()
    return save;
 }
 
+// Check Placement of Tiles 
 bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int *points)
 {
    int p = *points;
@@ -195,6 +203,7 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int *points)
    return retVal;
 }
 
+// Find Row based on Char
 int ScrabbleBoard::findRow(char c)
 {
    char c2 = 'A';
@@ -208,6 +217,7 @@ int ScrabbleBoard::findRow(char c)
    return row;
 }
 
+// Get Board
 std::vector<std::vector<Tile *>> ScrabbleBoard::getBoard()
 {
    return scrabbleBoard;

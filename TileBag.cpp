@@ -3,36 +3,43 @@
 
 #include "TileBag.h"
 
+// Create TileBag
 TileBag::TileBag()
 {
     tileBag = new LinkedList();
 }
 
+// Copy TileBag
 TileBag::TileBag(TileBag &other)
 {
     tileBag = new LinkedList(*other.tileBag);
 }
 
+// Delete Tilebag
 TileBag::~TileBag()
 {
     delete tileBag;
 }
 
+// Add New Tile
 void TileBag::addNewTile(Tile *tile)
 {
     tileBag->addTileBack(tile);
 }
 
+// Get New Tile
 Tile *TileBag::getNewTile()
 {
     return tileBag->getTileFront()->tile;
 }
 
+// Remove Tile
 void TileBag::removeTile()
 {
     tileBag->removeTileFront();
 }
 
+// Shuffle Tile Bag - Random
 void TileBag::shuffleBag()
 {
     // LinkedList *shuffledTileBag = new LinkedList();
@@ -63,11 +70,13 @@ void TileBag::shuffleBag()
     tileBag->shuffle();
 }
 
+// Get Size of Tile Bag
 int TileBag::getSize()
 {
     return tileBag->getListSize();
 }
 
+// Get Tile at Index
 Tile *TileBag::get(int index)
 {
     return tileBag->get(index)->tile;

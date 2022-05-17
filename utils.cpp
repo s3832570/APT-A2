@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 
+// View Credits 
 void viewCredits()
 {
     std::cout << std::endl;
@@ -24,6 +25,7 @@ void viewCredits()
     std::cout << std::endl;
 }
 
+// Input Name for Player
 void inputName(std::string *name)
 {
     std::string inputName;
@@ -39,6 +41,7 @@ void inputName(std::string *name)
     *name = inputName;
 }
 
+// Check if contains
 bool containsOnlyLetters(std::string name)
 {
     return std::regex_match(name, std::regex("^[A-Z]+$"));
@@ -72,6 +75,7 @@ void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *play
     player->setPlayerHand(playerHand);
 }
 
+// Save Player Data
 void savePlayerData(std::ofstream &output, Player *player)
 {
     output << player->getName() << std::endl;

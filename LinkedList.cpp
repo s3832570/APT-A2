@@ -2,6 +2,7 @@
 #include "LinkedList.h"
 #include <iostream>
 
+// Create Linked List
 LinkedList::LinkedList()
 {
    this->head = nullptr;
@@ -9,6 +10,7 @@ LinkedList::LinkedList()
    listSize = 0;
 }
 
+// Copy Linked List
 LinkedList::LinkedList(LinkedList &other)
 {
    head = nullptr;
@@ -21,16 +23,19 @@ LinkedList::LinkedList(LinkedList &other)
    }
 }
 
+// Clear Linked List
 LinkedList::~LinkedList()
 {
    clear();
 }
 
+// Return Linked List Size
 int LinkedList::getListSize()
 {
    return listSize;
 }
 
+// Add Tile to Front of Linked List
 void LinkedList::addTileFront(Tile *tile)
 {
    Node *node = new Node(tile, head);
@@ -46,11 +51,13 @@ void LinkedList::addTileFront(Tile *tile)
    ++listSize;
 }
 
+// Get Tile from Front of Linked List
 Node *LinkedList::getTileFront()
 {
    return head;
 }
 
+// Add tile to the back of Linked List
 void LinkedList::addTileBack(Tile *tile)
 {
    Node *node = new Node();
@@ -74,6 +81,7 @@ void LinkedList::addTileBack(Tile *tile)
    ++listSize;
 }
 
+// Remove Tile from Front of Linked List
 void LinkedList::removeTileFront()
 {
    if (head == tail)
@@ -88,6 +96,7 @@ void LinkedList::removeTileFront()
    --listSize;
 }
 
+// Get Index in Linked List
 Node *LinkedList::get(int index)
 {
    Node *node = nullptr;
@@ -106,6 +115,7 @@ Node *LinkedList::get(int index)
    return node;
 }
 
+// Remove Tile at Index in Linked List
 void LinkedList::remove(int index)
 {
    if (head == nullptr)
@@ -128,6 +138,7 @@ void LinkedList::remove(int index)
    --listSize;
 }
 
+// Add Tile at Index in Linked List
 void LinkedList::add(Tile *tile, int index)
 {
    Node *node = head;
@@ -152,6 +163,7 @@ void LinkedList::add(Tile *tile, int index)
    ++listSize;
 }
 
+// Clear Linked List
 void LinkedList::clear()
 {
    while (head != nullptr)
@@ -160,6 +172,7 @@ void LinkedList::clear()
    }
 }
 
+// Shuffle Linked List
 void LinkedList::shuffle()
 {
    srand(100);
