@@ -1,6 +1,8 @@
 # APT-A2
 <h3>By Chloe S3832570, Hien S3783447 and Lachlan S3888736</h3>
 
+Our GitHub Repo can be pulled at https://github.com/s3832570/APT-A2.git and found at https://github.com/s3832570/APT-A2 
+
 ## Test Cases
 *All test cases test the load function so that the tiles are in the same order for the .out and .gameout files.* 
 -> To run the test files: ./scrabble < ./test/*testname*.input > ./test/*testname*.gameout
