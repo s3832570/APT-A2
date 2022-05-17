@@ -1,9 +1,19 @@
-A
-7
-C-3, D-2, E-1, E-1, I-1, I-1, J-8
-B
-14
-E-1, E-1, E-1, H-4, L-1, L-1, L-1
+Welcome to Scrabble!
+-------------------
+Menu
+----
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+
+> Enter the filenane for which to load a game! 
+> 
+Scrabble game successfully loaded
+
+A, it's your turn
+Score for A: 0
+Score for B: 0
      0   1   2   3   4   5   6   7   8   9   10  11  12  13  14
 ----------------------------------------------------------------
  A |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -13,13 +23,22 @@ E-1, E-1, E-1, H-4, L-1, L-1, L-1
  E |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  F |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  G |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
- H |   |   |   |   | C | A | B |   |   |   |   |   |   |   |   | 
- I |   |   |   |   | G | I | F |   |   |   |   |   |   |   |   | 
+ H |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+ I |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  J |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  K |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  L |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  M |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  N |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
  O |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-M-3, N-1, N-1, O-1, O-1, O-1, Q-10, R-1, R-1, S-1, S-1, T-1, U-1, U-1, W-4, X-8, F-4, R-1, E-1, O-1, V-4, U-1, R-1, E-1, M-3, O-1, H-4, E-1, N-1, I-1, N-1, V-4, E-1, I-1, L-1, E-1, A-1, A-1, P-3, S-1, O-1, Z-10, D-2, D-2, W-4, E-1, B-3, T-1, A-1, G-2, I-1, R-1, T-1, D-2, K-5, A-1, G-2, I-1, A-1, R-1, Y-4, O-1, A-1, T-1, I-1, N-1, A-1, T-1, Y-4, P-3, I-1, T-1, N-1, A-1, S-1, U-1, O-1, E-1
-A
+
+Your hand is: 
+A-1, B-3, C-3, C-3, D-2, E-1, E-1, 
+
+Play your Turn! or type 'HELP' for options 
+> > Invalid Input
+> Invalid Input
+> Invalid Input
+> 
+Goodbye!!
+

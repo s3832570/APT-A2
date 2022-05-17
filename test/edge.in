@@ -7,5 +7,4 @@ place Done
 place H at A1
 place I at A2
 place Done
-save ./test/edge
 quit
