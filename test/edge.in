@@ -1,0 +1,11 @@
+1
+A
+B
+place C at A0
+place A at B0
+place B at C0
+place Done
+place H at A1
+place I at A2
+place Done
+save ./test/test1

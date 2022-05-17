@@ -172,17 +172,20 @@ int getValue(char c)
 int getCol(std::string command)
 {
     std::string coord;
+    int col;
 
     // Get the column from the command, check if 1 digit or 2 digit
     if (command.length() == COMMAND_STRING_LENGTH + 1)
     {
         coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH + 1);
     }
-    else
+    else if (command.length() == COMMAND_STRING_LENGTH)
     {
         coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH);
+    } else {
+        col = -1;
     }
-    int col;
+    
     if (coord.length() == 3)
     {
         std::string c = coord.substr(1, 2);
