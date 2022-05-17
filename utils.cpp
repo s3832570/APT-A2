@@ -199,9 +199,11 @@ bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, Pl
 
     for (std::string &command : commands)
     {
-        // Finding nominated tile in players hand
         int row = board->findRow(getRowLetter(command));
         int col = getCol(command);
+
+        // Check coordinate on board if row and column are within range
+        // If there is already a tile at coordinate, count += 1;
         if (row >= 0 && row < SCRABBLE_BOARD_LENGTH &&
             col >= 0 && col < SCRABBLE_BOARD_LENGTH + 1)
         {
@@ -216,6 +218,8 @@ bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, Pl
         }
     }
 
+    // If there are any existing tiles in placement command coordinates
+    // it is an illegal placement
     if (count > 0)
     {
         retVal = false;

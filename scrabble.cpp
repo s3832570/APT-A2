@@ -396,9 +396,13 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             {
                std::cin >> at >> coord;
                std::string row;
-               row.push_back(coord.at(0));
+
+               // concat command string
                command = command + " " + next + " " + at + " " + coord;
+               row = getRowLetter(command);
                int col = getCol(command);
+
+               // Check that command is entered correclty
                if (containsOnlyLetters(next) && containsOnlyLetters(row) && std::isdigit(coord.at(1)) 
                      && col != -1)
                {
@@ -434,7 +438,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          std::cin.clear();
          std::cin.ignore(100, '\n');
       }
-      // If there are any placement
+      // If there are any placement commands
       if (placements.size() != 0 && command == "place")
       {
          if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
@@ -494,8 +498,10 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    // If the placements of the tiles is legal, place tiles on board
    if (board->checkPlacement(commands, ptr))
    {
+      // Check that the player has the tiles they are trying to place
       if (checkPlayerHasTiles(commands, playerHand))
       {
+         // Check that there aren't already tiles where player would like to place
          if (checkPlaceTiles(board, commands, playerHand))
          {
             for (std::string &command : commands)
@@ -511,7 +517,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
                col = getCol(command);
     
                   board->placeTile(tileToPlace, row, col);
-                  // If there isn't already at tile at coordinate, then place tile
+                  // Set player score and remove tile that was placed from player hand
                   player->setScore(player->getScore() + tileToPlace->getValue());
                   playerHand->removeTile(tileToPlace);
    
@@ -541,6 +547,7 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
    // Give the player points for words that are already on the board
    player->setScore(player->getScore() + extraPoints);
 
+   // Print "BINGO!!!" if player places all 7 tiles and add 50 points to score
    if (retVal && commands.size() == 7)
    {
       std::cout << "BINGO!!!" << std::endl;
