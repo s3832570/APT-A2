@@ -88,12 +88,12 @@ std::string ScrabbleBoard::saveState() {
 
    for (int i = 0; i < int(scrabbleBoard.size()); i++)
    {
-      save = save + coord;
+      save = save + " " +  coord + " | ";
       for (int j = 0; j < int(scrabbleBoard[i].size()); j++)
       {
          save = save + scrabbleBoard[i][j]->getLetter() + " | ";
       }
-      save = save + "  |\n";
+      save = save + "\n";
 
       coord++;
    }

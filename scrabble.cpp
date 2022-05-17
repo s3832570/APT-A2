@@ -290,11 +290,12 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       // Displaying players hand
       std::cout << "" << std::endl;
       std::cout << "Your hand is: " << std::endl;
-      for (int i = 0; i < MAX_TILES; i++)
+      for (int i = 0; i < currentPlayer->getPlayerHand()->getSize(); i++)
       {
          Tile *currTile = currentPlayer->getPlayerHand()->get(i);
          std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
       }
+      std::cout << "After tiles" << std::endl;
       std::cout << "\n"
                 << std::endl;
 
