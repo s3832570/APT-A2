@@ -277,6 +277,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
    // bool pass = false;
 
    std::vector<std::string> placements;
+   std::vector<std::string> replacements;
 
    // While not end of file and game is not endable
    while (!(std::cin.eof()) && (!gameIsEndable(tileBag, player1, player2)))
@@ -363,29 +364,38 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             char letter;
             // Get Letter to be Removed from Player Hand
             std::cin >> letter;
+            std::string sendCommand = "place " + std::string(1, letter);
+            replacements.push_back(sendCommand);
+            if(checkPlayerHasTiles(replacements, currentPlayer->getPlayerHand())) {
+               // Get Tile from Front of Tile Bag
+               Tile *frontTile = tileBag->getNewTile();
 
-            // Get Tile from Front of Tile Bag
-            Tile *frontTile = tileBag->getNewTile();
+               // Remove Tile from Tile Bag
+               tileBag->removeTile();
+            
+               // Get tile to be replaced
+               Tile *replaceTile = currentPlayer->getPlayerHand()->findTile(letter);
 
-            // Remove Tile from Tile Bag
-            tileBag->removeTile();
+               int index = currentPlayer->getPlayerHand()->getTileIndex(replaceTile);
 
-            // Get tile to be replaced
-            Tile *replaceTile = currentPlayer->getPlayerHand()->findTile(letter);
+               // Remove Tile from Player Hand
+               currentPlayer->getPlayerHand()->removeTile(replaceTile);
 
-            int index = currentPlayer->getPlayerHand()->getTileIndex(replaceTile);
+               // Add front tile from tile bag to player hand
+               currentPlayer->getPlayerHand()->addAtIndex(frontTile, index);
 
-            // Remove Tile from Player Hand
-            currentPlayer->getPlayerHand()->removeTile(replaceTile);
+               // Place replaced tile in back of tilebag
+               tileBag->addNewTile(frontTile);
 
-            // Add front tile from tile bag to player hand
-            currentPlayer->getPlayerHand()->addAtIndex(frontTile, index);
-
-            // Place replaced tile in back of tilebag
-            tileBag->addNewTile(frontTile);
-
-            // Next players turn
-            turnIsDone = true;
+               // Next players turn
+               turnIsDone = true;
+               }
+            else 
+            {
+               std::cout << "" << std::endl;
+               std::cout << "You cannot replace a Tile you do not have. Try again." << std::endl;
+               std::cout << "" << std::endl;
+            }
          }
 
          // PLACE TILE
