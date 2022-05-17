@@ -46,8 +46,10 @@ bool containsOnlyLetters(std::string name)
 
 void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *playerHand)
 {
+    // Iterate through the specified amount of times
     for (int i = 0; i < numTiles; i++)
     {
+        // If the tileBag isn't empty, give player tile from tileBag
         if (tileBag->getSize() > 0)
         {
             Tile *newTile = tileBag->getNewTile();
@@ -55,6 +57,8 @@ void dealPlayer(TileBag *tileBag, Player *player, int numTiles, PlayerHand *play
             tileBag->removeTile();
         };
     }
+
+    //
     player->setPlayerHand(playerHand);
 }
 

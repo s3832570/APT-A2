@@ -134,6 +134,10 @@ void newGame()
    std::cout << std::endl;
 
    startGame(tileBag, player1, player2);
+
+   delete player1;
+   delete player2;
+   delete tileBag;
 }
 
 void loadGame()
@@ -169,6 +173,12 @@ void loadGame()
       std::cout << ""<< std::endl;
       std::cout << "Scrabble game successfully loaded"<< std::endl;
       playGame(bag, playerOne, playerTwo, currentPlayer, board);
+
+      delete playerOne;
+      delete playerTwo;
+      delete currentPlayer;
+      delete board;
+      delete bag;
    }
    else {
       std::cout << ""<< std::endl;
@@ -622,9 +632,7 @@ bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2)
       }
    }
 
-   delete tileBag;
-   delete player1;
-   delete player2;
+
 
    return endGame;
 }
