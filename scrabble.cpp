@@ -398,9 +398,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                std::cin >> at >> coord;
                std::string row;
                row.push_back(coord.at(0));
-               if (containsOnlyLetters(next) && containsOnlyLetters(row) && std::isdigit(coord.at(1)))
+               command = command + " " + next + " " + at + " " + coord;
+               int col = getCol(command);
+               if (containsOnlyLetters(next) && containsOnlyLetters(row) && std::isdigit(coord.at(1)) 
+                     && col != -1)
                {
-                  command = command + " " + next + " " + at + " " + coord;
                   placements.push_back(command);
                }
                else

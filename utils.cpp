@@ -141,6 +141,8 @@ int getValue(char c)
 int getCol(std::string command)
 {
     std::string coord;
+
+    // Get the column from the command, check if 1 digit or 2 digit
     if (command.length() == COMMAND_STRING_LENGTH + 1)
     {
         coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH + 1);
@@ -152,8 +154,29 @@ int getCol(std::string command)
     int col;
     if (coord.length() == 3)
     {
-        std::stringstream colValue(coord.substr(1, 2));
-        colValue >> col;
+        std::string c = coord.substr(1, 2);
+        int containsChar = 0;
+
+        // Check to see if column contains any characters
+        for (char ch : c)
+        {
+            if (isalpha(ch))
+            {
+                containsChar++;
+            }
+        }
+
+        // If doesn't contain characters, convert to int and return
+        // If contains characters - error
+        if (containsChar == 0)
+        {
+            std::stringstream colValue(coord.substr(1, 2));
+            colValue >> col;
+        }
+        else
+        {
+            col = -1;
+        }
     }
     else
     {
@@ -186,7 +209,9 @@ bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, Pl
             {
                 count++;
             }
-        } else {
+        }
+        else
+        {
             retVal = false;
         }
     }
