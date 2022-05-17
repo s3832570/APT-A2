@@ -21,7 +21,10 @@ LinkedList::LinkedList(LinkedList &other)
    }
 }
 
-LinkedList::~LinkedList() {}
+LinkedList::~LinkedList()
+{
+   clear();
+}
 
 int LinkedList::getListSize()
 {
@@ -129,19 +132,30 @@ void LinkedList::add(Tile *tile, int index)
 {
    Node *node = head;
 
-   if(index == 0) {
-      Node *node =  new Node(tile, head);
+   if (index == 0)
+   {
+      Node *node = new Node(tile, head);
       head = node;
    }
 
-   if(index > 0) {
+   if (index > 0)
+   {
       int count = 0;
-      while(count != index-1) {
+      while (count != index - 1)
+      {
          node = node->next;
          ++count;
       }
-      Node *newNode =  new Node(tile, node->next);
+      Node *newNode = new Node(tile, node->next);
       node->next = newNode;
    }
    ++listSize;
+}
+
+void LinkedList::clear()
+{
+   while (head != nullptr)
+   {
+      removeTileFront();
+   }
 }

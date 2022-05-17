@@ -12,6 +12,7 @@ public:
     Player();
     Player(std::string name);
     Player(Player &other);
+    ~Player();
 
     std::string getName();
 

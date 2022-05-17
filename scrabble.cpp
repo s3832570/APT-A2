@@ -593,6 +593,8 @@ bool checkPlayerHasTiles(std::vector<std::string> commands, PlayerHand *playerHa
       retVal = true;
    }
 
+   delete phCopy;
+
    return retVal;
 }
 
@@ -619,5 +621,10 @@ bool gameIsEndable(TileBag *tileBag, Player *player1, Player *player2)
          endGame = true;
       }
    }
+
+   delete tileBag;
+   delete player1;
+   delete player2;
+
    return endGame;
 }

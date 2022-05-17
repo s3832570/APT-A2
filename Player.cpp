@@ -16,6 +16,10 @@ Player::Player(Player &other)
     this->playerHand = other.playerHand;
 }
 
+Player::~Player() {
+    delete playerHand;
+}
+
 std::string Player::getName()
 {
     return name;
