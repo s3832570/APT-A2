@@ -41,9 +41,9 @@ bool ScrabbleBoard::placeTile(Tile *tile, int row, int col)
 {
    bool placedTile = false;
 
-   if (scrabbleBoard[row][col + 1]->getLetter() == ' ')
+   if (scrabbleBoard[row][col]->getLetter() == ' ')
    {
-      scrabbleBoard[row][col + 1] = tile;
+      scrabbleBoard[row][col] = tile;
       placedTile = true;
    }
    else
@@ -67,12 +67,12 @@ void ScrabbleBoard::displayBoard()
 
    for (int i = 0; i < int(scrabbleBoard.size()); i++)
    {
-      std::cout << coord;
+      std::cout <<" "<<coord <<" | ";
       for (int j = 0; j < int(scrabbleBoard[i].size()); j++)
       {
          std::cout << scrabbleBoard[i][j]->getLetter() << " | ";
       }
-      std::cout << "  |" << std::endl;
+      std::cout << ""<< std::endl;
       coord++;
    }
 }
@@ -117,7 +117,6 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
    std::string firstCoord = " ";
    int row = 0;
    int col = 0;
-
    // Adds up how many of the coordinates are in a line
    for (std::string &c : coords)
    {
@@ -143,14 +142,12 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
          sameCol++;
       }
    }
-
    // if all of the coordinates are in a line either horizontally or verticlly
    // return true, otherwise placement is illegal
    if (sameRow == int(coords.size()) || sameCol == int(coords.size()))
    {
       retVal = true;
    }
-
    // if the board isn't empty, make sure new word connects with existing word
    if (!boardEmpty && retVal)
    {
@@ -159,38 +156,35 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int* points)
       {
          std::string coord = c.substr(11, 12);
          row = findRow(coord.at(0));
-         col = getCol(c)+1;
-
+         col = getCol(c);
          // checking the surroundings of each tile placed
          // to make sure the word connects with an
          // existing word
-         if (scrabbleBoard[row][col + 1]->getLetter() != ' ')
-         {
+
+         if (col < 14 && scrabbleBoard[row][col + 1]->getLetter() != ' ')
+            {
             p = p + getValue(scrabbleBoard[row][col + 1]->getLetter());
             retVal = true;
-         }
-         else if (scrabbleBoard[row][col - 1]->getLetter() != ' ' && col > 0)
-         {
-            if (scrabbleBoard[row][col - 1]->getLetter() != ' ') {
-               p = p + getValue(scrabbleBoard[row][col - 1]->getLetter());
-               retVal = true;
             }
-         }
-         else if (scrabbleBoard[row + 1][col]->getLetter() != ' ')
+
+         else if (col > 0 && scrabbleBoard[row][col - 1]->getLetter() != ' ') {
+            p = p + getValue(scrabbleBoard[row][col - 1]->getLetter());
+            retVal = true;
+            }
+      
+         else if (row < 14 && scrabbleBoard[row + 1][col]->getLetter() != ' ')
          {
             p = p + getValue(scrabbleBoard[row + 1][col]->getLetter());
             retVal = true;
          }
-         else if (scrabbleBoard[row - 1][col]->getLetter() != ' ' && row > 0)
-         {
-            p = p + getValue(scrabbleBoard[row - 1][col]->getLetter());
+         else if (row > 0 && scrabbleBoard[row-1][col]->getLetter() != ' ') {
+            p = p + getValue(scrabbleBoard[row-1][col]->getLetter());
             retVal = true;
-         }
+            }
+
       }
    }
-
    *points = p;
-
    return retVal;
 }
 

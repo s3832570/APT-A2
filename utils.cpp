@@ -141,7 +141,6 @@ int getValue(char c)
 int getCol(std::string command)
 {
     std::string coord;
-
     if (command.length() == COMMAND_STRING_LENGTH + 1)
     {
         coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH + 1);
@@ -150,7 +149,6 @@ int getCol(std::string command)
     {
         coord = command.substr(COMMAND_STRING_LENGTH - 1, COMMAND_STRING_LENGTH);
     }
-
     int col;
     if (coord.length() == 3)
     {
@@ -161,7 +159,6 @@ int getCol(std::string command)
     {
         col = coord.at(1) - '0';
     }
-
     return col;
 }
 
@@ -182,11 +179,10 @@ bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, Pl
         // Finding nominated tile in players hand
         int row = board->findRow(getRowLetter(command));
         int col = getCol(command);
-
         if (row >= 0 && row < SCRABBLE_BOARD_LENGTH &&
-            col >= 0 && col < SCRABBLE_BOARD_LENGTH)
+            col >= 0 && col < SCRABBLE_BOARD_LENGTH + 1)
         {
-            if (board->getBoard()[row][col + 1]->getLetter() != ' ')
+            if (board->getBoard()[row][col]->getLetter() != ' ')
             {
                 count++;
             }

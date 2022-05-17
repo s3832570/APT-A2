@@ -440,9 +440,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             // If tileBag is not empty, deal tile(s) to player
             if (tileBag->getSize() != 0)
             {
+       
                dealPlayer(tileBag, currentPlayer, placements.size(), currentPlayer->getPlayerHand());
-            }
 
+            }
+      
             // Reset consecutive passes back to 0 for both players if passTotal of current player that makes a placement is 1
             if (currentPlayer->getPassTotal() == 1)
             {
@@ -496,24 +498,21 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
          {
             for (std::string &command : commands)
             {
-               char letter = command.at(INT_OF_LETTER);
 
+               char letter = command.at(INT_OF_LETTER);
                // Finding nominated tile in players hand
                Tile *tileToPlace = playerHand->findTile(letter);
-
                // getting row
                int row = board->findRow(getRowLetter(command));
-
                // getting column
                int col;
                col = getCol(command);
-
-
+    
                   board->placeTile(tileToPlace, row, col);
-
                   // If there isn't already at tile at coordinate, then place tile
                   player->setScore(player->getScore() + tileToPlace->getValue());
                   playerHand->removeTile(tileToPlace);
+   
                   retVal = true;
             }
          }
