@@ -21,6 +21,7 @@ public:
    void remove(int index);
    void add(Tile* tile, int index);
    void clear();
+   void shuffle();
 
 private:
    Node* head;
