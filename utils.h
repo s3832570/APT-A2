@@ -5,7 +5,7 @@
 #include "ScrabbleBoard.h"
 #include "TileBag.h"
 
-#define COMMAND_STRING_LENGTH 12
+#define COMMAND_STRING_LENGTH 13
 #define INDEX_OF_ROW          11   
 #define INT_OF_LETTER         6      
 

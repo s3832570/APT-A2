@@ -10,12 +10,11 @@
 #include <fstream>
 #include <sstream>
 
-#define COMMAND_STRING_LENGTH 12
 #define INT_OF_LETTER 6
 
 #define EXIT_SUCCESS 0
 
-// DEFINE FUNCTIONS 
+// DEFINE FUNCTIONS
 void mainMenu();
 void newGame();
 void loadGame();
@@ -161,11 +160,11 @@ void loadGame()
 
       // Make Current Player
       Player *currentPlayer;
-      
+
       // Get board and TileBag
       ScrabbleBoard *board = loadBoard(file);
       TileBag *bag = loadTileBag(file);
-      
+
       // Get Current Player Name
       std::string currentPlayerName;
       getline(file, currentPlayerName);
@@ -187,7 +186,7 @@ void loadGame()
       // Play Game not that it has been loaded
       playGame(bag, playerOne, playerTwo, currentPlayer, board);
 
-      // Memory Management 
+      // Memory Management
       delete playerOne;
       delete playerTwo;
       delete currentPlayer;
@@ -210,13 +209,13 @@ Player *loadPlayer(std::ifstream &infile)
    std::string playerName;
    std::string playerScore;
    std::string playerTiles;
-   
+
    // Get Lines with Data and set it to attributes
    getline(infile, playerName);
    getline(infile, playerScore);
    getline(infile, playerTiles);
    int score = stoi(playerScore);
-   
+
    // Set Player Details
    Player *player = new Player(playerName);
    PlayerHand *hand = new PlayerHand();
@@ -226,7 +225,7 @@ Player *loadPlayer(std::ifstream &infile)
    int counter = 0;
    for (char c : playerTiles)
    {
-      // If char is a alphabetic characters 
+      // If char is a alphabetic characters
       if (isalpha(c))
       {
          // Then get Value
@@ -237,7 +236,7 @@ Player *loadPlayer(std::ifstream &infile)
          Tile *tile = new Tile(c, num);
          hand->addTile(tile);
       }
-      // Increment 
+      // Increment
       counter = counter + 1;
    }
    // Set Player Hand full of tiles
@@ -458,10 +457,11 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             else
             {
                // If tilebag is empty
-               if(tileBag->getSize() == 0) {
+               if (tileBag->getSize() == 0)
+               {
                   std::cout << "No more tiles are left in the bag!" << std::endl;
                }
-               else 
+               else
                {
                   // Print Invalid Input
                   std::cout << "" << std::endl;
@@ -476,7 +476,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             // Get Placement Input
             std::cin >> next;
 
-            // End turn and do placements 
+            // End turn and do placements
             if (next == "Done")
             {
                turnIsDone = true;
@@ -497,10 +497,23 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
                if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
                {
-                  // Push Placements to string Vector
-                  placements.push_back(command);
+
+                  // Get Row and Col from Command
+                  row = getRowLetter(command);
+                  int col = getCol(command);
+
+                  // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
+                  if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
+                  {
+                     // Push Placements to string Vector
+                     placements.push_back(command);
+                  }
+                  // Handle Invalid Inpit
+                  else
+                  {
+                     std::cout << "Invalid Input" << std::endl;
+                  }
                }
-               // Handle Invalid Inpit
                else
                {
                   std::cout << "Invalid Input" << std::endl;
@@ -538,7 +551,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
       // If there are any placement commands
       if (placements.size() != 0 && command == "place")
       {
-         // Place Tiles and 
+         // Place Tiles and
          if (placeTiles(currentPlayer->getPlayerHand(), placements, scrabbleBoard, currentPlayer))
          {
             // If tileBag is not empty, deal tile(s) to player
