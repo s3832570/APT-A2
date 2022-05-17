@@ -30,7 +30,7 @@ void inputName(std::string *name)
     while ((!(std::cin >> inputName) || (!containsOnlyLetters(inputName))) && !std::cin.eof())
     {
         std::cout << std::endl;
-        std::cout << "Invalid name. Must use uppercase letters only." << std::endl;
+        std::cout << "Invalid Input" << std::endl;
         std::cout << std::endl;
         std::cout << "> ";
         std::cin.clear();

@@ -179,7 +179,7 @@ void loadGame()
    else
    {
       std::cout << "" << std::endl;
-      std::cout << "Invalid File - Please Try Again" << std::endl;
+      std::cout << "Invalid Input" << std::endl;
       std::cout << "" << std::endl;
       loadGame();
    }
@@ -357,7 +357,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             std::cin >> letter;
             std::string sendCommand = "place " + std::string(1, letter);
             replacements.push_back(sendCommand);
-            if (checkPlayerHasTiles(replacements, currentPlayer->getPlayerHand()))
+            if (checkPlayerHasTiles(replacements, currentPlayer->getPlayerHand()) && tileBag->getSize() > 0)
             {
                // Get Tile from Front of Tile Bag
                Tile *frontTile = tileBag->getNewTile();
@@ -384,9 +384,14 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             }
             else
             {
-               std::cout << "" << std::endl;
-               std::cout << "You cannot replace a Tile you do not have. Try again." << std::endl;
-               std::cout << "" << std::endl;
+               if(tileBag->getSize() ==0) {
+                  std::cout << "No more tiles are left in the bag!" << std::endl;
+               }
+               else {
+                  std::cout << "" << std::endl;
+                  std::cout << "Invalid Input" << std::endl;
+                  std::cout << "" << std::endl;
+               }
             }
          }
 
@@ -415,7 +420,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
                }
                else
                {
-                  std::cout << "The command you entered is incorrect. Try again." << std::endl;
+                  std::cout << "Invalid Input" << std::endl;
                }
             }
          }
@@ -436,7 +441,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
          else if (command != "")
          {
-            std::cout << "The command you have given is incorrect, try again." << std::endl;
+            std::cout << "Invalid Input" << std::endl;
          }
 
          // Clear the cin, start input again
@@ -532,19 +537,19 @@ bool placeTiles(PlayerHand *playerHand, std::vector<std::string> commands,
          else
          {
             std::cout << "\n";
-            std::cout << "Invalid tile placement. Try again." << std::endl;
+            std::cout << "Invalid Input" << std::endl;
          }
       }
       else
       {
          std::cout << "\n";
-         std::cout << "A tile you tried to place is not in your hand. Try again." << std::endl;
+         std::cout << "Invalid Input" << std::endl;
       }
    }
    else
    {
       std::cout << "\n";
-      std::cout << "The placement of your tiles is not legal. Try again." << std::endl;
+      std::cout << "Invalid Input" << std::endl;
       std::cout << "\n";
       retVal = false;
    }
