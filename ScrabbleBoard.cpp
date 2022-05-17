@@ -102,7 +102,8 @@ std::string ScrabbleBoard::saveState()
       {
          save = save + scrabbleBoard[i][j]->getLetter() + " | ";
       }
-      if(i != 14) {
+      if (i != 14)
+      {
          save = save + "\n";
       }
       coord++;
@@ -126,23 +127,22 @@ bool ScrabbleBoard::checkPlacement(std::vector<std::string> coords, int *points)
    // Adds up how many of the coordinates are in a line
    for (std::string &c : coords)
    {
-      std::string coord = c.substr(11, 12);
       if (firstCoord != " ")
       {
-         if (firstCoord.at(0) == coord.at(0))
+         if (getRowLetter(firstCoord) == getRowLetter(c))
          {
             sameRow++;
          }
 
-         if (firstCoord.at(1) == coord.at(1))
+         if (getCol(firstCoord) == getCol(c))
          {
             sameCol++;
          }
       }
       else
       {
-         firstCoord = coord;
-         row = findRow(coord.at(0));
+         firstCoord = c;
+         row = getRowLetter(c);
          col = getCol(c);
          sameRow++;
          sameCol++;

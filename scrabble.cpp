@@ -382,10 +382,12 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             }
             else
             {
-               if(tileBag->getSize() ==0) {
+               if (tileBag->getSize() == 0)
+               {
                   std::cout << "No more tiles are left in the bag!" << std::endl;
                }
-               else {
+               else
+               {
                   std::cout << "" << std::endl;
                   std::cout << "Invalid Input" << std::endl;
                   std::cout << "" << std::endl;
@@ -409,12 +411,20 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
                // concat command string
                command = command + " " + next + " " + at + " " + coord;
-               row = getRowLetter(command);
-               int col = getCol(command);
-               // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
-               if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
+               
+               if (command.length() > COMMAND_STRING_LENGTH)
                {
-                  placements.push_back(command);
+                  row = getRowLetter(command);
+                  int col = getCol(command);
+                  // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
+                  if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
+                  {
+                     placements.push_back(command);
+                  }
+                  else
+                  {
+                     std::cout << "Invalid Input" << std::endl;
+                  }
                }
                else
                {
