@@ -492,7 +492,6 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
 
                // Get Row and Col from Command
                row = getRowLetter(command);
-                std::cout << command << std::endl;
                int col = getCol(command);
                // Check that command is entered correclty - && std::stoi(coord) < 15 std::isdigit(coord.at(1)
                if (containsOnlyLetters(next) && containsOnlyLetters(row) && col >= 0 && col <= 14 && coord.size() < 4)
