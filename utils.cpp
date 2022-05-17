@@ -183,9 +183,15 @@ bool checkPlaceTiles(ScrabbleBoard *board, std::vector<std::string> commands, Pl
         int row = board->findRow(getRowLetter(command));
         int col = getCol(command);
 
-        if (board->getBoard()[row][col+1]->getLetter() != ' ')
+        if (row >= 0 && row < SCRABBLE_BOARD_LENGTH &&
+            col >= 0 && col < SCRABBLE_BOARD_LENGTH)
         {
-            count++;
+            if (board->getBoard()[row][col + 1]->getLetter() != ' ')
+            {
+                count++;
+            }
+        } else {
+            retVal = false;
         }
     }
 
