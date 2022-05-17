@@ -319,28 +319,3 @@ void displayInfo(Player *currentPlayer, Player *player1, Player *player2, Scrabb
 
     std::cout << "Play your Turn! or type 'HELP' for options " << std::endl;
 }
-
-/**
- * @brief 
- * Swap current player to the next player
- * 
- * @param currentPlayer 
- * @param player1 
- * @param player2 
- * @param turnIsDone 
- */
-void swapPlayer(Player *currentPlayer, Player *player1, Player *player2, bool turnIsDone)
-{
-    std::cout << currentPlayer->getName() << std::endl;
-    std::cout << player1->getName() << std::endl;
-    std::cout << player2->getName() << std::endl;
-    // Swap Current Player After Turn has Ended
-    if ((currentPlayer->getName() == player1->getName()) && (turnIsDone == true))
-    {
-        currentPlayer = player2;
-    }
-    else if ((currentPlayer->getName() == player2->getName()) && (turnIsDone == true))
-    {
-        currentPlayer = player1;
-    }
-}
