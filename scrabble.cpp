@@ -204,24 +204,25 @@ Player *loadPlayer(std::ifstream &infile)
 ScrabbleBoard *loadBoard(std::ifstream &infile)
 {
    ScrabbleBoard *board = new ScrabbleBoard();
-   int boardMaxLines = 18;
    std::string lineContent;
+   getline(infile, lineContent);
+   getline(infile, lineContent);
 
-   for (int row = 0; row < boardMaxLines; ++row)
+   for (int row = 0; row < 15; ++row)
    {
-      int col = 0;
+      int col = -1;
       getline(infile, lineContent);
       for (char c : lineContent)
       {
-         if (c == '|')
-         {
-            ++col;
-         }
-         if (isalpha(c) && col > 0)
+         if (isalpha(c) && col >= 0)
          {
             int value = getValue(c);
             Tile *tile = new Tile(c, value);
-            board->placeTile(tile, row - 3, col - 1);
+            board->placeTile(tile, row, col);
+         }
+          if (c == '|')
+         {
+            ++col;
          }
       }
    }
