@@ -178,6 +178,8 @@ int getCol(std::string command)
     std::string coord;
     int col;
 
+      std::cout << command << std::endl;
+       std::cout << command.length() << std::endl;
     // Get the column from the command, check if 1 digit or 2 digit
     if (command.length() == COMMAND_STRING_LENGTH + 1)
     {
@@ -189,7 +191,7 @@ int getCol(std::string command)
     } else {
         col = -1;
     }
-    
+
     if (coord.length() == 3)
     {
         std::string c = coord.substr(1, 2);
@@ -203,7 +205,6 @@ int getCol(std::string command)
                 containsChar++;
             }
         }
-
         // If doesn't contain characters, convert to int and return
         // If contains characters - error
         if (containsChar == 0)
