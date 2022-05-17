@@ -151,8 +151,6 @@ void loadGame()
       Player *playerTwo = loadPlayer(file);
       Player *currentPlayer;
       ScrabbleBoard *board = loadBoard(file);
-      std::string line;
-      getline(file, line);
 
       TileBag *bag = loadTileBag(file);
       std::string currentPlayerName;
@@ -429,7 +427,7 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
          else if (!(std::cin.eof()) && command == "save")
          {
             std::cin >> saveName;
-            std::ofstream output(saveName += ".txt", std::ofstream::trunc);
+            std::ofstream output(saveName += ".save", std::ofstream::trunc);
             savePlayerData(output, player1);
             savePlayerData(output, player2);
             saveGameState(output, tileBag, currentPlayer, scrabbleBoard);

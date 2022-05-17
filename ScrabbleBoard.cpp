@@ -102,8 +102,9 @@ std::string ScrabbleBoard::saveState()
       {
          save = save + scrabbleBoard[i][j]->getLetter() + " | ";
       }
-      save = save + "\n";
-
+      if(i != 14) {
+         save = save + "\n";
+      }
       coord++;
    }
 
