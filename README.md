@@ -7,6 +7,7 @@ And found at https://github.com/s3832570/APT-A2
 ## Test Cases
 *All test cases test the load function so that the tiles are in the same order for the .out and .gameout files.* 
 -> To run the test files: ./scrabble < ./test/*testname*.input > ./test/*testname*.gameout
+-> All tests load in the savedGame.save file as a starting point for the game state for which to test of.
 
 **edge** <br>
 The edge test tests whether you can place tiles along the edge of the board without errors.  It also shows that the save file saves the correct points & tiles.
