@@ -1,0 +1,9 @@
+2
+./test/emptyTileBag.save
+pass
+place G at A0
+place I at A1
+place F at A2 
+place Done
+pass
+quit
