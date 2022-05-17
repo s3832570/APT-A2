@@ -234,30 +234,40 @@ void newGame()
 
 void loadGame()
 {
-   std::cout << "Enter the filenane for which to load a game! " << std::endl;
+    std::cout << "Enter the filenane for which to load a game! " << std::endl;
    std::cout << "> ";
    std::string fileName;
    std::string test;
    std::cin >> fileName;
-   std::ifstream file(fileName);
-   Player *playerOne = loadPlayer(file);
-   Player *playerTwo = loadPlayer(file);
-   Player *currentPlayer;
-   ScrabbleBoard *board = loadBoard(file);
-   TileBag *bag = loadTileBag(file);
-   std::string currentPlayerName;
-   getline(file, currentPlayerName);
 
-   std::cout << "Current player is: " << currentPlayerName << std::endl;
-   if (currentPlayerName == playerOne->getName())
-   {
-      currentPlayer = playerOne;
+   std::ifstream file(fileName);
+
+   if(file.good()) {
+      Player *playerOne = loadPlayer(file);
+      Player *playerTwo = loadPlayer(file);
+      Player *currentPlayer;
+      ScrabbleBoard *board = loadBoard(file);
+      TileBag *bag = loadTileBag(file);
+      std::string currentPlayerName;
+      getline(file, currentPlayerName);
+      if (currentPlayerName == playerOne->getName())
+      {
+         currentPlayer = playerOne;
+      }
+      else
+      {
+         currentPlayer = playerTwo;
+      }
+      std::cout << ""<< std::endl;
+      std::cout << "Scrabble game successfully loaded"<< std::endl;
+      playGame(bag, playerOne, playerTwo, currentPlayer, board);
    }
-   else
-   {
-      currentPlayer = playerTwo;
+   else {
+      std::cout << ""<< std::endl;
+      std::cout << "Invalid File - Please Try Again"<< std::endl;
+      std::cout << ""<< std::endl;
+      loadGame();
    }
-   playGame(bag, playerOne, playerTwo, currentPlayer, board);
 }
 
 // Load Player in - Format of Save Game must be exact
@@ -458,16 +468,23 @@ void playGame(TileBag *tileBag, Player *player1, Player *player2, Player *curren
             // Get tile to be replaced
             Tile *replaceTile = currentPlayer->getPlayerHand()->findTile(letter);
 
-            // int index = currentPlayer->getPlayerHand()->getTileIndex(replaceTile);
+            int index = currentPlayer->getPlayerHand()->getTileIndex(replaceTile);
 
             // Remove Tile from Player Hand
             currentPlayer->getPlayerHand()->removeTile(replaceTile);
 
             // Add front tile from tile bag to player hand
-            currentPlayer->getPlayerHand()->addTile(frontTile);
+            currentPlayer->getPlayerHand()->addAtIndex(frontTile, index);
 
             // Place replaced tile in back of tilebag
             tileBag->addNewTile(frontTile);
+
+            std::cout << "Your new hand is: " << std::endl;
+            for (int i = 0; i < MAX_TILES; i++)
+            {
+            Tile *currTile = currentPlayer->getPlayerHand()->get(i);
+            std::cout << currTile->getLetter() << "-" << currTile->getValue() << ", ";
+            }
 
             // Next players turn
             turnIsDone = true;

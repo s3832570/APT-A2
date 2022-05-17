@@ -129,32 +129,19 @@ void LinkedList::add(Tile *tile, int index)
 {
    Node *node = head;
 
-   if (head == nullptr)
-   {
-      head = new Node(tile, nullptr);
+   if(index == 0) {
+      Node *node =  new Node(tile, head);
+      head = node;
    }
 
-   else if (index == 0)
-   {
-      Node *next = head->next;
-      head = new Node(tile, next);
-      ++listSize;
-      return;
-   }
-   else
-   {
+   if(index > 0) {
       int count = 0;
-      if (head != nullptr)
-      {
-         while (count != index)
-         {
-            node = node->next;
-         }
+      while(count != index-1) {
+         node = node->next;
+         ++count;
       }
+      Node *newNode =  new Node(tile, node->next);
+      node->next = newNode;
    }
-
-   Node *next = node->next;
-
-   node->next = new Node(tile, next);
    ++listSize;
 }
