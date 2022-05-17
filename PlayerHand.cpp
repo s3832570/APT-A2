@@ -20,15 +20,7 @@ PlayerHand::PlayerHand(PlayerHand &other)
 
 PlayerHand::~PlayerHand()
 {
-    /**
-     * TODO:
-     * starting from head
-     * while node has next
-     *      delete node
-     *
-     * (do I delete the head?)
-     *
-     */
+    delete tiles;
 }
 
 void PlayerHand::addTile(Tile *tile)

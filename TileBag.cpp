@@ -54,8 +54,6 @@ void TileBag::shuffleBag()
     }
 
     tileBag = shuffledTileBag;
-
-    // tileBag->shuffle();
 }
 
 int TileBag::getSize() {

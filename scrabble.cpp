@@ -21,6 +21,9 @@
  * - user input checking for place tile
  * - replace letter thats not in hand
  * - tests
+ * 
+ * - memory cleanup
+ * - commenting
  */
 
 void mainMenu();

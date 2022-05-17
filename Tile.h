@@ -11,6 +11,7 @@ typedef int Value;
 class Tile {
 public:
    Tile(Letter Letter, Value Value);
+   ~Tile();
 
    char getLetter();
    int getValue();

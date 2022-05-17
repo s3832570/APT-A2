@@ -26,6 +26,13 @@ ScrabbleBoard::ScrabbleBoard(ScrabbleBoard &other)
 
 ScrabbleBoard::~ScrabbleBoard()
 {
+   for (int i = 0; i < SCRABBLE_BOARD_LENGTH; i++)
+   {
+      for (int j = 0; j < SCRABBLE_BOARD_LENGTH; j++)
+      {
+         delete scrabbleBoard[i][j];
+      }
+   }
 }
 
 Tile *ScrabbleBoard::get(int row, char col)
